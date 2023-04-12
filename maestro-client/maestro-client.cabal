@@ -1,5 +1,5 @@
 cabal-version:      3.0
-name:               maestro
+name:               maestro-client
 version:            0.1.0.0
 -- synopsis:
 -- description:
@@ -12,20 +12,42 @@ build-type:         Simple
 extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
-common warnings
+common common
     ghc-options: -Wall
+    default-extensions:
+      DataKinds
+      DeriveGeneric
+      DerivingStrategies
+      DerivingVia
+      OverloadedStrings
+      RecordWildCards
+      TypeOperators
 
 library
-    import:           warnings
-    exposed-modules:  MyLib
+    import:           common
+    exposed-modules:  
+      Maestro.Client
+      Maestro.Client.Env
+      Maestro.Client.Accounts
+
     -- other-modules:
     -- other-extensions:
-    build-depends:    base ^>=4.14.3.0
+    build-depends:    
+      , base ^>=4.14.3.0
+      , deriving-aeson
+      , servant
+      , servant-client
+      , servant-client-core
+      , text
+      , http-client
+      , http-client-tls
+      , maestro-api
+
     hs-source-dirs:   src
     default-language: Haskell2010
 
 test-suite maestro-test
-    import:           warnings
+    import:           common
     default-language: Haskell2010
     -- other-modules:
     -- other-extensions:
@@ -34,4 +56,4 @@ test-suite maestro-test
     main-is:          Main.hs
     build-depends:
         base ^>=4.14.3.0,
-        maestro
+        maestro-client
