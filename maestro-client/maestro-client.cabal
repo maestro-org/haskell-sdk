@@ -29,6 +29,8 @@ library
       Maestro.Client
       Maestro.Client.Env
       Maestro.Client.Accounts
+      Maestro.Client.Address
+      Maestro.Client.Assets
 
     -- other-modules:
     -- other-extensions:
