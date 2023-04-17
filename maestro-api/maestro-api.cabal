@@ -28,8 +28,13 @@ library
     exposed-modules:  
       Maestro.API
       Maestro.API.Accounts
+      Maestro.API.Address
+      Maestro.API.Assets
 
       Maestro.Types.Accounts
+      Maestro.Types.Address
+      Maestro.Types.Assets
+      Maestro.Types.Common
 
       Maestro.Util.Pagination
 
@@ -37,6 +42,7 @@ library
     -- other-extensions:
     build-depends:    
       , base ^>=4.14.3.0
+      , aeson
       , deriving-aeson
       , servant
       , servant-client
