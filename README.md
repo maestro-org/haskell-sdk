@@ -4,7 +4,7 @@
 
 Get Maestro api key from (https://dashboard.gomaestro.org/login)
 
-Create Maestro environment 
+Create Maestro environment & query client Api
    
 ```haskell
      import Maestro.Client.Env
