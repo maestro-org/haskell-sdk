@@ -12,16 +12,14 @@ Use an [existing template](https://github.com/maestro-org/haskell-sdk/issues/new
 - Request a new feature
 
 Accompany your issue with one or more of the following labels:
-- `bug`
-- `dependencies`
-- `documentation`
-- `duplicate`
-- `github actions`
-- `good first issue`
-- `haskell`
-- `help wanted`
-- `vulnerability`
-- `wont fix`
+- `Bug`: something is broken in the library's codebase
+- `Chore`: something needs to be updated, like a dependency
+- `CI`: something with Github Actions needs attention
+- `Docs`: something in the documentation needs to be updated
+- `Feature`: something new would be a nice addition to the library
+- `Haskell`: something Haskell related
+- `Vulnerability`: something is vulnerability and needs attention from security
+- `Spike`: something new needs to be explored
 
 ## Opening Pull Requests
 After opening a pull request, please take the following steps:
@@ -29,6 +27,6 @@ After opening a pull request, please take the following steps:
 - [Link your PR](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) to those issues
 - Check the [build status](https://github.com/maestro-org/haskell-sdk/actions/new) of your PR
 - Wait for a review and/or approval from one of the code owners
-- Merge and celebrate!
+- Merge and celebrate with some nice tunes! 🎼🎼🎼
 
-The team will do their best to help you get your PRs across the finish line!
+The team will do their best to help you get your PRs merged as soon as humanly possible!
