@@ -1,7 +1,7 @@
 module Maestro.Types.General
   ( -- * Types for @/system-start@ endpoint
     SystemStart (..)
-    -- * Types for @/protocol-params@ endpoint
+    -- * Types for @/era-history@ endpoint
   , SlotNo (..)
   , EpochNo (..)
   , EpochSize (..)
