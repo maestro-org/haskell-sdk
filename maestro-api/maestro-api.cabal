@@ -19,8 +19,10 @@ common common
       DeriveGeneric
       DerivingStrategies
       DerivingVia
+      GeneralisedNewtypeDeriving
       OverloadedStrings
       RecordWildCards
+      TemplateHaskell
       TypeOperators
 
 library
@@ -30,11 +32,13 @@ library
       Maestro.API.Accounts
       Maestro.API.Address
       Maestro.API.Assets
+      Maestro.API.General
 
       Maestro.Types.Accounts
       Maestro.Types.Address
       Maestro.Types.Assets
       Maestro.Types.Common
+      Maestro.Types.General
 
       Maestro.Util.Pagination
 
@@ -43,11 +47,13 @@ library
     build-depends:    
       , base ^>=4.14.3.0
       , aeson
+      , containers
       , deriving-aeson
       , servant
       , servant-client
       , servant-client-core
       , text
+      , time
       , http-client
       , http-client-tls
 
