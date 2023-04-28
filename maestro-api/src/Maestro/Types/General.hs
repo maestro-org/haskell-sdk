@@ -16,6 +16,9 @@ module Maestro.Types.General
   , CostModel (..)
   , CostModels (..)
   , ProtocolParameters (..)
+    -- * Types for @/chain-tip@ endpoint
+  , BlockHash (..)
+  , ChainTip (..)
   ) where
 
 import           Data.Map.Strict      (Map)
@@ -175,3 +178,19 @@ data ProtocolParameters = ProtocolParameters
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
 
+-- | Hash of the block.
+newtype BlockHash = BlockHash {unBlockHash :: Text}
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving newtype (FromJSON, ToJSON)
+
+-- | Details about the latest block of the network.
+data ChainTip = ChainTip
+  { _chainTipBlockHash :: !BlockHash
+  -- ^ Hash of the latest block.
+  , _chainTipSlot      :: !SlotNo
+  -- ^ Slot number for the tip.
+  , _chainTipHeight    :: !Word64
+  -- ^ Block number to denote height of the tip.
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTip", CamelToSnake]] ChainTip

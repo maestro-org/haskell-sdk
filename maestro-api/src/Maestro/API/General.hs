@@ -19,4 +19,8 @@ data GeneralAPI route =
         :: route
         :- "protocol-params"
         :> Get '[JSON] ProtocolParameters
+    , _chainTip
+        :: route
+        :- "chain-tip"
+        :> Get '[JSON] ChainTip
     } deriving (Generic)

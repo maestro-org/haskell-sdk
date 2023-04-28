@@ -11,6 +11,10 @@ import           Servant.Client
 generalClient :: MaestroEnv -> GeneralAPI (AsClientT IO)
 generalClient = fromServant . _general . apiClient
 
+-- | Get details about the latest block of the network.
+getChainTip :: MaestroEnv -> IO ChainTip
+getChainTip = _chainTip . generalClient
+
 -- | Get network start time since genesis.
 getSystemStart :: MaestroEnv -> IO SystemStart
 getSystemStart = _systemStart . generalClient
