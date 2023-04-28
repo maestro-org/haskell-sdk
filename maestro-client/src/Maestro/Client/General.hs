@@ -1,4 +1,9 @@
-module Maestro.Client.General where
+module Maestro.Client.General
+  ( getChainTip
+  , getSystemStart
+  , getEraHistory
+  , getProtocolParameters
+  ) where
 
 import           Maestro.API           (_general)
 import           Maestro.API.General
