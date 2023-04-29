@@ -4,11 +4,6 @@ import           Deriving.Aeson
 import           Maestro.Types.Common (MaestroAsset, MaestroDatum,
                                        MaestroRefScript)
 
-data AddressCounts = AddressCounts{ _addressCount :: Int}
-  deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_address", CamelToSnake]] AddressCounts
-
 data AddressUtxo = AddressUtxo
   { _addressUtxoIndex           :: !Int
   , _addressUtxoTxHash          :: !String
@@ -20,8 +15,8 @@ data AddressUtxo = AddressUtxo
   deriving (FromJSON, ToJSON)
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_addressUtxo", CamelToSnake]] AddressUtxo
 
-data AddressTxCount  = AddressTxCount
-  { _addressTxCount :: !Int
+newtype AddressTxCount  = AddressTxCount
+  { _addressTxCount :: Int
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)

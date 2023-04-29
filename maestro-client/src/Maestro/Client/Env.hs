@@ -14,8 +14,8 @@ import qualified Servant.Client          as Servant
 
 type MaestroToken = Text
 
-data MaestroEnv = MaestroEnv
-  { _maeClientEnv :: !Servant.ClientEnv
+newtype MaestroEnv = MaestroEnv
+  { _maeClientEnv :: Servant.ClientEnv
   }
 
 data MaestroNetwork = Mainnet | Preprod

@@ -1,18 +1,28 @@
-# haskell-sdk
+# Maestro Haskell SDK
 
-## Setup 
+[TODO(Varderes)] Logo goes here
 
-Get Maestro api key from (https://dashboard.gomaestro.org/login)
+[TODO(Varderes/Piyush)] 1-3 describing the library and why it exists 
 
-Create Maestro environment 
-   
-```haskell
-     import Maestro.Client.Env
-     
-     mEnv <- mkMaestroEnv "api-key"  Preprod
-     
-     -- we can use maestro environment to access Client Apis (Eg.)
-     
-     accountInfo <- Maestro.Client.Accounts.getAccount mEnv "stake_......." 
-  
-```
+# Installation
+
+[TODO(Piyush)]
+
+# Usage
+
+[TODO(Piyush)]
+
+## Examples
+
+[TODO(Piyush)]
+
+# Testing
+
+[TODO(Piyush)]
+
+# Documentation
+
+All Maestro documentation lives [here](https://docs.gomaestro.org/)!
+
+# Contributing
+Meastro welcomes all contributors! Please see our [contributing guidlines](CONTRIBUTING.md) and [code of conduct](CODE_OF_CONDUCT.md).

@@ -17,8 +17,8 @@ data MaestroTokenRegistryMetadata = MaestroTokenRegistryMetadata
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_maeTokenReg", CamelToSnake]] MaestroTokenRegistryMetadata
 
 
-data MaestroAssetStandard = MaestroAssetStandard
-  { _maeAssetStdCip25Metadata :: !(Maybe Aeson.Value)
+newtype MaestroAssetStandard = MaestroAssetStandard
+  { _maeAssetStdCip25Metadata :: Maybe Aeson.Value
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
