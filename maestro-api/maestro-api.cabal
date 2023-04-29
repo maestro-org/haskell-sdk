@@ -35,6 +35,8 @@ library
       Maestro.Types.Address
       Maestro.Types.Assets
       Maestro.Types.Common
+      Maestro.Types.Epoch
+      Maestro.Types.General
 
       Maestro.Util.Pagination
 
@@ -48,6 +50,7 @@ library
       , servant-client
       , servant-client-core
       , text
+      , time
       , http-client
       , http-client-tls
 
