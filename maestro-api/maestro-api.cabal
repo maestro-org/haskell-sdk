@@ -23,6 +23,8 @@ common common
       NumericUnderscores
       OverloadedStrings
       RecordWildCards
+      RoleAnnotations
+      ScopedTypeVariables
       TemplateHaskell
       TypeOperators
       QuasiQuotes
@@ -76,9 +78,11 @@ test-suite maestro-api-test
       , maestro-api
       , aeson
       , bytestring
+      , containers
       , raw-strings-qq
       , hspec
       , tasty
       , tasty-hspec
+      , time
     build-tool-depends:
         tasty-discover:tasty-discover

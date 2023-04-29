@@ -15,10 +15,9 @@ module Maestro.Types.General
   , MemoryStepsWith (..)
   , CostModel (..)
   , CostModels (..)
-  , MaestroRational
-  , toMaestroRational
-  , fromMaestroRational
-  , getMaestroRational
+  , MaestroRational (..)
+  , textToMaestroRational
+  , textFromMaestroRational
   , ProtocolParameters (..)
     -- * Types for @/chain-tip@ endpoint
   , BlockHash (..)
@@ -145,17 +144,13 @@ newtype MaestroRational = MaestroRational { unMaestroRational :: Rational }
 instance Show MaestroRational where
   show (MaestroRational r) = show (numerator r) ++ '/' : show (denominator r)
 
--- | Get rational inside `MaestroRational`. We have defined this function as we don't export constructor which is done to make one bind to use `toMaestroRational` when constructing for valid `MaestroRational`.
-getMaestroRational :: MaestroRational -> Rational
-getMaestroRational = unMaestroRational
-
 -- | Get original `Text` from `MaestroRational`.
-fromMaestroRational :: MaestroRational -> Text
-fromMaestroRational = Txt.pack . show . unMaestroRational
+textFromMaestroRational :: MaestroRational -> Text
+textFromMaestroRational = Txt.pack . show . unMaestroRational
 
 -- | Parses given `Text` to `MaestroRational`.
-toMaestroRational :: Text -> Either String MaestroRational
-toMaestroRational ratTxt =
+textToMaestroRational :: Text -> Either String MaestroRational
+textToMaestroRational ratTxt =
   case TxtRead.signed rationalReader ratTxt of
     Right (rat, remainingTxt) -> if Txt.null remainingTxt
       then pure $ MaestroRational rat
@@ -178,11 +173,11 @@ toMaestroRational ratTxt =
         pure (numr % denmr, finalRemaining)
 
 instance ToJSON MaestroRational where
-  toEncoding = toEncoding . fromMaestroRational
-  toJSON = toJSON . fromMaestroRational
+  toEncoding = toEncoding . textFromMaestroRational
+  toJSON = toJSON . textFromMaestroRational
 
 instance FromJSON MaestroRational where
-  parseJSON = withText "MaestroRational" $ \ratTxt -> either fail pure $ toMaestroRational ratTxt
+  parseJSON = withText "MaestroRational" $ \ratTxt -> either fail pure $ textToMaestroRational ratTxt
 
 -- | Protocol parameters for the latest epoch.
 data ProtocolParameters = ProtocolParameters
