@@ -15,14 +15,24 @@ module Maestro.Types.General
   , MemoryStepsWith (..)
   , CostModel (..)
   , CostModels (..)
+  , MaestroRational
+  , toMaestroRational
+  , fromMaestroRational
+  , getMaestroRational
   , ProtocolParameters (..)
     -- * Types for @/chain-tip@ endpoint
   , BlockHash (..)
   , ChainTip (..)
   ) where
 
+import           Control.Monad        (unless, when)
+import           Data.Aeson           (FromJSON (parseJSON), toEncoding, toJSON,
+                                       withText)
 import           Data.Map.Strict      (Map)
+import           Data.Ratio           (denominator, numerator, (%))
 import           Data.Text            (Text)
+import qualified Data.Text            as Txt
+import qualified Data.Text.Read       as TxtRead
 import           Data.Time            (LocalTime, NominalDiffTime)
 import           Data.Word            (Word64)
 import           Deriving.Aeson
@@ -128,6 +138,52 @@ data CostModels = CostModels
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_costModels", Rename "PlutusV1" "plutus:v1", Rename "PlutusV2" "plutus:v2"]] CostModels
 
+-- | Maestro's represents rational numbers as string with numerator and denominator demarcated by \'\/\', example: @"1/3"@.
+newtype MaestroRational = MaestroRational { unMaestroRational :: Rational }
+  deriving stock Eq
+
+instance Show MaestroRational where
+  show (MaestroRational r) = show (numerator r) ++ '/' : show (denominator r)
+
+-- | Get rational inside `MaestroRational`. We have defined this function as we don't export constructor which is done to make one bind to use `toMaestroRational` when constructing for valid `MaestroRational`.
+getMaestroRational :: MaestroRational -> Rational
+getMaestroRational = unMaestroRational
+
+-- | Get original `Text` from `MaestroRational`.
+fromMaestroRational :: MaestroRational -> Text
+fromMaestroRational = Txt.pack . show . unMaestroRational
+
+-- | Parses given `Text` to `MaestroRational`.
+toMaestroRational :: Text -> Either String MaestroRational
+toMaestroRational ratTxt =
+  case TxtRead.signed rationalReader ratTxt of
+    Right (rat, remainingTxt) -> if Txt.null remainingTxt
+      then pure $ MaestroRational rat
+      else Left "Expected full string to be parsed"
+    Left e -> Left e
+  where
+    rationalReader :: TxtRead.Reader Rational
+    rationalReader ratTxt' = do
+        (numr, remaining) <- TxtRead.decimal ratTxt'
+        (nextChar, denmrTxt) <- maybe
+            (Left "Unexpected end of string after parsing numerator")
+            pure
+            $ Txt.uncons remaining
+        unless (nextChar == '/')
+            . Left
+            $ "Expected numerator to be immediately followed by '/', but it was followed by: " ++ show nextChar
+        (denmr, finalRemaining) <- TxtRead.decimal denmrTxt
+        when (denmr == 0)
+            $ Left "Expected non-zero denominator"
+        pure (numr % denmr, finalRemaining)
+
+instance ToJSON MaestroRational where
+  toEncoding = toEncoding . fromMaestroRational
+  toJSON = toJSON . fromMaestroRational
+
+instance FromJSON MaestroRational where
+  parseJSON = withText "MaestroRational" $ \ratTxt -> either fail pure $ toMaestroRational ratTxt
+
 -- | Protocol parameters for the latest epoch.
 data ProtocolParameters = ProtocolParameters
   { _protocolParametersProtocolVersion                 :: !ProtocolVersion
@@ -150,15 +206,15 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The maximum number of epochs into the future that stake pools are permitted to schedule a retirement /AKA/ @pool_retire_max_epoch@, @e_max@.
   , _protocolParametersDesiredNumberOfPools            :: !Natural
   -- The equilibrium target number of stake pools. This is the \"k\" incentives parameter from the design document, /AKA/ @n_opt@, @stake_pool_target@.
-  , _protocolParametersPoolInfluence                   :: !Rational
+  , _protocolParametersPoolInfluence                   :: !MaestroRational
   -- The influence of the pledge in stake pool rewards. This is the \"a_0\" incentives parameter from the design document.
-  , _protocolParametersMonetaryExpansion               :: !Rational
+  , _protocolParametersMonetaryExpansion               :: !MaestroRational
   -- ^ The monetary expansion rate. This determines the fraction of the reserves that are added to the fee pot each epoch. This is the \"rho\" incentives parameter from the design document.
-  , _protocolParametersTreasuryExpansion               :: !Rational
+  , _protocolParametersTreasuryExpansion               :: !MaestroRational
   -- ^ The fraction of the fee pot each epoch that goes to the treasury. This is the \"tau\" incentives parameter from the design document, /AKA/ @treasury_cut@.
   , _protocolParametersMinPoolCost                     :: !Natural
   -- ^ The minimum value that stake pools are permitted to declare for their cost parameter.
-  , _protocolParametersPrices                          :: !(MemoryStepsWith Rational)
+  , _protocolParametersPrices                          :: !(MemoryStepsWith MaestroRational)
   -- ^ The price per unit memory & price per reduction step corresponding to abstract notions of the relative memory usage and script execution steps respectively.
   , _protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryStepsWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single transaction.
