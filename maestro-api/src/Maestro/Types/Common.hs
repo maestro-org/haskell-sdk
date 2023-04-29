@@ -1,6 +1,7 @@
 module Maestro.Types.Common where
 
 import qualified Data.Aeson     as Aeson
+import           Data.Char      (toLower)
 import           Deriving.Aeson
 
 data MaestroDatum = MaestroDatum
@@ -36,5 +37,11 @@ data MaestroAsset =  MaestroAsset
 data MaestroOrder = ASC | DESC
 
 instance Show MaestroOrder where
-  show (ASC)  = "asc"
-  show (DESC) = "desc"
+  show ASC  = "asc"
+  show DESC = "desc"
+
+-- | Will lower the first character for your type.
+data LowerFirst
+instance StringModifier LowerFirst where
+  getStringModifier ""       = ""
+  getStringModifier (c : cs) = toLower c : cs

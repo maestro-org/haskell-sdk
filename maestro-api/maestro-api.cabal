@@ -19,9 +19,15 @@ common common
       DeriveGeneric
       DerivingStrategies
       DerivingVia
+      GeneralisedNewtypeDeriving
+      NumericUnderscores
       OverloadedStrings
       RecordWildCards
+      RoleAnnotations
+      ScopedTypeVariables
+      TemplateHaskell
       TypeOperators
+      QuasiQuotes
 
 library
     import:           common
@@ -30,11 +36,14 @@ library
       Maestro.API.Accounts
       Maestro.API.Address
       Maestro.API.Assets
+      Maestro.API.General
 
+      Maestro.Types
       Maestro.Types.Accounts
       Maestro.Types.Address
       Maestro.Types.Assets
       Maestro.Types.Common
+      Maestro.Types.General
 
       Maestro.Util.Pagination
 
@@ -43,11 +52,13 @@ library
     build-depends:    
       , base ^>=4.14.3.0
       , aeson
+      , containers
       , deriving-aeson
       , servant
       , servant-client
       , servant-client-core
       , text
+      , time
       , http-client
       , http-client-tls
 
@@ -57,11 +68,21 @@ library
 test-suite maestro-api-test
     import:           common
     default-language: Haskell2010
-    -- other-modules:
-    -- other-extensions:
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
-    main-is:          Main.hs
+    main-is:          Driver.hs
+    other-modules:
+        Maestro.Test.General
     build-depends:
-        base ^>=4.14.3.0,
-        maestro-api
+        base ^>=4.14.3.0
+      , maestro-api
+      , aeson
+      , bytestring
+      , containers
+      , raw-strings-qq
+      , hspec
+      , tasty
+      , tasty-hspec
+      , time
+    build-tool-depends:
+        tasty-discover:tasty-discover
