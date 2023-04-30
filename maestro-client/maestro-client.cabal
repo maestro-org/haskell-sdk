@@ -32,6 +32,8 @@ library
       Maestro.Client.Address
       Maestro.Client.Assets
       Maestro.Client.General
+      Maestro.Client.Pools
+      Maestro.Client.Transaction
 
     -- other-modules:
     -- other-extensions:

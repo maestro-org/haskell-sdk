@@ -92,7 +92,6 @@ listAssetTx mEnv asset bHeight pagination sortOrder =
     _listAssetTx  :: MaestroEnv ->  Asset -> Maybe Integer -> Page -> Maybe String -> IO [MaestroAssetTx]
     _listAssetTx = _assetTxs . assetClient
 
-
 -- |
 -- Returns list of transactions which minted or burned the specified asset
 --

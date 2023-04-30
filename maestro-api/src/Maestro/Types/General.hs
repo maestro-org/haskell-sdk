@@ -5,7 +5,6 @@ module Maestro.Types.General
     SystemStart (..)
     -- * Types for @/era-history@ endpoint
   , SlotNo (..)
-  , EpochNo (..)
   , EpochSize (..)
   , EraSummary (..)
   , EraParameters (..)
@@ -20,7 +19,6 @@ module Maestro.Types.General
   , textFromMaestroRational
   , ProtocolParameters (..)
     -- * Types for @/chain-tip@ endpoint
-  , BlockHash (..)
   , ChainTip (..)
   ) where
 
@@ -35,7 +33,7 @@ import qualified Data.Text.Read       as TxtRead
 import           Data.Time            (LocalTime, NominalDiffTime)
 import           Data.Word            (Word64)
 import           Deriving.Aeson
-import           Maestro.Types.Common (LowerFirst)
+import           Maestro.Types.Common (BlockHash, EpochNo, LowerFirst)
 import           Numeric.Natural      (Natural)
 
 ------------------------------------------------------------------
@@ -56,10 +54,6 @@ newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
   deriving newtype (Enum, Bounded, Num, ToJSON, FromJSON)
 
--- | An epoch, i.e. the number of the epoch.
-newtype EpochNo = EpochNo {unEpochNo :: Word64}
-  deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Enum, Num, Real, Integral, ToJSON, FromJSON)
 
 -- | Length of an epoch, i.e., number of slots in it.
 newtype EpochSize = EpochSize {unEpochSize :: Word64}
@@ -228,11 +222,6 @@ data ProtocolParameters = ProtocolParameters
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
-
--- | Hash of the block.
-newtype BlockHash = BlockHash {unBlockHash :: Text}
-  deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (FromJSON, ToJSON)
 
 -- | Details about the latest block of the network.
 data ChainTip = ChainTip

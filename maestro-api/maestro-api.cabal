@@ -37,6 +37,8 @@ library
       Maestro.API.Address
       Maestro.API.Assets
       Maestro.API.General
+      Maestro.API.Pool
+      Maestro.API.Transaction
 
       Maestro.Types
       Maestro.Types.Accounts
@@ -45,6 +47,7 @@ library
       Maestro.Types.Common
       Maestro.Types.Epoch
       Maestro.Types.General
+      Maestro.Types.Pool
 
       Maestro.Util.Pagination
 
