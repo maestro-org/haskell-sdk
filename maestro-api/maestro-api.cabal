@@ -20,6 +20,7 @@ common common
       DerivingStrategies
       DerivingVia
       GeneralisedNewtypeDeriving
+      MultiParamTypeClasses
       NumericUnderscores
       OverloadedStrings
       RecordWildCards
@@ -55,6 +56,7 @@ library
     -- other-extensions:
     build-depends:    
       , base ^>=4.14.3.0
+      , bytestring
       , aeson
       , containers
       , deriving-aeson

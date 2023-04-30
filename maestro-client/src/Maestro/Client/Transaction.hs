@@ -1,14 +1,16 @@
 module Maestro.Client.Transaction where
 
+import qualified Data.ByteString         as BS
 import           Data.Text               (Text)
 import           Maestro.API             (_tx)
 import           Maestro.API.Transaction
 import           Maestro.Client
 import           Maestro.Client.Env
+import           Maestro.Types.Common
 import           Servant.API
 import           Servant.Client
 
-type CborEncodedText = Text
+type CborEncodedByte = BS.ByteString
 type TxHash = Text
 type TxIndex = Int
 
@@ -24,7 +26,7 @@ txClient = fromServant . _tx . apiClient
 -- A transaction submited with this endpoint will be monitored by Maestro.
 --
 submitAndMonitorTx :: MaestroEnv      -- ^ The Maestro Environment
-                   -> CborEncodedText -- ^ CBOR encoded Transaction
+                   -> CborEncodedByte -- ^ CBOR encoded Transaction
                    -> IO Text
 submitAndMonitorTx = _monitorTxSubmit . txClient
 
@@ -33,7 +35,7 @@ submitAndMonitorTx = _monitorTxSubmit . txClient
 -- Interaction with this endpoint is identical to IOG's Cardano Submit API and will not be monitored by Maestro.
 --
 submitTx :: MaestroEnv        -- ^ The Maestro Environment
-         -> CborEncodedText   -- ^ CBOR encoded Transaction
+         -> CborEncodedByte   -- ^ CBOR encoded Transaction
          -> IO Text
 submitTx  = _submitTx . txClient
 
@@ -43,7 +45,7 @@ submitTx  = _submitTx . txClient
 txCbor :: MaestroEnv  -- ^ The Maestro Environment
        -> TxHash      -- ^ Hex Encoded Transaction Hash
        -> IO TxCbor   -- ^ hex-encoded CBOR bytes of a transaction
-txCbor = _txCbor . txClient
+txCbor = _txCborApi . txClient
 
 -- |
 -- Returns the address specified in the given transaction output
@@ -52,7 +54,7 @@ txAddress :: MaestroEnv     -- ^ The Maestro Environment
           -> TxHash         -- ^ Hex Encoded Transaction Hash
           -> TxIndex        -- ^ The Transaction Output Index
           -> IO TxAddress
-txAddress = _txAddress . txClient
+txAddress = _txAddressApi . txClient
 
 -- |
 -- Returns the specified transaction output of a transaction output reference

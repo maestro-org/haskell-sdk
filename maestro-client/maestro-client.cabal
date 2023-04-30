@@ -39,6 +39,7 @@ library
     -- other-extensions:
     build-depends:    
       , base ^>=4.14.3.0
+      , bytestring
       , deriving-aeson
       , servant
       , servant-client
