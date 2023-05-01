@@ -51,7 +51,7 @@ newtype ActiveStake = ActiveStake {unActiveStake :: Natural}
 data PoolHistory = PoolHistory
   { _poolHstActiveStake    :: !ActiveStake
   -- ^ Active stake in the epoch
-  , _poolHstActiveStakePct :: !Double
+  , _poolHstActiveStakePct :: !String
   -- ^ Pool active stake as percentage of total active stake
   , _poolHstBlockCnt       :: !Natural
   -- ^ Blocks created in the epoch
@@ -61,7 +61,7 @@ data PoolHistory = PoolHistory
   -- ^ Total Delegators in the epoch
   , _poolHstEpochNo        :: !EpochNo
   -- ^ The Epoch number
-  , _poolHstEpochRos       :: !Double
+  , _poolHstEpochRos       :: !String
   -- ^ Annual return percentage for delegators for the epoch
   , _poolHstFixedCost      :: !Integer
   -- ^ Pool fixed cost
@@ -69,7 +69,7 @@ data PoolHistory = PoolHistory
   -- ^ Pool margin
   , _poolHstPoolFees       :: !Integer
   -- ^ Fees collected for the epoch
-  , _poolHstSaturationPct  :: !Double
+  , _poolHstSaturationPct  :: !String
   -- ^ Pool saturation percent
   }
   deriving stock (Show, Eq, Generic)
@@ -114,7 +114,7 @@ data PoolMetadata = PoolMetadata
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_poolMetadata", CamelToSnake]] PoolMetadata
 
 data PoolInfo = PoolInfo
-  { _poolInfActiveEpochNo  :: !Integer
+  { _poolInfActiveEpochNo  :: !EpochNo
   -- ^ Epoch when the update takes effect
   , _poolInfActiveStake    :: !Natural
   -- ^ Active stake
@@ -126,7 +126,7 @@ data PoolInfo = PoolInfo
   -- ^ Number of current delegators
   , _poolInfLivePledge     :: !Natural
   -- ^ Account balance of pool owners
-  , _poolInfLiveSaturation :: !Integer
+  , _poolInfLiveSaturation :: !String
   -- ^ Live saturation
   , _poolInfLiveStake      :: !Integer
   -- ^ Live stake
@@ -154,7 +154,7 @@ data PoolInfo = PoolInfo
   -- ^ Status of the pool
   , _poolInfRelays         :: ![PoolRelayInfo]
   -- ^ Stake pool relay
-  , _poolInfRetiringEpoch  :: !Natural
+  , _poolInfRetiringEpoch  :: !(Maybe EpochNo)
   -- ^ Epoch at which the pool will be retired
   , _poolInfRewardAddr     :: !String
   -- ^ Reward address associated with the pool
@@ -174,7 +174,7 @@ data PoolRelay = PoolRelay
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_PoolRelayLst", CamelToSnake]] PoolRelay
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_poolRel", CamelToSnake]] PoolRelay
 
 -- | Update to a stake pool
 data PoolUpdates = PoolUpdates
@@ -204,7 +204,7 @@ data PoolUpdates = PoolUpdates
   -- ^ Status of the pool
   , _poolUpdateRelays        :: ![PoolRelayInfo]
   -- ^ Stake pool relay
-  , _poolUpdateRetiringEpoch :: !String
+  , _poolUpdateRetiringEpoch :: !(Maybe String)
   -- ^ Epoch at which the pool will be retired
   , _poolUpdateRewardAddr    :: !String
   -- ^ Reward address associated with the pool

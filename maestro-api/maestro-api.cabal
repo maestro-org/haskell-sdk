@@ -79,6 +79,7 @@ test-suite maestro-api-test
     main-is:          Driver.hs
     other-modules:
         Maestro.Test.General
+        Maestro.Test.Pool
     build-depends:
         base ^>=4.14.3.0
       , maestro-api
