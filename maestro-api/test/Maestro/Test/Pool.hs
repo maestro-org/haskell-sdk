@@ -70,12 +70,12 @@ poolsExpected =
   [
     Pool {
       _plPoolIdBech32 = "pool12584mjtgz3fhgpx823qht56gycnfnezg6aqqthazv4qdxkd5c46",
-      _plTicker = "DOLCA"
+      _plTicker = Just "DOLCA"
          },
 
     Pool {
       _plPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r",
-      _plTicker = "CHOCO"
+      _plTicker = Just "CHOCO"
          }
 
   ]

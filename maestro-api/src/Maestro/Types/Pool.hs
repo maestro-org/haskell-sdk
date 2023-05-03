@@ -9,7 +9,7 @@ import           Maestro.Types.Common
 
 data Pool = Pool
   { _plPoolIdBech32 :: !String
-  , _plTicker       :: !String
+  , _plTicker       :: !(Maybe String)
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
