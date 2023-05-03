@@ -52,6 +52,24 @@ library
     hs-source-dirs:   src
     default-language: Haskell2010
 
+
+executable maestro-exe
+    import:           common
+    default-language: Haskell2010
+    other-modules:
+      Maestro.Run.Pools
+      Maestro.Run.Tx
+    -- other-extensions:
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   maestro-exe
+    main-is:          Main.hs
+    build-depends:
+        base ^>=4.14.3.0,
+        maestro-client,
+        text,
+        maestro-api
+
+
 test-suite maestro-test
     import:           common
     default-language: Haskell2010
