@@ -1,5 +1,5 @@
 cabal-version:      3.0
-name:               maestro-client
+name:               maestro-sdk
 version:            0.1.0.0
 -- synopsis:
 -- description:
@@ -12,20 +12,35 @@ build-type:         Simple
 extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
-common common
+common common 
     ghc-options: -Wall
     default-extensions:
       DataKinds
       DeriveGeneric
       DerivingStrategies
       DerivingVia
+      GeneralisedNewtypeDeriving
+      MultiParamTypeClasses
+      NumericUnderscores
       OverloadedStrings
       RecordWildCards
+      RoleAnnotations
+      ScopedTypeVariables
+      TemplateHaskell
       TypeOperators
+      QuasiQuotes
 
 library
     import:           common
     exposed-modules:  
+      Maestro.API
+      Maestro.API.Accounts
+      Maestro.API.Address
+      Maestro.API.Assets
+      Maestro.API.General
+      Maestro.API.Pool
+      Maestro.API.Transaction
+
       Maestro.Client
       Maestro.Client.Env
       Maestro.Client.Accounts
@@ -35,22 +50,60 @@ library
       Maestro.Client.Pools
       Maestro.Client.Transaction
 
+      Maestro.Types
+      Maestro.Types.Accounts
+      Maestro.Types.Address
+      Maestro.Types.Assets
+      Maestro.Types.Common
+      Maestro.Types.Epoch
+      Maestro.Types.General
+      Maestro.Types.Pool
+
+      Maestro.Util.Pagination
+
     -- other-modules:
     -- other-extensions:
     build-depends:    
       , base ^>=4.14.3.0
       , bytestring
+      , aeson
+      , containers
       , deriving-aeson
       , servant
       , servant-client
       , servant-client-core
       , text
+      , time
       , http-client
       , http-client-tls
-      , maestro-api
 
     hs-source-dirs:   src
     default-language: Haskell2010
+
+test-suite maestro-api-test
+    import:           common
+    default-language: Haskell2010
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Driver.hs
+    other-modules:
+        Maestro.Test.General
+        Maestro.Test.Pool
+        Maestro.Test.Transaction
+    build-depends:
+        base ^>=4.14.3.0
+      , maestro-sdk
+      , aeson
+      , bytestring
+      , containers
+      , raw-strings-qq
+      , hspec
+      , tasty
+      , tasty-hspec
+      , time
+    build-tool-depends:
+        tasty-discover:tasty-discover
+
 
 
 executable maestro-exe
@@ -65,19 +118,5 @@ executable maestro-exe
     main-is:          Main.hs
     build-depends:
         base ^>=4.14.3.0,
-        maestro-client,
-        text,
-        maestro-api
-
-
-test-suite maestro-test
-    import:           common
-    default-language: Haskell2010
-    -- other-modules:
-    -- other-extensions:
-    type:             exitcode-stdio-1.0
-    hs-source-dirs:   test
-    main-is:          Main.hs
-    build-depends:
-        base ^>=4.14.3.0,
-        maestro-client
+        maestro-sdk,
+        text

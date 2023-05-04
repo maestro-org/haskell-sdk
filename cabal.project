@@ -1,3 +1,1 @@
-packages:
-    maestro-api
-    maestro-client
+packages: ./
