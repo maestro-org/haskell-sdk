@@ -10,7 +10,7 @@ import           Maestro.API.General
 import           Maestro.Client
 import           Maestro.Client.Env
 import           Maestro.Types.General
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 generalClient :: MaestroEnv -> GeneralAPI (AsClientT IO)

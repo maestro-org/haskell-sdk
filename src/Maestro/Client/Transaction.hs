@@ -7,7 +7,7 @@ import           Maestro.API.Transaction
 import           Maestro.Client
 import           Maestro.Client.Env
 import           Maestro.Types.Common
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 type CborEncodedByte = BS.ByteString

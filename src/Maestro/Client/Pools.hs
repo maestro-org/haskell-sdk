@@ -18,11 +18,10 @@ import           Maestro.Client.Env
 import           Maestro.Types.Common
 import           Maestro.Types.Pool
 import           Maestro.Util.Pagination (Page)
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 type PoolId = Text
-
 poolsClient :: MaestroEnv -> PoolAPI (AsClientT IO)
 poolsClient = fromServant . _pools  . apiClient
 

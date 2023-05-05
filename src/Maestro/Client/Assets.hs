@@ -8,7 +8,7 @@ import           Maestro.Client.Env
 import           Maestro.Types.Assets
 import           Maestro.Types.Common
 import           Maestro.Util.Pagination (Page)
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 type PolicyId = Text

@@ -5,7 +5,7 @@ import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Text            as T
 import           Maestro.Types.Common
 import           Servant.API
-import           Servant.API.Generic  (Generic)
+import           Servant.API.Generic
 
 
 data CBORStream

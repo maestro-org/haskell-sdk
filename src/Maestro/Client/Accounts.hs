@@ -6,7 +6,7 @@ import           Maestro.Client
 import           Maestro.Client.Env
 import           Maestro.Types.Accounts
 import           Maestro.Util.Pagination (Page)
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)

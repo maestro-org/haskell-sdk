@@ -7,7 +7,7 @@ import           Maestro.Client
 import           Maestro.Client.Env
 import           Maestro.Types.Address
 import           Maestro.Util.Pagination (Page)
-import           Servant.API
+import           Servant.API.Generic
 import           Servant.Client
 
 addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
