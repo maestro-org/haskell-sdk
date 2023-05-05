@@ -106,17 +106,17 @@ poolBlockExpected :: [PoolBlock]
 poolBlockExpected =
   [
     PoolBlock
-      { _poolBlkEpochNo = EpochNo 331
-      , _poolBlkEpochSlot = EpochSlot 247198
-      , _poolBlkAbsSlot = AbsoluteSlot 57875998
+      { _poolBlkEpochNo = Just $ EpochNo 331
+      , _poolBlkEpochSlot = Just $ EpochSlot 247198
+      , _poolBlkAbsSlot = Just $ AbsoluteSlot 57875998
       , _poolBlkBlockHeight = BlockHeight 7099157
       , _poolBlkBlockHash = BlockHash "25c48307d94b1d6b98c50482a0a36c6d104c66a5186ce73eac7e9fe4e34a1e4b"
       , _poolBlkBlockTime = 1649442289
       }
     , PoolBlock
-      { _poolBlkEpochNo = EpochNo 331
-      , _poolBlkEpochSlot = EpochSlot 271486
-      , _poolBlkAbsSlot = AbsoluteSlot 57900286
+      { _poolBlkEpochNo = Just $ EpochNo 331
+      , _poolBlkEpochSlot = Just $ EpochSlot 271486
+      , _poolBlkAbsSlot = Just $ AbsoluteSlot 57900286
       , _poolBlkBlockHeight = BlockHeight 7100338
       , _poolBlkBlockHash = BlockHash "b00aaff6fd95e9718748ef16a6f1787af95970bf8da072c1031f569783001997"
       , _poolBlkBlockTime = 1649466577
@@ -145,16 +145,16 @@ poolDelegatorExpected :: [DelegatorInfo]
 poolDelegatorExpected =
   [
     DelegatorInfo
-      { _delegatorStakeAddress  = "stake1uyxylkzz6qcmu823tpfvq2kv4v0eejrh6w3qcfl2t3ax4acmdtchp"
-      , _delegatorAmount  = 104694974790
-      , _delegatorActiveEpochNo = EpochNo 288
-      , _delegatorLatestDelegationTxHash  = "7feeb8988ac7ae488dacf189dd6cb2f52173692dfb45603942fbe8b7a6ccd40b"
+      { _delegatorStakeAddress  = Just  "stake1uyxylkzz6qcmu823tpfvq2kv4v0eejrh6w3qcfl2t3ax4acmdtchp"
+      , _delegatorAmount  = Just 104694974790
+      , _delegatorActiveEpochNo = Just $ EpochNo 288
+      , _delegatorLatestDelegationTxHash  = Just "7feeb8988ac7ae488dacf189dd6cb2f52173692dfb45603942fbe8b7a6ccd40b"
       }
   ,DelegatorInfo
-      { _delegatorStakeAddress  = "stake1uyztgnymq9pktsjw7ae9csea4xueymap54gg252wyvsgv8cxscnaz"
-      , _delegatorAmount  = 4128157247
-      , _delegatorActiveEpochNo = EpochNo 293
-      , _delegatorLatestDelegationTxHash  = "e8d1e0a2c9e1d9a33b79db3d4e997a2e797ade35d81ed993936bba409e7c9a1f"
+      { _delegatorStakeAddress  = Just "stake1uyztgnymq9pktsjw7ae9csea4xueymap54gg252wyvsgv8cxscnaz"
+      , _delegatorAmount  = Just 4128157247
+      , _delegatorActiveEpochNo = Just $ EpochNo 293
+      , _delegatorLatestDelegationTxHash  = Just "e8d1e0a2c9e1d9a33b79db3d4e997a2e797ade35d81ed993936bba409e7c9a1f"
       }
   ]
 
@@ -196,12 +196,12 @@ poolHistoryExpected =
   [
     PoolHistory
       { _poolHstEpochNo = EpochNo 384
-      , _poolHstActiveStake = ActiveStake 3850078783520
-      , _poolHstActiveStakePct  = "0.01517945984844733700"
+      , _poolHstActiveStake = Just $ ActiveStake 3850078783520
+      , _poolHstActiveStakePct  = Just "0.01517945984844733700"
       , _poolHstSaturationPct = "5.4500"
-      , _poolHstBlockCnt  = 0
-      , _poolHstDelegatorCnt = 23
-      , _poolHstMargin = 0
+      , _poolHstBlockCnt  = Just 0
+      , _poolHstDelegatorCnt = Just 23
+      , _poolHstMargin = Just 0
       , _poolHstFixedCost = 340000000
       , _poolHstPoolFees = 0
       , _poolHstDelegRewards = 0
@@ -209,12 +209,12 @@ poolHistoryExpected =
       }
   , PoolHistory
       { _poolHstEpochNo = EpochNo 385
-      , _poolHstActiveStake = ActiveStake 3851856595953
-      , _poolHstActiveStakePct  = "0.01517156647812579800"
+      , _poolHstActiveStake = Just $ ActiveStake 3851856595953
+      , _poolHstActiveStakePct  = Just "0.01517156647812579800"
       , _poolHstSaturationPct = "5.4500"
-      , _poolHstBlockCnt  = 3
-      , _poolHstDelegatorCnt = 23
-      , _poolHstMargin = 0
+      , _poolHstBlockCnt  = Just 3
+      , _poolHstDelegatorCnt = Just 23
+      , _poolHstMargin = Just 0
       , _poolHstFixedCost = 340000000
       , _poolHstPoolFees = 340000000
       , _poolHstDelegRewards = 1447424779
@@ -273,11 +273,11 @@ poolInfoExpected =
     { _poolInfPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
     , _poolInfPoolIdHex = "552d7f65e42fdc4ed602a657b85bd7623a592d21e5dcf7b045132da8"
     , _poolInfActiveEpochNo = EpochNo 290
-    , _poolInfVrfKeyHash = "076102096f5fc37a47ff14390f7320c76ea769183d06881d53dc4ea1be51acae"
+    , _poolInfVrfKeyHash = Just "076102096f5fc37a47ff14390f7320c76ea769183d06881d53dc4ea1be51acae"
     , _poolInfMargin = 0
     , _poolInfFixedCost = 340000000
     , _poolInfPledge = 10000000000
-    , _poolInfRewardAddr = "stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"
+    , _poolInfRewardAddr = Just "stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"
     , _poolInfOwners  =
       [
         "stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"
@@ -289,29 +289,29 @@ poolInfoExpected =
           , _poolRelInfoSrv = Nothing
           , _poolRelInfoIpv4 = Just "202.182.106.104"
           , _poolRelInfoIpv6 = Nothing
-          , _poolRelInfoPort = 6000
+          , _poolRelInfoPort = Just 6000
           }
       ]
-    , _poolInfMetaUrl = "https://git.io/J0eoF"
-    , _poolInfMetaHash = "63c1b74c5489659d8ec374fa9f22f3e185c5ac458ecc69fdc324ba3bbe2c5093"
+    , _poolInfMetaUrl = Just "https://git.io/J0eoF"
+    , _poolInfMetaHash = Just "63c1b74c5489659d8ec374fa9f22f3e185c5ac458ecc69fdc324ba3bbe2c5093"
     , _poolInfMetaJson  =
-        PoolMetaJson
+        Just $ PoolMetaJson
           { _poolMetaJsonName = "CHOCO Stake Pool"
-          , _poolMetaJsonTicker = "CHOCO"
-          , _poolMetaJsonHomepage = "https://twitter.com/choco_stake"
-          , _poolMetaJsonDescription = "Choco pool description"
+          , _poolMetaJsonTicker = Just "CHOCO"
+          , _poolMetaJsonHomepage = Just "https://twitter.com/choco_stake"
+          , _poolMetaJsonDescription = Just "Choco pool description"
           }
     , _poolInfPoolStatus = "registered"
     , _poolInfRetiringEpoch = Nothing
-    , _poolInfOpCert = "cdac991e5a547c86fe869b37eb58c77cc3804d2e592200c835da0b3dbfe8e763"
-    , _poolInfOpCertCounter = 7
-    , _poolInfActiveStake = 3847126072870
-    , _poolInfSigma = "0.00015093541821247124"
-    , _poolInfBlockCount  = 307
-    , _poolInfLivePledge = 38784976226
-    , _poolInfLiveStake = 3848841013319
+    , _poolInfOpCert = Just "cdac991e5a547c86fe869b37eb58c77cc3804d2e592200c835da0b3dbfe8e763"
+    , _poolInfOpCertCounter = Just 7
+    , _poolInfActiveStake = Just 3847126072870
+    , _poolInfSigma = Just "0.00015093541821247124"
+    , _poolInfBlockCount  = Just 307
+    , _poolInfLivePledge = Just 38784976226
+    , _poolInfLiveStake = Just 3848841013319
     , _poolInfLiveDelegators = 24
-    , _poolInfLiveSaturation = "5.4200"
+    , _poolInfLiveSaturation = Just "5.4200"
     }
 
 
@@ -334,14 +334,14 @@ poolMetadataExpected :: PoolMetadata
 poolMetadataExpected =
   PoolMetadata
     { _poolMetadataPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
-    , _poolMetadataMetaUrl  = "https://git.io/J0eoF"
-    , _poolMetadataMetaHash = "63c1b74c5489659d8ec374fa9f22f3e185c5ac458ecc69fdc324ba3bbe2c5093"
+    , _poolMetadataMetaUrl  = Just "https://git.io/J0eoF"
+    , _poolMetadataMetaHash = Just "63c1b74c5489659d8ec374fa9f22f3e185c5ac458ecc69fdc324ba3bbe2c5093"
     , _poolMetadataMetaJson =
-        PoolMetaJson
+        Just $ PoolMetaJson
           { _poolMetaJsonName = "CHOCO Stake Pool"
-          , _poolMetaJsonTicker = "CHOCO"
-          , _poolMetaJsonHomepage = "https://twitter.com/choco_stake"
-          , _poolMetaJsonDescription = "Choco pool description"
+          , _poolMetaJsonTicker = Just "CHOCO"
+          , _poolMetaJsonHomepage = Just "https://twitter.com/choco_stake"
+          , _poolMetaJsonDescription = Just "Choco pool description"
           }
     }
 
@@ -376,7 +376,7 @@ poolRelayExpected =
             , _poolRelInfoSrv = Nothing
             , _poolRelInfoIpv4 = Just "202.182.106.104"
             , _poolRelInfoIpv6 = Nothing
-            , _poolRelInfoPort = 6000
+            , _poolRelInfoPort = Just 6000
             }
         ]
       }
@@ -423,7 +423,7 @@ poolUpdatesExpected =
   [
     PoolUpdates
       { _poolUpdateTxHash = "58011f2d795af54ab076320d5092a7989efd451eb39c5c64794c7b5eccd9da97"
-      , _poolUpdateBlockTime  = 1629034536
+      , _poolUpdateBlockTime  = Just 1629034536
       , _poolUpdatePoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
       , _poolUpdatePoolIdHex = "552d7f65e42fdc4ed602a657b85bd7623a592d21e5dcf7b045132da8"
       , _poolUpdateActiveEpochNo = EpochNo 286
@@ -431,7 +431,7 @@ poolUpdatesExpected =
       , _poolUpdateMargin = 0
       , _poolUpdateFixedCost = 340000000
       , _poolUpdatePledge = 10000000000
-      , _poolUpdateRewardAddr = "stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"
+      , _poolUpdateRewardAddr = Just "stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"
       , _poolUpdateOwners = ["stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"]
       , _poolUpdateRelays =
           [
@@ -443,10 +443,10 @@ poolUpdatesExpected =
             , _poolRelInfoPort = 6000
             }
           ]
-      , _poolUpdateMetaUrl = "https://git.io/J0eoF"
-      , _poolUpdateMetaHash = "563af2ed89859d9eb1976706f86285f7b5c8f51a3fa354b185b8f86797416b97"
+      , _poolUpdateMetaUrl = Just "https://git.io/J0eoF"
+      , _poolUpdateMetaHash = Just "563af2ed89859d9eb1976706f86285f7b5c8f51a3fa354b185b8f86797416b97"
       , _poolUpdateMetaJson = Nothing
-      , _poolUpdatePoolStatus = "registered"
+      , _poolUpdatePoolStatus = Just "registered"
       , _poolUpdateRetiringEpoch  = Nothing
       }
   ]
