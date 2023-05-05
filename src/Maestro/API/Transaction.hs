@@ -3,6 +3,7 @@ module Maestro.API.Transaction where
 import qualified Data.ByteString      as BS
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Text            as T
+import           GHC.Natural          (Natural)
 import           Maestro.Types.Common
 import           Servant.API
 import           Servant.API.Generic
@@ -30,7 +31,8 @@ data TxAPI route = TxAPI
   {
     _monitorTxSubmit
       :: route
-      :- ReqBody' '[Required] '[CBORStream] BS.ByteString
+      :- "transactions"
+      :> ReqBody' '[Required] '[CBORStream] BS.ByteString
       :> Post '[JSON] T.Text
 
   , _submitTx
@@ -42,23 +44,26 @@ data TxAPI route = TxAPI
 
   , _txCborApi
     ::  route
-    :- Capture "tx_hash"  T.Text
+    :- "transactions"
+    :> Capture "tx_hash"  T.Text
     :> "cbor"
     :> Get '[JSON] TxCbor
 
   , _txAddressApi
     ::  route
-    :- Capture "tx_hash"  T.Text
+    :- "transactions"
+    :> Capture "tx_hash"  T.Text
     :> "outputs"
-    :> Capture "index"  Int
+    :> Capture "index"  Natural
     :> "address"
     :> Get '[JSON] TxAddress
 
   , _txUtxo
     ::  route
-    :- Capture "tx_hash"  T.Text
+    :- "transactions"
+    :> Capture "tx_hash"  T.Text
     :> "outputs"
-    :> Capture "index"  Int
+    :> Capture "index" Natural
     :> "utxo"
     :> QueryParam "resolve_datums"  Bool
     :> QueryParam "with_cbor"  Bool

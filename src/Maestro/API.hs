@@ -16,7 +16,7 @@ data MaestroApi route  = Routes
   , _assets   :: route :- "assets" :> ToServantApi AssetsAPI
   , _general  :: route :- ToServantApi GeneralAPI
   , _pools    :: route :- "pools" :> ToServantApi PoolAPI
-  , _tx       :: route :- "transactions" :> ToServantApi TxAPI
+  , _tx       :: route :- ToServantApi TxAPI
   } deriving(Generic)
 
 api :: Proxy (ToServantApi MaestroApi)
