@@ -1,7 +1,7 @@
 module Maestro.API.Pool where
 
 import           Data.Text               (Text)
-import           Maestro.Types.Pool
+import           Maestro.Types
 import           Maestro.Util.Pagination
 import           Servant.API
 import           Servant.API.Generic
@@ -18,8 +18,8 @@ data PoolAPI route = PoolAPI
     :- Capture  "pool_id" Text
     :> "blocks"
     :> Pagination
-    :> QueryParam "epoch_no" Integer
-    :> QueryParam' '[Required] "order" String
+    :> QueryParam "epoch_no" EpochNo
+    :> QueryParam "order" Order
     :> Get '[JSON]  [PoolBlock]
 
   , _poolDelegators
@@ -34,8 +34,8 @@ data PoolAPI route = PoolAPI
     :- Capture  "pool_id" Text
     :> "history"
     :> Pagination
-    :> QueryParam "epoch_no" Integer
-    :> QueryParam' '[Required] "order" String
+    :> QueryParam "epoch_no" EpochNo
+    :> QueryParam "order" Order
     :> Get '[JSON]  [PoolHistory]
 
   , _poolInfo

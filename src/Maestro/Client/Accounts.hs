@@ -4,7 +4,7 @@ import           Maestro.API
 import           Maestro.API.Accounts
 import           Maestro.Client
 import           Maestro.Client.Env
-import           Maestro.Types.Accounts
+import           Maestro.Types
 import           Maestro.Util.Pagination (Page)
 import           Servant.API.Generic
 import           Servant.Client
@@ -21,7 +21,7 @@ listAccountAddresses = _accountAddresses . accountsClient
 listAccountAssets :: MaestroEnv -> String -> Page -> IO [AccountsAssets]
 listAccountAssets = _accountAssets . accountsClient
 
-listAccountHistory :: MaestroEnv  -> String -> (Maybe Integer) -> Page -> IO [AccountsHistory]
+listAccountHistory :: MaestroEnv  -> String -> (Maybe EpochNo) -> Page -> IO [AccountsHistory]
 listAccountHistory = _accountsHistory . accountsClient
 
 listAccountRewards  :: MaestroEnv -> String -> Page -> IO [AccountsRewards]

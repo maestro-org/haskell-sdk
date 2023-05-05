@@ -49,13 +49,13 @@ runListPools :: MaestroEnv -> IO [Pool]
 runListPools mEnv = listPools mEnv (Page 1 1)
 
 runPoolBlocks  :: MaestroEnv -> IO [PoolBlock]
-runPoolBlocks  mEnv = poolBlocks mEnv poolId (Page 1 1) Nothing  ASC
+runPoolBlocks  mEnv = poolBlocks mEnv poolId (Page 1 1) Nothing  (Just Ascending)
 
 runPoolDelegators :: MaestroEnv -> IO [DelegatorInfo]
 runPoolDelegators mEnv = poolDelegators mEnv poolId (Page 1 1)
 
 runPoolHistory  :: MaestroEnv -> IO [PoolHistory]
-runPoolHistory  mEnv = poolHistory  mEnv poolId (Page 1 1) Nothing ASC
+runPoolHistory  mEnv = poolHistory  mEnv poolId (Page 1 1) Nothing (Just Ascending)
 
 runPoolInfo :: MaestroEnv -> IO PoolInfo
 runPoolInfo mEnv = poolInfo mEnv poolId

@@ -2,6 +2,7 @@ module Maestro.API.Assets where
 
 import           Data.Text               (Text)
 import           Maestro.Types.Assets
+import           Maestro.Types.Common
 import           Maestro.Util.Pagination
 import           Servant.API
 import           Servant.API.Generic
@@ -57,7 +58,7 @@ data AssetsAPI route = AssetsAPI
       :> "txs"
       :> QueryParam "from_height" Integer
       :> Pagination
-      :> QueryParam "order" String
+      :> QueryParam "order" Order
       :> Get  '[JSON] [MaestroAssetTx]
 
   , _assetUpdates
@@ -65,7 +66,7 @@ data AssetsAPI route = AssetsAPI
       :- Capture "asset" Text
       :> "updates"
       :> Pagination
-      :> QueryParam "order" String
+      :> QueryParam "order" Order
       :> Get  '[JSON] [MaestroAssetUpdates]
 
   , _assetUtxos

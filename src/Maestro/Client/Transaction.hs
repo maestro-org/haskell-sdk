@@ -1,7 +1,14 @@
-module Maestro.Client.Transaction where
+module Maestro.Client.Transaction
+  ( submitAndMonitorTx
+  , submitTx
+  , txCbor
+  , txAddress
+  , txUtxo
+  ) where
 
 import qualified Data.ByteString         as BS
 import           Data.Text               (Text)
+import           GHC.Natural             (Natural)
 import           Maestro.API             (_tx)
 import           Maestro.API.Transaction
 import           Maestro.Client
@@ -11,8 +18,8 @@ import           Servant.API.Generic
 import           Servant.Client
 
 type CborEncodedByte = BS.ByteString
-type TxHash = Text
-type TxIndex = Int
+data Tx
+type TxIndex = Natural
 
 type ResolveDatum = Bool
 type WithCbor = Bool
@@ -43,7 +50,7 @@ submitTx  = _submitTx . txClient
 -- Returns hex-encoded CBOR bytes of a transaction
 --
 txCbor :: MaestroEnv  -- ^ The Maestro Environment
-       -> TxHash      -- ^ Hex Encoded Transaction Hash
+       -> (HashStringOf Tx)      -- ^ Hex Encoded Transaction Hash
        -> IO TxCbor   -- ^ hex-encoded CBOR bytes of a transaction
 txCbor = _txCborApi . txClient
 
@@ -51,7 +58,7 @@ txCbor = _txCborApi . txClient
 -- Returns the address specified in the given transaction output
 --
 txAddress :: MaestroEnv     -- ^ The Maestro Environment
-          -> TxHash         -- ^ Hex Encoded Transaction Hash
+          -> (HashStringOf Tx)         -- ^ Hex Encoded Transaction Hash
           -> TxIndex        -- ^ The Transaction Output Index
           -> IO TxAddress
 txAddress = _txAddressApi . txClient
@@ -60,7 +67,7 @@ txAddress = _txAddressApi . txClient
 -- Returns the specified transaction output of a transaction output reference
 --
 txUtxo :: MaestroEnv            -- ^ The MaestroEnv
-       -> TxHash                -- ^ Hex encoded transaction hash
+       -> (HashStringOf Tx)                -- ^ Hex encoded transaction hash
        -> TxIndex               -- ^ The Transaction Output Index
        -> Maybe ResolveDatum    -- ^ Try find and include the corresponding datums for datum hashes
        -> Maybe WithCbor        -- ^ Include the CBOR encodings of the transaction outputs in the response

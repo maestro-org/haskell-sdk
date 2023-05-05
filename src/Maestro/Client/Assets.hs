@@ -82,15 +82,10 @@ listAssetTx  :: MaestroEnv         -- ^ The Maestro Environment
              ->  Asset             -- ^ Asset, encoded as concatenation of hex of policy ID and asset name
              -> Maybe Integer      -- ^ Return only transactions after supplied block height
              -> Page               -- ^ The Pagination
-             -> MaestroOrder
+             -> Maybe Order
              -> IO [MaestroAssetTx]
 
-listAssetTx mEnv asset bHeight pagination sortOrder =
-  _listAssetTx mEnv asset bHeight pagination (Just $ show sortOrder)
-
-  where
-    _listAssetTx  :: MaestroEnv ->  Asset -> Maybe Integer -> Page -> Maybe String -> IO [MaestroAssetTx]
-    _listAssetTx = _assetTxs . assetClient
+listAssetTx  = _assetTxs . assetClient
 
 -- |
 -- Returns list of transactions which minted or burned the specified asset
@@ -98,13 +93,10 @@ listAssetTx mEnv asset bHeight pagination sortOrder =
 listAssetUpdates  :: MaestroEnv       -- ^ The Maestro Environment
                   ->  Asset                -- ^ Asset, encoded as concatenation of hex of policy ID and asset name
                   -> Page                  -- ^ The Pagination
-                  -> MaestroOrder          -- ^ The order in which the results are sorted (by block height)
+                  -> Maybe Order          -- ^ The order in which the results are sorted (by block height)
                   -> IO [MaestroAssetUpdates]
 
-listAssetUpdates mEnv asset pagination sortOrder =
-    _listSortedAssetUpdates mEnv asset pagination (Just $ show sortOrder)
-    where
-      _listSortedAssetUpdates = _assetUpdates . assetClient
+listAssetUpdates = _assetUpdates . assetClient
 
 -- |
 -- Returns UTxOs containing the specified asset, each paired with the amount of the asset
