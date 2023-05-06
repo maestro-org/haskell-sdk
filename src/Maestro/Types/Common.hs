@@ -53,7 +53,7 @@ data DatumType =  Inline | Hash
   deriving (FromJSON, ToJSON)
   via CustomJSON '[FieldLabelModifier '[LowerFirst]] DatumType
 
-data Datum = MaestroDatum
+data Datum = Datum
   { _datumBytes :: !(Maybe Text)
   , _datumHash  :: !Text
   , _datumJson  :: !(Maybe Aeson.Value)

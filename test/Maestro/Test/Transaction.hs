@@ -95,7 +95,7 @@ txUtxoExpected  =
         ]
     , _utxoAddress = "addr_test1vpfwv0ezc5g8a4mkku8hhy3y3vp92t7s3ul8g778g5yegsgalc6gc"
     , _utxoDatum  =
-        Just MaestroDatum
+        Just Datum
           { _datumType  = Inline
           , _datumHash  = "432cb73420839fb517533c365d7ec125c457ea4ba5c0349be81be6796d52ef3b"
           , _datumBytes = Just "1a00278530"
