@@ -1,7 +1,7 @@
 module Maestro.Client.Env
   (
     MaestroEnv(..)
-  , mkMeastroEnv
+  , mkMaestroEnv
   , MaestroNetwork(..)
   ) where
 
