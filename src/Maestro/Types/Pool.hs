@@ -39,7 +39,7 @@ data PoolBlock = PoolBlock
   , _poolBlkBlockHeight :: !BlockHeight           -- ^ The Block Height i.e Block Number
   , _poolBlkBlockTime   :: !POSIXTime             -- ^ UNIX timestamp when the block was mined
   , _poolBlkEpochNo     :: !(Maybe EpochNo)       -- ^ Epoch number
-  , _poolBlkEpochSlot   :: !(Maybe EpochSlot)     -- ^ Epoch Slot
+  , _poolBlkEpochSlot   :: !(Maybe EpochSize)     -- ^ Epoch Slot
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)

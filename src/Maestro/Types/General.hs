@@ -5,7 +5,6 @@ module Maestro.Types.General
     SystemStart (..)
     -- * Types for @/era-history@ endpoint
   , SlotNo (..)
-  , EpochSize (..)
   , EraSummary (..)
   , EraParameters (..)
   , EraBound (..)
@@ -33,7 +32,8 @@ import qualified Data.Text.Read       as TxtRead
 import           Data.Time            (LocalTime, NominalDiffTime)
 import           Data.Word            (Word64)
 import           Deriving.Aeson
-import           Maestro.Types.Common (BlockHash, EpochNo, LowerFirst)
+import           Maestro.Types.Common (BlockHash, EpochNo, EpochSize,
+                                       LowerFirst)
 import           Numeric.Natural      (Natural)
 
 ------------------------------------------------------------------
@@ -53,12 +53,6 @@ newtype SystemStart = SystemStart { _systemStartTime :: LocalTime }
 newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
   deriving newtype (Enum, Bounded, Num, ToJSON, FromJSON)
-
-
--- | Length of an epoch, i.e., number of slots in it.
-newtype EpochSize = EpochSize {unEpochSize :: Word64}
-  deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Enum, Num, Real, Integral, ToJSON, FromJSON)
 
 -- | Network era summary.
 data EraSummary = EraSummary

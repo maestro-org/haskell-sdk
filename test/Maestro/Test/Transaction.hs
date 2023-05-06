@@ -99,7 +99,7 @@ txUtxoExpected  =
           { _datumType  = Inline
           , _datumHash  = "432cb73420839fb517533c365d7ec125c457ea4ba5c0349be81be6796d52ef3b"
           , _datumBytes = Just "1a00278530"
-          , _datumJson  = decode $ "{\"int\":2590000}"
+          , _datumJson  = decode "{\"int\":2590000}"
           }
 
     , _utxoReferenceScript  =

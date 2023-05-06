@@ -107,7 +107,7 @@ poolBlockExpected =
   [
     PoolBlock
       { _poolBlkEpochNo = Just $ EpochNo 331
-      , _poolBlkEpochSlot = Just $ EpochSlot 247198
+      , _poolBlkEpochSlot = Just $ EpochSize 247198
       , _poolBlkAbsSlot = Just $ AbsoluteSlot 57875998
       , _poolBlkBlockHeight = BlockHeight 7099157
       , _poolBlkBlockHash = BlockHash "25c48307d94b1d6b98c50482a0a36c6d104c66a5186ce73eac7e9fe4e34a1e4b"
@@ -115,7 +115,7 @@ poolBlockExpected =
       }
     , PoolBlock
       { _poolBlkEpochNo = Just $ EpochNo 331
-      , _poolBlkEpochSlot = Just $ EpochSlot 271486
+      , _poolBlkEpochSlot = Just $ EpochSize 271486
       , _poolBlkAbsSlot = Just $ AbsoluteSlot 57900286
       , _poolBlkBlockHeight = BlockHeight 7100338
       , _poolBlkBlockHash = BlockHash "b00aaff6fd95e9718748ef16a6f1787af95970bf8da072c1031f569783001997"

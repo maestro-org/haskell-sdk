@@ -19,10 +19,10 @@ instance ToHttpApiData  EpochNo where
   toQueryParam  = T.pack . show . unEpochNo
 
 
--- | Number of slot in Epoch
-newtype EpochSlot = EpochSlot {unEpochSlot :: Natural}
-  deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON)
+-- | Length of an epoch, i.e., number of slots in it.
+newtype EpochSize = EpochSize {unEpochSize :: Word64}
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving newtype (Enum, Num, Real, Integral, ToJSON, FromJSON)
 
 -- | Absolute Slot Number
 newtype AbsoluteSlot = AbsoluteSlot {unAbsoluteSlot :: Natural}
