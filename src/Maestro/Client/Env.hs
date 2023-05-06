@@ -24,8 +24,8 @@ maestroBaseUrl :: MaestroNetwork -> String
 maestroBaseUrl  Preprod = "https://preprod.gomaestro-api.org/"
 maestroBaseUrl  Mainnet = "https://mainnet.gomaestro-api.org/"
 
-mkMeastroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
-mkMeastroEnv token nid = do
+mkMaestroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
+mkMaestroEnv token nid = do
   clientEnv <- servantClientEnv token $ maestroBaseUrl nid
   pure $ MaestroEnv {_maeClientEnv = clientEnv}
 
