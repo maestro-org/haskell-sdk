@@ -7,7 +7,6 @@ module Maestro.Types
   , module Maestro.Types.Common
   , module Maestro.Types.General
   , module Maestro.Types.Pool
-  , mod
   ) where
 
 import           Maestro.Types.Accounts
