@@ -26,7 +26,7 @@ poolsClient :: MaestroEnv -> PoolAPI (AsClientT IO)
 poolsClient = fromServant . _pools  . apiClient
 
 parseEpochNo :: Maybe EpochNo -> Maybe Integer
-parseEpochNo = maybe Nothing (Just . toInteger . unEpochNo)
+parseEpochNo = fmap (toInteger . unEpochNo)
 
 -- | Returns a list of currently registered stake pools
 listPools :: MaestroEnv -> Page -> IO [Pool]
