@@ -87,7 +87,7 @@ data PoolHistory = PoolHistory
   -- ^ Pool margin
   , _poolHstPoolFees       :: !Natural
   -- ^ Fees collected for the epoch
-  , _poolHstSaturationPct  :: !String
+  , _poolHstSaturationPct  :: !(Maybe String)
   -- ^ Pool saturation percent
   }
   deriving stock (Show, Eq, Generic)
