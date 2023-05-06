@@ -25,7 +25,6 @@ spec_pool = do
     `shouldBe`
     Right poolDelegatorExpected
 
-
   it "parsing /pools/pool_id/history sample" $ do
     eitherDecode poolHistorySample
     `shouldBe`
@@ -198,7 +197,7 @@ poolHistoryExpected =
       { _poolHstEpochNo = EpochNo 384
       , _poolHstActiveStake = Just $ ActiveStake 3850078783520
       , _poolHstActiveStakePct  = Just "0.01517945984844733700"
-      , _poolHstSaturationPct = "5.4500"
+      , _poolHstSaturationPct = Just "5.4500"
       , _poolHstBlockCnt  = Just 0
       , _poolHstDelegatorCnt = Just 23
       , _poolHstMargin = Just 0
@@ -211,7 +210,7 @@ poolHistoryExpected =
       { _poolHstEpochNo = EpochNo 385
       , _poolHstActiveStake = Just $ ActiveStake 3851856595953
       , _poolHstActiveStakePct  = Just "0.01517156647812579800"
-      , _poolHstSaturationPct = "5.4500"
+      , _poolHstSaturationPct = Just "5.4500"
       , _poolHstBlockCnt  = Just 3
       , _poolHstDelegatorCnt = Just 23
       , _poolHstMargin = Just 0
@@ -273,7 +272,7 @@ poolInfoExpected =
     { _poolInfPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
     , _poolInfPoolIdHex = "552d7f65e42fdc4ed602a657b85bd7623a592d21e5dcf7b045132da8"
     , _poolInfActiveEpochNo = EpochNo 290
-    , _poolInfVrfKeyHash = Just "076102096f5fc37a47ff14390f7320c76ea769183d06881d53dc4ea1be51acae"
+    , _poolInfVrfKeyHash = "076102096f5fc37a47ff14390f7320c76ea769183d06881d53dc4ea1be51acae"
     , _poolInfMargin = 0
     , _poolInfFixedCost = 340000000
     , _poolInfPledge = 10000000000
@@ -301,7 +300,7 @@ poolInfoExpected =
           , _poolMetaJsonHomepage = Just "https://twitter.com/choco_stake"
           , _poolMetaJsonDescription = Just "Choco pool description"
           }
-    , _poolInfPoolStatus = "registered"
+    , _poolInfPoolStatus = Just "registered"
     , _poolInfRetiringEpoch = Nothing
     , _poolInfOpCert = Just "cdac991e5a547c86fe869b37eb58c77cc3804d2e592200c835da0b3dbfe8e763"
     , _poolInfOpCertCounter = Just 7
@@ -440,7 +439,7 @@ poolUpdatesExpected =
             , _poolRelInfoSrv = Nothing
             , _poolRelInfoIpv4 = Just "139.180.198.13"
             , _poolRelInfoIpv6 = Nothing
-            , _poolRelInfoPort = 6000
+            , _poolRelInfoPort = Just 6000
             }
           ]
       , _poolUpdateMetaUrl = Just "https://git.io/J0eoF"

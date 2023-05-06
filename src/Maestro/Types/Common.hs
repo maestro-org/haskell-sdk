@@ -3,6 +3,7 @@ module Maestro.Types.Common where
 import qualified Data.Aeson         as Aeson
 import           Data.Char          (toLower)
 import           Data.Default.Class
+import           Data.String        (IsString)
 import           Data.Text          (Text)
 import qualified Data.Text          as T
 import           Data.Word          (Word64)
@@ -42,6 +43,7 @@ newtype BlockHash = BlockHash {unBlockHash :: String}
 -- | Hash of the Transaction.
 newtype TxHash = TxHash {unTxHash :: Text}
   deriving stock (Show, Eq, Generic)
+  deriving newtype IsString
   deriving (FromJSON, ToJSON)
 
 type Bech32StringOf a = Text

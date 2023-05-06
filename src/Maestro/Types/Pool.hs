@@ -179,7 +179,7 @@ data PoolInfo = PoolInfo
   , _poolInfSigma          :: !(Maybe String)
   -- ^ Pool stake share
   , _poolInfVrfKeyHash     :: !(HashStringOf VrfKey)
-  -- VRF key hash
+  -- ^ VRF key hash
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
