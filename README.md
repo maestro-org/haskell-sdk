@@ -34,18 +34,19 @@
 2. Get API token for your project created at [gomaestro.org](https://www.gomaestro.org/).
 3. Create environment, against which we'll run our API endpoints:
 
-  ```haskell
-  import Maestro.Client.Env
+    ```haskell
+    import Maestro.Client.Env
 
-  myEnvPreprod <- mkMaestroEnv "Your-API-Key" Preprod
-  myEnvMainnet <- mkMaestroEnv "Your-API-Key" Mainnet
-  ```
+    myEnvPreprod <- mkMaestroEnv "Your-API-Key" Preprod
+    myEnvMainnet <- mkMaestroEnv "Your-API-Key" Mainnet
+    ```
+
 4. Now say we want to query endpoints belonging to _"General"_ category with respect to https://reference.gomaestro.org/, then looking at the haddock of exported interface for [`Maestro.Client.General`](TODO) module, say we are interested in endpoint to get for chain tip, we can obtain detailed information of the resulting type by seeing haddock of [`ChainTip`](TODO) type and query for it as follows: 
 
-  ```haskell
-  getChainTip myEnvPreprod  -- To get for Preprod network.
-  getChainTip myEnvMainnet  -- To get for Mainnet network.
-  ```
+    ```haskell
+    getChainTip myEnvPreprod  -- To get for Preprod network.
+    getChainTip myEnvMainnet  -- To get for Mainnet network.
+    ```
 
   And that's it!
 
