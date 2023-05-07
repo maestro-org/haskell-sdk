@@ -11,7 +11,7 @@ main :: IO ()
 
 main = do
     apiId <- maestroId
-    env <- mkMeastroEnv (T.pack apiId) Preprod
+    env <- mkMaestroEnv (T.pack apiId) Preprod
     runPoolsAPI env
     runTxApi env
 
