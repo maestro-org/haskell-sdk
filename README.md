@@ -4,7 +4,7 @@
   </a>
   <h2 align="center">Haskell SDK for the <a href="https://www.gomaestro.org/">Maestro</a> Blockchain Indexer API</h2>
   <p align="center">
-    <a href="TODO">
+    <a href="https://haddock.gomaestro.org/">
       <img src="https://img.shields.io/badge/-Haddock-5E5184?style=flat-square&logo=haskell&logoColor=white" />
     </a>
     <a href="https://docs.gomaestro.org/docs/intro">
@@ -45,11 +45,11 @@ getChainTip myEnvPreprod  -- Preprod
 getChainTip myEnvMainnet  -- Mainnet
 ```
 
-Other endpoints in the `General` category can be exmained in the [`Maestro.Client.General`](TODO) Haddock module.
+Other endpoints in the `General` category can be exmained in the [`Maestro.Client.General`](https://haddock.gomaestro.org/Maestro-Client-General.html) Haddock module.
 
 # Documentation
 
-* [SDK Haddock](TODO)
+* [SDK Haddock](https://haddock.gomaestro.org/)
 * [Maestro public docs](https://docs.gomaestro.org/)
 * [Maestro API reference](https://reference.gomaestro.org/)
 
