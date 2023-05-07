@@ -9,6 +9,7 @@ author:             support@gomaestro.org
 maintainer:         support@gomaestro.org
 copyright:          (c) 2023 Maestro Blockchain Inc
 build-type:         Simple
+category:           Blockchain, Cardano, SDK, API, REST
 extra-doc-files:    CHANGELOG.md
 extra-source-files: README.md
 
