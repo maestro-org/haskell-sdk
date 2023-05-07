@@ -1,16 +1,16 @@
 cabal-version:      3.0
 name:               maestro-sdk
 version:            0.1.0.0
--- synopsis:
--- description:
-license:            MIT
+synopsis:           Maestro Blockchain Indexer SDK
+description:        Maestro provides blockchain indexers, APIs and event management systems for the Cardano blockchain.
+license:            Apache-2.0
 license-file:       LICENSE
-author:             Piyush thapa
-maintainer:         piyush.codelabs@gmail.com
--- copyright:
+author:             support@gomaestro.org
+maintainer:         support@gomaestro.org
+copyright:          (c) 2023 Maestro Blockchain Inc
 build-type:         Simple
 extra-doc-files:    CHANGELOG.md
--- extra-source-files:
+extra-source-files: README.md
 
 common common 
     ghc-options: -Wall
