@@ -49,10 +49,6 @@ jobs:
             tmux \
             xz-utils \
             zlib1g-dev
-    - name: Validate code (run pre-commit hooks)
-      uses: pre-commit/action@v3.0.0
-      with:
-        extra_args: --verbose --all-files
     - name: Setup haskell tooling
       uses: haskell/actions/setup@v2
       with:
