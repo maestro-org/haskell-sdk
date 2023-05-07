@@ -13,6 +13,10 @@ category:           Blockchain, Cardano, SDK, API, REST
 extra-doc-files:    CHANGELOG.md
 extra-source-files: README.md
 
+source-repository head
+  type:     git
+  location: https://github.com/maestro-org/haskell-sdk
+
 common common 
     ghc-options: -Wall
     default-extensions:
