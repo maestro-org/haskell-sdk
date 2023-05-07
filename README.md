@@ -2,7 +2,7 @@
   <a href="https://www.gomaestro.org/">
     <img src="https://www.gomaestro.org/logos/LandingLogos/DarkLogo.svg" alt="Maestro Logo" width="425" />
   </a>
-  <h2 align="center">Haskell SDK for <a href="https://www.gomaestro.org/">Maestro</a> API</h2>
+  <h2 align="center">Haskell SDK for the <a href="https://www.gomaestro.org/">Maestro</a> Blockchain Indexer API</h2>
   <p align="center">
     <a href="TODO">
       <img src="https://img.shields.io/badge/-Haddock-5E5184?style=flat-square&logo=haskell&logoColor=white" />
@@ -31,28 +31,27 @@
 # Getting Started
 
 1. Add `maestro-sdk` to the `build-depends` of your project.
-2. Get API token for your project created at [gomaestro.org](https://www.gomaestro.org/).
-3. Create environment, against which we'll run our API endpoints:
+2. Create a [Maestro API key](https://docs.gomaestro.org/docs/Getting-started/Sign-up-login).
+3. Create environment for accessing the API:
+```haskell
+import Maestro.Client.Env
 
-    ```haskell
-    import Maestro.Client.Env
+myEnvPreprod <- mkMaestroEnv "Your-API-Key" Preprod
+myEnvMainnet <- mkMaestroEnv "Your-API-Key" Mainnet
+```
+4. Example: chain tip
+```haskell
+getChainTip myEnvPreprod  -- Preprod
+getChainTip myEnvMainnet  -- Mainnet
+```
 
-    myEnvPreprod <- mkMaestroEnv "Your-API-Key" Preprod
-    myEnvMainnet <- mkMaestroEnv "Your-API-Key" Mainnet
-    ```
-
-4. Now say we want to query endpoints belonging to _"General"_ category with respect to https://reference.gomaestro.org/, then looking at the haddock of exported interface for [`Maestro.Client.General`](TODO) module, say we are interested in endpoint to get for chain tip, we can obtain detailed information of the resulting type by seeing haddock of [`ChainTip`](TODO) type and query for it as follows: 
-
-    ```haskell
-    getChainTip myEnvPreprod  -- To get for Preprod network.
-    getChainTip myEnvMainnet  -- To get for Mainnet network.
-    ```
-
-  And that's it!
+Other endpoints in the `General` category can be exmained in the [`Maestro.Client.General`](TODO) Haddock module.
 
 # Documentation
 
-See haddock for this package [here](TODO) and for documentation for Maestro is available at [docs.gomaestro.org](https://docs.gomaestro.org/).
+* [SDK Haddock](TODO)
+* [Maestro public docs](https://docs.gomaestro.org/)
+* [Maestro API reference](https://reference.gomaestro.org/)
 
 # Contributing
 
