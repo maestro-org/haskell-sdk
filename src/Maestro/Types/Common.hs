@@ -1,4 +1,29 @@
-module Maestro.Types.Common where
+module Maestro.Types.Common
+  ( Tx,
+    TxIndex (..),
+    PolicyId (..),
+    AssetId (..),
+    EpochNo (..),
+    EpochSize (..),
+    AbsoluteSlot (..),
+    BlockHeight (..),
+    BlockHash (..),
+    TxHash (..),
+    Bech32StringOf (..),
+    HexStringOf,
+    HashStringOf (..),
+    DatumType (..),
+    Datum (..),
+    ScriptType (..),
+    ReferenceScript (..),
+    MaestroAsset (..),
+    Utxo (..),
+    TxCbor (..),
+    TxAddress (..),
+    Order (..),
+    LowerFirst,
+  )
+where
 
 import qualified Data.Aeson as Aeson
 import Data.Char (toLower)
@@ -10,6 +35,14 @@ import Data.Word (Word64)
 import Deriving.Aeson
 import GHC.Natural (Natural)
 import Web.HttpApiData
+
+-- | Phantom datatype to be used with constructors like `HashStringOf`.
+data Tx
+
+-- | Index of UTxO in a transaction outputs.
+newtype TxIndex = TxIndex Natural
+  deriving stock (Eq, Show, Generic)
+  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
 
 -- | Minting policy ID.
 newtype PolicyId = PolicyId Text

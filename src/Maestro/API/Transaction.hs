@@ -3,14 +3,11 @@ module Maestro.API.Transaction where
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Lazy as LBS
 import qualified Data.Text as T
-import GHC.Natural (Natural)
 import Maestro.Types.Common
 import Servant.API
 import Servant.API.Generic
 
 data CBORStream
-
-data Tx
 
 instance Accept CBORStream where
   contentType _ = "application/cbor"
@@ -50,7 +47,7 @@ data TxAPI route = TxAPI
         :- "transactions"
         :> Capture "tx_hash" (HashStringOf Tx)
         :> "outputs"
-        :> Capture "index" Natural
+        :> Capture "index" TxIndex
         :> "address"
         :> Get '[JSON] TxAddress,
     _txUtxo ::
@@ -58,7 +55,7 @@ data TxAPI route = TxAPI
         :- "transactions"
         :> Capture "tx_hash" (HashStringOf Tx)
         :> "outputs"
-        :> Capture "index" Natural
+        :> Capture "index" TxIndex
         :> "utxo"
         :> QueryParam "resolve_datums" Bool
         :> QueryParam "with_cbor" Bool

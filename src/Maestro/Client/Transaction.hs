@@ -9,7 +9,6 @@ where
 
 import qualified Data.ByteString as BS
 import Data.Text (Text)
-import GHC.Natural (Natural)
 import Maestro.API (_tx)
 import Maestro.API.Transaction
 import Maestro.Client
@@ -18,15 +17,6 @@ import Maestro.Types.Common
 import Servant.API.Generic
 import Servant.Client
 
-type CborEncodedByte = BS.ByteString
-
-type TxIndex = Natural
-
-type ResolveDatum = Bool
-
-type WithCbor = Bool
-
---
 txClient :: MaestroEnv -> TxAPI (AsClientT IO)
 txClient = fromServant . _tx . apiClient
 
@@ -37,7 +27,7 @@ submitAndMonitorTx ::
   -- | The Maestro Environment
   MaestroEnv ->
   -- | CBOR encoded Transaction
-  CborEncodedByte ->
+  BS.ByteString ->
   IO Text
 submitAndMonitorTx = _monitorTxSubmit . txClient
 
@@ -48,7 +38,7 @@ submitTx ::
   -- | The Maestro Environment
   MaestroEnv ->
   -- | CBOR encoded Transaction
-  CborEncodedByte ->
+  BS.ByteString ->
   IO Text
 submitTx = _submitTx . txClient
 
@@ -85,8 +75,8 @@ txUtxo ::
   -- | The Transaction Output Index
   TxIndex ->
   -- | Try find and include the corresponding datums for datum hashes
-  Maybe ResolveDatum ->
+  Maybe Bool ->
   -- | Include the CBOR encodings of the transaction outputs in the response
-  Maybe WithCbor ->
+  Maybe Bool ->
   IO Utxo
 txUtxo = _txUtxo . txClient
