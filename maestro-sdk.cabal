@@ -115,7 +115,6 @@ executable maestro-exe
       Maestro.Run.Pools
       Maestro.Run.Tx
     -- other-extensions:
-    type:             exitcode-stdio-1.0
     hs-source-dirs:   maestro-exe
     main-is:          Main.hs
     build-depends:
