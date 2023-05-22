@@ -42,12 +42,14 @@ library
       Maestro.API.Accounts
       Maestro.API.Address
       Maestro.API.Assets
+      Maestro.API.Epochs
       Maestro.API.General
       Maestro.API.Pool
       Maestro.API.Transaction
 
       Maestro.Client
       Maestro.Client.Env
+      Maestro.Client.Epochs
       Maestro.Client.Accounts
       Maestro.Client.Address
       Maestro.Client.Assets
@@ -60,7 +62,7 @@ library
       Maestro.Types.Address
       Maestro.Types.Assets
       Maestro.Types.Common
-      Maestro.Types.Epoch
+      Maestro.Types.Epochs
       Maestro.Types.General
       Maestro.Types.Pool
 
@@ -94,6 +96,7 @@ test-suite maestro-sdk-tests
     hs-source-dirs:   test
     main-is:          Driver.hs
     other-modules:
+        Maestro.Test.Epochs
         Maestro.Test.General
         Maestro.Test.Pool
         Maestro.Test.Transaction
@@ -118,6 +121,7 @@ executable maestro-exe
     other-modules:
       Maestro.Run.Pools
       Maestro.Run.Tx
+      Maestro.Run.Epochs
     -- other-extensions:
     hs-source-dirs:   maestro-exe
     main-is:          Main.hs

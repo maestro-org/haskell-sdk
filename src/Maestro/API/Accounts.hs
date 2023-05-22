@@ -31,7 +31,7 @@ data AccountsAPI route = AccountsAPI
       ::  route
       :- Capture "stake_addr" String
       :> "history"
-      :> QueryParam "epoch_no"  EpochNo
+      :> QueryParam "epoch_no" EpochNo
       :> Pagination
       :> Get  '[JSON] [AccountsHistory]
 
