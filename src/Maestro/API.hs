@@ -4,6 +4,7 @@ import           Data.Proxy              (Proxy (..))
 import           Maestro.API.Accounts
 import           Maestro.API.Address
 import           Maestro.API.Assets
+import           Maestro.API.Datum
 import           Maestro.API.Epochs
 import           Maestro.API.General
 import           Maestro.API.Pool
@@ -19,6 +20,7 @@ data MaestroApi route  = Routes
   , _pools    :: route :- "pools" :> ToServantApi PoolAPI
   , _tx       :: route :- ToServantApi TxAPI
   , _epochs   :: route :- "epochs" :> ToServantApi EpochsAPI
+  , _datum    :: route :- "datum" :> ToServantApi DatumAPI
   } deriving Generic
 
 api :: Proxy (ToServantApi MaestroApi)

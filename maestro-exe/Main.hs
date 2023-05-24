@@ -2,6 +2,7 @@ module Main (main) where
 
 import qualified Data.Text          as T
 import           Maestro.Client.Env
+import           Maestro.Run.Datum
 import           Maestro.Run.Epochs
 import           Maestro.Run.Pools
 import           Maestro.Run.Tx
@@ -16,6 +17,7 @@ main = do
     runPoolsAPI env
     runTxApi env
     runEpochsAPI env
+    runDatumAPI env
 
     where
       maestroId = getEnv  "MAESTRO_API_KEY"
