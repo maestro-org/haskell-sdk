@@ -12,8 +12,8 @@ module Maestro.Types.Common
     Bech32StringOf (..),
     HexStringOf,
     HashStringOf (..),
-    DatumType (..),
-    Datum (..),
+    DatumOptionType (..),
+    DatumOption (..),
     ScriptType (..),
     ReferenceScript (..),
     MaestroAsset (..),
@@ -25,16 +25,16 @@ module Maestro.Types.Common
   )
 where
 
-import qualified Data.Aeson as Aeson
-import Data.Char (toLower)
-import Data.Default.Class
-import Data.String (IsString)
-import Data.Text (Text)
-import qualified Data.Text as T
-import Data.Word (Word64)
-import Deriving.Aeson
-import GHC.Natural (Natural)
-import Web.HttpApiData
+import qualified Data.Aeson         as Aeson
+import           Data.Char          (toLower)
+import           Data.Default.Class
+import           Data.String        (IsString)
+import           Data.Text          (Text)
+import qualified Data.Text          as T
+import           Data.Word          (Word64)
+import           Deriving.Aeson
+import           GHC.Natural        (Natural)
+import           Web.HttpApiData
 
 -- | Phantom datatype to be used with constructors like `HashStringOf`.
 data Tx
@@ -98,22 +98,20 @@ newtype HashStringOf a = HashStringOf Text
   deriving stock (Eq, Show, Generic)
   deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON, IsString)
 
-data DatumType = Inline | Hash
+data DatumOptionType = Inline | Hash
   deriving stock (Show, Eq, Generic)
-  deriving
-    (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[LowerFirst]] DatumType
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[LowerFirst]] DatumOptionType
 
-data Datum = Datum
-  { _datumBytes :: !(Maybe Text),
-    _datumHash :: !Text,
-    _datumJson :: !(Maybe Aeson.Value),
-    _datumType :: !DatumType
+data DatumOption = DatumOption
+  { _datumOptionBytes :: !(Maybe Text),
+    _datumOptionHash  :: !Text,
+    _datumOptionJson  :: !(Maybe Aeson.Value),
+    _datumOptionType  :: !DatumOptionType
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_datum", LowerFirst]] Datum
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_datumOption", LowerFirst]] DatumOption
 
 data ScriptType = Native | Plutusv1 | Plutusv2
   deriving stock (Show, Eq, Generic)
@@ -123,9 +121,9 @@ data ScriptType = Native | Plutusv1 | Plutusv2
 
 data ReferenceScript = ReferenceScript
   { _refScriptBytes :: !(Maybe Text),
-    _refScriptHash :: !Text,
-    _refScriptJson :: !(Maybe Aeson.Value),
-    _refScriptType :: !ScriptType
+    _refScriptHash  :: !Text,
+    _refScriptJson  :: !(Maybe Aeson.Value),
+    _refScriptType  :: !ScriptType
   }
   deriving stock (Show, Eq, Generic)
   deriving
@@ -134,8 +132,8 @@ data ReferenceScript = ReferenceScript
 
 data MaestroAsset = MaestroAsset
   { _maestroAssetQuantity :: !Integer,
-    _maestroAssetUnit :: !(Maybe String),
-    _maestroAssetName :: !(Maybe String)
+    _maestroAssetUnit     :: !(Maybe String),
+    _maestroAssetName     :: !(Maybe String)
   }
   deriving stock (Show, Eq, Generic)
   deriving
@@ -144,12 +142,12 @@ data MaestroAsset = MaestroAsset
 
 -- | Transaction output
 data Utxo = Utxo
-  { _utxoAddress :: !Text,
-    _utxoAssets :: ![MaestroAsset],
-    _utxoDatum :: !(Maybe Datum),
-    _utxoIndex :: !Natural,
+  { _utxoAddress         :: !Text,
+    _utxoAssets          :: ![MaestroAsset],
+    _utxoDatum           :: !(Maybe DatumOption),
+    _utxoIndex           :: !Natural,
     _utxoReferenceScript :: !(Maybe ReferenceScript),
-    _utxoTxHash :: !Text
+    _utxoTxHash          :: !Text
   }
   deriving stock (Show, Eq, Generic)
   deriving
@@ -171,19 +169,19 @@ newtype TxAddress = TxAddress {_txAddress :: Text}
 data Order = Ascending | Descending
 
 instance ToHttpApiData Order where
-  toQueryParam Ascending = "asc"
+  toQueryParam Ascending  = "asc"
   toQueryParam Descending = "desc"
 
 instance Default Order where
   def = Ascending
 
 instance Show Order where
-  show Ascending = "asc"
+  show Ascending  = "asc"
   show Descending = "desc"
 
 -- | Will lower the first character for your type.
 data LowerFirst
 
 instance StringModifier LowerFirst where
-  getStringModifier "" = ""
+  getStringModifier ""       = ""
   getStringModifier (c : cs) = toLower c : cs

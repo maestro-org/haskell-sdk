@@ -1,13 +1,14 @@
 module Maestro.Types.Address where
 
 import           Deriving.Aeson
-import           Maestro.Types.Common (Datum, MaestroAsset, ReferenceScript)
+import           Maestro.Types.Common (DatumOption, MaestroAsset,
+                                       ReferenceScript)
 
 data AddressUtxo = AddressUtxo
   { _addressUtxoIndex           :: !Int
   , _addressUtxoTxHash          :: !String
   , _addressUtxoAssets          :: ![MaestroAsset]
-  , _addressUtxoDatum           :: !(Maybe Datum)
+  , _addressUtxoDatum           :: !(Maybe DatumOption)
   , _addressUtxoReferenceScript :: !(Maybe ReferenceScript)
   }
   deriving stock (Show, Eq, Generic)

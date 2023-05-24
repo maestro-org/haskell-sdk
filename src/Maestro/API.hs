@@ -19,7 +19,7 @@ data MaestroApi route  = Routes
   , _pools    :: route :- "pools" :> ToServantApi PoolAPI
   , _tx       :: route :- ToServantApi TxAPI
   , _epochs   :: route :- "epochs" :> ToServantApi EpochsAPI
-  } deriving(Generic)
+  } deriving Generic
 
 api :: Proxy (ToServantApi MaestroApi)
 api = genericApi (Proxy :: Proxy MaestroApi)
