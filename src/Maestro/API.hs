@@ -8,6 +8,7 @@ import           Maestro.API.Datum
 import           Maestro.API.Epochs
 import           Maestro.API.General
 import           Maestro.API.Pool
+import           Maestro.API.Scripts
 import           Maestro.API.Transaction
 import           Servant.API
 import           Servant.API.Generic
@@ -21,6 +22,7 @@ data MaestroApi route  = Routes
   , _tx       :: route :- ToServantApi TxAPI
   , _epochs   :: route :- "epochs" :> ToServantApi EpochsAPI
   , _datum    :: route :- "datum" :> ToServantApi DatumAPI
+  , _scripts  :: route :- "scripts" :> ToServantApi ScriptsAPI
   } deriving Generic
 
 api :: Proxy (ToServantApi MaestroApi)

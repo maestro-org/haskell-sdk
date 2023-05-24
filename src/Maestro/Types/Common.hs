@@ -113,11 +113,11 @@ data DatumOption = DatumOption
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_datumOption", LowerFirst]] DatumOption
 
-data ScriptType = Native | Plutusv1 | Plutusv2
+data ScriptType = Native | PlutusV1 | PlutusV2
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[LowerFirst]] ScriptType
+    via CustomJSON '[ConstructorTagModifier '[LowerAll]] ScriptType
 
 data ReferenceScript = ReferenceScript
   { _refScriptBytes :: !(Maybe Text),
@@ -185,3 +185,9 @@ data LowerFirst
 instance StringModifier LowerFirst where
   getStringModifier ""       = ""
   getStringModifier (c : cs) = toLower c : cs
+
+-- | Will lower all characters for your type.
+data LowerAll
+
+instance StringModifier LowerAll where
+  getStringModifier cs = toLower <$> cs

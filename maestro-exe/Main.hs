@@ -5,6 +5,7 @@ import           Maestro.Client.Env
 import           Maestro.Run.Datum
 import           Maestro.Run.Epochs
 import           Maestro.Run.Pools
+import           Maestro.Run.Scripts
 import           Maestro.Run.Tx
 import           System.Environment (getEnv)
 
@@ -18,6 +19,7 @@ main = do
     runTxApi env
     runEpochsAPI env
     runDatumAPI env
+    runScriptsAPI env
 
     where
       maestroId = getEnv  "MAESTRO_API_KEY"

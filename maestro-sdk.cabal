@@ -46,6 +46,7 @@ library
       Maestro.API.Epochs
       Maestro.API.General
       Maestro.API.Pool
+      Maestro.API.Scripts
       Maestro.API.Transaction
 
       Maestro.Client
@@ -57,6 +58,7 @@ library
       Maestro.Client.Assets
       Maestro.Client.General
       Maestro.Client.Pools
+      Maestro.Client.Scripts
       Maestro.Client.Transaction
 
       Maestro.Types
@@ -125,6 +127,7 @@ executable maestro-exe
     other-modules:
       Maestro.Run.Datum
       Maestro.Run.Pools
+      Maestro.Run.Scripts
       Maestro.Run.Tx
       Maestro.Run.Epochs
     -- other-extensions:
