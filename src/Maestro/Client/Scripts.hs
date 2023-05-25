@@ -15,5 +15,5 @@ scriptsClient :: MaestroEnv -> ScriptsAPI (AsClientT IO)
 scriptsClient = fromServant . _scripts . apiClient
 
 -- | Get information about the script from it's hash.
-getScriptByHash :: MaestroEnv -> Text -> IO ReferenceScript
+getScriptByHash :: MaestroEnv -> Text -> IO Script
 getScriptByHash = _scriptByHash . scriptsClient

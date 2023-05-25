@@ -15,7 +15,7 @@ module Maestro.Types.Common
     DatumOptionType (..),
     DatumOption (..),
     ScriptType (..),
-    ReferenceScript (..),
+    Script (..),
     MaestroAsset (..),
     Utxo (..),
     TxCbor (..),
@@ -119,16 +119,16 @@ data ScriptType = Native | PlutusV1 | PlutusV2
     (FromJSON, ToJSON)
     via CustomJSON '[ConstructorTagModifier '[LowerAll]] ScriptType
 
-data ReferenceScript = ReferenceScript
-  { _refScriptBytes :: !(Maybe Text),
-    _refScriptHash  :: !Text,
-    _refScriptJson  :: !(Maybe Aeson.Value),
-    _refScriptType  :: !ScriptType
+data Script = Script
+  { _scriptBytes :: !(Maybe Text),
+    _scriptHash  :: !Text,
+    _scriptJson  :: !(Maybe Aeson.Value),
+    _scriptType  :: !ScriptType
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_refScript", LowerFirst]] ReferenceScript
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script
 
 data MaestroAsset = MaestroAsset
   { _maestroAssetQuantity :: !Integer,
@@ -146,7 +146,7 @@ data Utxo = Utxo
     _utxoAssets          :: ![MaestroAsset],
     _utxoDatum           :: !(Maybe DatumOption),
     _utxoIndex           :: !Natural,
-    _utxoReferenceScript :: !(Maybe ReferenceScript),
+    _utxoReferenceScript :: !(Maybe Script),
     _utxoTxHash          :: !Text
   }
   deriving stock (Show, Eq, Generic)
