@@ -21,14 +21,13 @@ newtype MaestroEnv = MaestroEnv
 data MaestroNetwork = Mainnet | Preprod
 
 maestroBaseUrl :: MaestroNetwork -> String
-maestroBaseUrl  Preprod = "https://preprod.gomaestro-api.org/"
-maestroBaseUrl  Mainnet = "https://mainnet.gomaestro-api.org/"
+maestroBaseUrl Preprod = "https://preprod.gomaestro-api.org/v0"
+maestroBaseUrl Mainnet = "https://mainnet.gomaestro-api.org/v0"
 
 mkMaestroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
 mkMaestroEnv token nid = do
   clientEnv <- servantClientEnv token $ maestroBaseUrl nid
   pure $ MaestroEnv {_maeClientEnv = clientEnv}
-
 
 servantClientEnv :: MaestroToken -> String -> IO Servant.ClientEnv
 servantClientEnv token url = do
