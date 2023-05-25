@@ -85,7 +85,7 @@ library
       , servant-client
       , servant-client-core
       , text
-      , time ^>= 1.12.1
+      , time
       , http-client
       , http-client-tls
       , http-api-data
