@@ -103,10 +103,10 @@ txUtxoExpected  =
           }
 
     , _utxoReferenceScript  =
-        Just ReferenceScript
-        { _refScriptHash  = "3a888d65f16790950a72daee1f63aa05add6d268434107cfa5b67712"
-        , _refScriptBytes = Just "480100002221200101"
-        , _refScriptType  = PlutusV2
-        , _refScriptJson  = Nothing
+        Just Script
+        { _scriptHash  = "3a888d65f16790950a72daee1f63aa05add6d268434107cfa5b67712"
+        , _scriptBytes = Just "480100002221200101"
+        , _scriptType  = PlutusV2
+        , _scriptJson  = Nothing
         }
     }
