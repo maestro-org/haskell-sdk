@@ -10,15 +10,15 @@ module Maestro.Client.Pools
   )
 where
 
-import Maestro.API
-import Maestro.API.Pool
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Common
-import Maestro.Types.Pool
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Maestro.API
+import           Maestro.API.Pool
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Common
+import           Maestro.Types.Pool
+import           Maestro.Util.Pagination (Page)
+import           Servant.API.Generic
+import           Servant.Client
 
 poolsClient :: MaestroEnv -> PoolAPI (AsClientT IO)
 poolsClient = fromServant . _pools . apiClient

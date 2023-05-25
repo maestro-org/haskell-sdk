@@ -1,14 +1,14 @@
 module Maestro.Client.Assets where
 
-import Maestro.API (_assets)
-import Maestro.API.Assets
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Assets
-import Maestro.Types.Common
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Maestro.API             (_assets)
+import           Maestro.API.Assets
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Assets
+import           Maestro.Types.Common
+import           Maestro.Util.Pagination (Page)
+import           Servant.API.Generic
+import           Servant.Client
 
 assetClient :: MaestroEnv -> AssetsAPI (AsClientT IO)
 assetClient = fromServant . _assets . apiClient

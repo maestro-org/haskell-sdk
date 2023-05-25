@@ -7,7 +7,7 @@ module Maestro.Client.General
 
 import           Maestro.API           (_general)
 import           Maestro.API.General
-import           Maestro.Client
+import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types.General
 import           Servant.API.Generic

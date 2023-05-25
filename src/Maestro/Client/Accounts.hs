@@ -1,13 +1,13 @@
 module Maestro.Client.Accounts where
 
-import Maestro.API
-import Maestro.API.Accounts
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Maestro.API
+import           Maestro.API.Accounts
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types
+import           Maestro.Util.Pagination (Page)
+import           Servant.API.Generic
+import           Servant.Client
 
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)
 accountsClient = fromServant . _accounts . apiClient

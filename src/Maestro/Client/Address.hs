@@ -1,14 +1,14 @@
 module Maestro.Client.Address where
 
-import Data.Text (Text)
-import Maestro.API
-import Maestro.API.Address
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Address
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Data.Text               (Text)
+import           Maestro.API
+import           Maestro.API.Address
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Address
+import           Maestro.Util.Pagination (Page)
+import           Servant.API.Generic
+import           Servant.Client
 
 addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
 addressClient = fromServant . _address . apiClient

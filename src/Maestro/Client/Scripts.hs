@@ -5,7 +5,7 @@ module Maestro.Client.Scripts
 import           Data.Text           (Text)
 import           Maestro.API         (_scripts)
 import           Maestro.API.Scripts
-import           Maestro.Client
+import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types
 import           Servant.API.Generic

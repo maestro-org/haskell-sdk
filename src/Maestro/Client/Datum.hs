@@ -5,7 +5,7 @@ module Maestro.Client.Datum
 import           Data.Text           (Text)
 import           Maestro.API         (_datum)
 import           Maestro.API.Datum
-import           Maestro.Client
+import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types
 import           Servant.API.Generic

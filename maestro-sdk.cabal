@@ -50,6 +50,7 @@ library
       Maestro.API.Transaction
 
       Maestro.Client
+      Maestro.Client.Core
       Maestro.Client.Datum
       Maestro.Client.Env
       Maestro.Client.Epochs

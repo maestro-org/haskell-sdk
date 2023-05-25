@@ -7,15 +7,15 @@ module Maestro.Client.Transaction
   )
 where
 
-import qualified Data.ByteString as BS
-import Data.Text (Text)
-import Maestro.API (_tx)
-import Maestro.API.Transaction
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Common
-import Servant.API.Generic
-import Servant.Client
+import qualified Data.ByteString         as BS
+import           Data.Text               (Text)
+import           Maestro.API             (_tx)
+import           Maestro.API.Transaction
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Common
+import           Servant.API.Generic
+import           Servant.Client
 
 txClient :: MaestroEnv -> TxAPI (AsClientT IO)
 txClient = fromServant . _tx . apiClient
