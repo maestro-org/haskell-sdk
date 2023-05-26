@@ -37,4 +37,4 @@ servantClientEnv token url = do
   pure $ Servant.mkClientEnv manager baseUrl
 
   where
-    addTokenHeader req  = pure $ req {requestHeaders = [("api-key", encodeUtf8 token)]}
+    addTokenHeader req  = pure $ req {requestHeaders = [("api-key", encodeUtf8 token), ("Content-Type", "application/json")]}
