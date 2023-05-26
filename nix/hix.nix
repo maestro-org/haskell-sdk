@@ -10,11 +10,9 @@
   # ]);
 
   # Tools to include in the development shell
-    shell = {
-    	tools = {
-    	  cabal = "latest";
-    	  hlint = "3.4.1";
-    	  haskell-language-server = { version = "1.8.0.0"; index-state = "2022-12-17T00:00:00Z"; };
-    	};
-    };
+  shell.tools.cabal = "latest";
+  shell.tools.hlint = "3.4.1";
+  shell.tools.haskell-language-server = { version = "1.8.0.0"; index-state = "2022-12-17T00:00:00Z"; };
+
+  shell.buildInputs = with pkgs; [zlib zlib.dev zlib.out];
 }
