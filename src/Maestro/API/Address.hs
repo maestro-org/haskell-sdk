@@ -9,13 +9,13 @@ import           Servant.API.Generic
 data AddressAPI route = AddressAPI
   {
 
-  _addressesUtxos
+    _addressesUtxos
       :: route
       :- "utxos"
       :> QueryParam "resolve_datums"  Bool
       :> QueryParam "with_cbor"  Bool
       :> Pagination
-      :> ReqBody '[JSON][Text]
+      :> ReqBody '[JSON] [Text]
       :> Post '[JSON] [AddressUtxo]
 
   , _addressUtxo
