@@ -3,6 +3,7 @@ module Maestro.Client
     module Maestro.Client.Accounts
   , module Maestro.Client.Address
   , module Maestro.Client.Assets
+  , module Maestro.Client.Core
   , module Maestro.Client.Datum
   , module Maestro.Client.Env
   , module Maestro.Client.Epochs
@@ -16,6 +17,7 @@ module Maestro.Client
 import           Maestro.Client.Accounts
 import           Maestro.Client.Address
 import           Maestro.Client.Assets
+import           Maestro.Client.Core
 import           Maestro.Client.Datum
 import           Maestro.Client.Env
 import           Maestro.Client.Epochs

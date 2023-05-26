@@ -89,6 +89,7 @@ library
       , time
       , http-client
       , http-client-tls
+      , http-types
       , http-api-data
       , data-default-class
 
