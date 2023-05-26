@@ -6,7 +6,10 @@
   outputs = { self, nixpkgs, flake-utils, haskellNix }:
     let
       supportedSystems = [
-        "x86_64-linux"	"x86_64-darwin" 
+        "x86_64-linux"
+        "x86_64-darwin"
+        "aarch64-linux"
+        "aarch64-darwin"
       ];
     in
       flake-utils.lib.eachSystem supportedSystems (system:
@@ -31,6 +34,7 @@
     # This sets the flake to use the IOG nix cache.
     # Nix should ask for permission before using it,
     # but remove it here if you do not want it to.
+    extra-substituters = ["https://cache.iog.io"];
     allow-import-from-derivation = "true";
   };
 }
