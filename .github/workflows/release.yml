@@ -52,3 +52,15 @@ jobs:
           "./artifacts/${{ env.MAESTRO_SDK_VERSION }}.tar.gz#Source distribution file (tar.gz)" \
           "./artifacts/${HADDOCK_FILE}#Haddock (tar)"
         echo "::notice::Succesfully created release draft ${SEMANTIC_VERSION} from ${GIT_REVISION}. (Uploaded: ${{ env.MAESTRO_SDK_VERSION }}.tar.gz)"
+    - name: Setup haskell tooling
+      uses: haskell/actions/setup@v2
+      with:
+        ghc-version: '8.10.7'
+        cabal-version: '3.8'
+        enable-stack: true
+    - name: Publish to Hackage
+      run: |
+        dir=$(mktemp -d dist-docs.${MAESTRO_SDK_VERSION})
+        trap 'rm -r "$dir"' EXIT
+        cabal v2-haddock --builddir="$dir" --haddock-for-hackage --enable-doc
+        cabal upload -d --publish $dir/*-docs.tar.gz
