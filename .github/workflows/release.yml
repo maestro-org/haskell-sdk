@@ -58,9 +58,11 @@ jobs:
         ghc-version: '8.10.7'
         cabal-version: '3.8'
         enable-stack: true
-    - name: Publish to Hackage
+    - name: Update dependencies (cabal)
+      run: cabal v2-update
+    - name: Publish to Hackage (cabal)
       run: |
-        dir=$(mktemp -d dist-docs.${MAESTRO_SDK_VERSION})
+        dir=$(mktemp -d dist-docs.XXXXXX)
         trap 'rm -r "$dir"' EXIT
         cabal v2-haddock --builddir="$dir" --haddock-for-hackage --enable-doc
         cabal upload -d --publish $dir/*-docs.tar.gz
