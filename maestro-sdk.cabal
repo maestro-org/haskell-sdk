@@ -42,12 +42,15 @@ library
       Maestro.API.Accounts
       Maestro.API.Address
       Maestro.API.Assets
+      Maestro.API.Datum
       Maestro.API.Epochs
       Maestro.API.General
       Maestro.API.Pool
+      Maestro.API.Scripts
       Maestro.API.Transaction
 
       Maestro.Client
+      Maestro.Client.Datum
       Maestro.Client.Env
       Maestro.Client.Epochs
       Maestro.Client.Accounts
@@ -55,6 +58,7 @@ library
       Maestro.Client.Assets
       Maestro.Client.General
       Maestro.Client.Pools
+      Maestro.Client.Scripts
       Maestro.Client.Transaction
 
       Maestro.Types
@@ -62,6 +66,7 @@ library
       Maestro.Types.Address
       Maestro.Types.Assets
       Maestro.Types.Common
+      Maestro.Types.Datum
       Maestro.Types.Epochs
       Maestro.Types.General
       Maestro.Types.Pool
@@ -96,6 +101,7 @@ test-suite maestro-sdk-tests
     hs-source-dirs:   test
     main-is:          Driver.hs
     other-modules:
+        Maestro.Test.Datum
         Maestro.Test.Epochs
         Maestro.Test.General
         Maestro.Test.Pool
@@ -119,7 +125,9 @@ executable maestro-exe
     import:           common
     default-language: Haskell2010
     other-modules:
+      Maestro.Run.Datum
       Maestro.Run.Pools
+      Maestro.Run.Scripts
       Maestro.Run.Tx
       Maestro.Run.Epochs
     -- other-extensions:

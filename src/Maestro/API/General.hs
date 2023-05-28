@@ -23,4 +23,4 @@ data GeneralAPI route =
         :: route
         :- "chain-tip"
         :> Get '[JSON] ChainTip
-    } deriving (Generic)
+    } deriving Generic
