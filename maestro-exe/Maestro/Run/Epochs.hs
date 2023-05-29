@@ -1,7 +1,6 @@
 module Maestro.Run.Epochs where
 
-import           Maestro.Client.Env
-import           Maestro.Client.Epochs
+import           Maestro.Client
 
 runEpochsAPI :: MaestroEnv -> IO ()
 runEpochsAPI mEnv = do

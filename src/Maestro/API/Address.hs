@@ -3,7 +3,7 @@ module Maestro.API.Address where
 import           Data.Text               (Text)
 import           Maestro.Types.Address
 import           Maestro.Types.Common    (Utxo)
-import           Maestro.Util.Pagination
+import           Maestro.Client.Core.Pagination
 import           Servant.API
 import           Servant.API.Generic
 

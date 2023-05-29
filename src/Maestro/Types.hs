@@ -9,7 +9,6 @@ module Maestro.Types
   , module Maestro.Types.Common
   , module Maestro.Types.General
   , module Maestro.Types.Pool
-  , Page (..)
   ) where
 
 import           Maestro.Types.Accounts
@@ -20,4 +19,3 @@ import           Maestro.Types.Datum
 import           Maestro.Types.Epochs
 import           Maestro.Types.General
 import           Maestro.Types.Pool
-import           Maestro.Util.Pagination (Page (..))

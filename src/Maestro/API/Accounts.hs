@@ -2,7 +2,7 @@ module Maestro.API.Accounts where
 
 import           Maestro.Types.Accounts
 import           Maestro.Types.Common
-import           Maestro.Util.Pagination
+import           Maestro.Client.Core.Pagination
 import           Servant.API
 import           Servant.API.Generic
 

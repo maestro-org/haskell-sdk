@@ -6,15 +6,17 @@ module Maestro.Client.Core
   , apiClient
   , MaestroError (..)
   , fromServantClientError
+  , module Maestro.Client.Core.Pagination
   ) where
 
-import           Control.Exception      (Exception, throwIO)
-import           Data.Aeson             (decode)
-import           Data.Text              (Text)
+import           Control.Exception              (Exception, throwIO)
+import           Data.Aeson                     (decode)
+import           Data.Text                      (Text)
 import           Deriving.Aeson
 import           Maestro.API
+import           Maestro.Client.Core.Pagination
 import           Maestro.Client.Env
-import           Maestro.Types.Common   (LowerFirst)
+import           Maestro.Types.Common           (LowerFirst)
 import           Network.HTTP.Types
 import           Servant.Client
 import           Servant.Client.Generic

@@ -1,7 +1,7 @@
 module Maestro.API.Pool where
 
 import Maestro.Types
-import Maestro.Util.Pagination
+import Maestro.Client.Core.Pagination
 import Servant.API
 import Servant.API.Generic
 

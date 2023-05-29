@@ -51,6 +51,7 @@ library
 
       Maestro.Client
       Maestro.Client.Core
+      Maestro.Client.Core.Pagination
       Maestro.Client.Datum
       Maestro.Client.Env
       Maestro.Client.Epochs
@@ -71,8 +72,6 @@ library
       Maestro.Types.Epochs
       Maestro.Types.General
       Maestro.Types.Pool
-
-      Maestro.Util.Pagination
 
     -- other-modules:
     -- other-extensions:

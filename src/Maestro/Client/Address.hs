@@ -1,13 +1,12 @@
 module Maestro.Client.Address where
 
-import           Data.Text               (Text)
+import           Data.Text             (Text)
 import           Maestro.API
 import           Maestro.API.Address
 import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types.Address
-import           Maestro.Types.Common    (Utxo)
-import           Maestro.Util.Pagination (Page)
+import           Maestro.Types.Common  (Utxo)
 import           Servant.API.Generic
 import           Servant.Client
 

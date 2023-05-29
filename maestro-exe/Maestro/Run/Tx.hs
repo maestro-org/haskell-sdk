@@ -1,7 +1,6 @@
 module Maestro.Run.Tx where
 
-import Maestro.Client.Env
-import Maestro.Client.Transaction
+import Maestro.Client
 import Maestro.Types
 
 txHash :: HashStringOf Tx
