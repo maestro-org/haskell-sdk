@@ -5,27 +5,26 @@ import           Maestro.API.Accounts
 import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types
-import           Maestro.Util.Pagination (Page)
 import           Servant.API.Generic
 import           Servant.Client
 
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)
 accountsClient = fromServant . _accounts . apiClient
 
-getAccount :: MaestroEnv -> String -> IO AccountsInfo
+getAccount :: MaestroEnv -> String -> IO AccountInfo
 getAccount = _account . accountsClient
 
 listAccountAddresses :: MaestroEnv -> String -> Page -> IO [String]
 listAccountAddresses = _accountAddresses . accountsClient
 
-listAccountAssets :: MaestroEnv -> String -> Page -> IO [AccountsAssets]
+listAccountAssets :: MaestroEnv -> String -> Page -> IO [Asset]
 listAccountAssets = _accountAssets . accountsClient
 
-listAccountHistory :: MaestroEnv -> String -> Maybe EpochNo -> Page -> IO [AccountsHistory]
+listAccountHistory :: MaestroEnv -> String -> Maybe EpochNo -> Page -> IO [AccountHistory]
 listAccountHistory = _accountsHistory . accountsClient
 
-listAccountRewards :: MaestroEnv -> String -> Page -> IO [AccountsRewards]
+listAccountRewards :: MaestroEnv -> String -> Page -> IO [AccountReward]
 listAccountRewards = _accountsReward . accountsClient
 
-listAccountUpdates :: MaestroEnv -> String -> Page -> IO [AccountsUpdates]
+listAccountUpdates :: MaestroEnv -> String -> Page -> IO [AccountUpdate]
 listAccountUpdates = _accountsUpdates . accountsClient

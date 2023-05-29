@@ -11,7 +11,7 @@ data AccountsAPI route = AccountsAPI
     _account
       :: route
       :- Capture "stake_addr" String
-      :> Get '[JSON] AccountsInfo
+      :> Get '[JSON] AccountInfo
 
   , _accountAddresses
       ::  route
@@ -25,7 +25,7 @@ data AccountsAPI route = AccountsAPI
       :- Capture "stake_addr" String
       :> "assets"
       :> Pagination
-      :> Get  '[JSON] [AccountsAssets]
+      :> Get  '[JSON] [Asset]
 
   , _accountsHistory
       ::  route
@@ -33,20 +33,20 @@ data AccountsAPI route = AccountsAPI
       :> "history"
       :> QueryParam "epoch_no" EpochNo
       :> Pagination
-      :> Get  '[JSON] [AccountsHistory]
+      :> Get  '[JSON] [AccountHistory]
 
   , _accountsReward
       ::  route
       :- Capture "stake_addr" String
       :> "rewards"
       :> Pagination
-      :> Get  '[JSON] [AccountsRewards]
+      :> Get  '[JSON] [AccountReward]
 
   , _accountsUpdates
       ::  route
       :- Capture "stake_addr" String
       :> "updates"
       :> Pagination
-      :> Get  '[JSON] [AccountsUpdates]
+      :> Get  '[JSON] [AccountUpdate]
 
   } deriving (Generic)

@@ -6,6 +6,7 @@ import           Maestro.API.Address
 import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types.Address
+import           Maestro.Types.Common    (Utxo)
 import           Maestro.Util.Pagination (Page)
 import           Servant.API.Generic
 import           Servant.Client
@@ -26,7 +27,7 @@ utxosForMultiAddresses ::
   Page ->
   -- | List of Address in bech32 format to fetch utxo from
   [Text] ->
-  IO [AddressUtxo]
+  IO [Utxo]
 utxosForMultiAddresses = _addressesUtxos . addressClient
 
 -- |
@@ -41,7 +42,7 @@ utxosForAddress ::
   Maybe Bool ->
   -- | The pagination attributes
   Page ->
-  IO [AddressUtxo]
+  IO [Utxo]
 utxosForAddress = _addressUtxo . addressClient
 
 -- |
@@ -52,7 +53,7 @@ getUtxoRef ::
   Text ->
   -- | The pagination attributes
   Page ->
-  IO [AddressUtxoRef]
+  IO [UtxoRef]
 getUtxoRef = _addressUtxoRefs . addressClient
 
 -- |

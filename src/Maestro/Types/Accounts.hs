@@ -1,10 +1,16 @@
-module Maestro.Types.Accounts where
+module Maestro.Types.Accounts
+  ( AccountInfo (..)
+  , Asset (..)
+  , AccountHistory (..)
+  , AccountReward (..)
+  , AccountUpdate (..)
+  ) where
 
 import           Deriving.Aeson
 
 -- | Information about an account
-data AccountsInfo = AccountsInfo
-  {  _accountInfoDelegatedPool   :: !String
+data AccountInfo = AccountInfo
+  { _accountInfoDelegatedPool    :: !String
   , _accountInfoRegistered       :: !Bool
   , _accountInfoRewardsAvailable :: !Integer
   , _accountInfoStakeAddress     :: !String
@@ -15,30 +21,30 @@ data AccountsInfo = AccountsInfo
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountInfo", CamelToSnake]] AccountsInfo
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountInfo", CamelToSnake]] AccountInfo
 
 
 -- | Information about an Account Assets
-data AccountsAssets = AccountsAssets
-  { _accountAssetQuantity :: !Integer
-  , _accountAssetUnit     :: !String
+data Asset = Asset
+  { _assetQuantity :: !Integer
+  , _assetUnit     :: !String
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountAsset", CamelToSnake]] AccountsAssets
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
 
 -- | Information about an Account Assets
-data AccountsHistory = AccountsHistory
+data AccountHistory = AccountHistory
   { _accountHistoryActiveStake :: !Integer
   , _accountHistoryEpochNo     :: !Integer
   , _accountHistoryPoolId      :: !String
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountHistory", CamelToSnake]] AccountsHistory
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountHistory", CamelToSnake]] AccountHistory
 
 -- | Information about an Account Assets
-data AccountsRewards = AccountsRewards
+data AccountReward = AccountReward
   { _accountRewardAmount         :: !Integer
   , _accountRewardEarnedEpoch    :: !Integer
   , _accountRewardPoolId         :: !String
@@ -47,10 +53,10 @@ data AccountsRewards = AccountsRewards
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountReward", CamelToSnake]] AccountsRewards
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountReward", CamelToSnake]] AccountReward
 
 -- | Information about an Account Assets
-data AccountsUpdates = AccountsUpdates
+data AccountUpdate = AccountUpdate
   { _accountUpdateAbsSlot :: !Integer
   , _accountUpdateAction  :: !String
   , _accountUpdateEpoch   :: !Integer
@@ -58,4 +64,4 @@ data AccountsUpdates = AccountsUpdates
   }
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
-  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountUpdate", CamelToSnake]] AccountsUpdates
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_accountUpdate", CamelToSnake]] AccountUpdate

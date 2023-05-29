@@ -22,7 +22,7 @@ listAssetInfoByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetInfo]
+  IO [AssetInfo]
 listAssetInfoByPolicyId = _assetPolicyInfo . assetClient
 
 -- |
@@ -46,7 +46,7 @@ listTxByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetTx]
+  IO [AssetTx]
 listTxByPolicyId = _assetPolicyTxs . assetClient
 
 -- |
@@ -58,7 +58,7 @@ listUtxosByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetUtxo]
+  IO [AssetUtxo]
 listUtxosByPolicyId = _assetPolicyUtxos . assetClient
 
 -- |
@@ -68,7 +68,7 @@ getAssetDetail ::
   MaestroEnv ->
   -- | Asset, encoded as concatenation of hex of policy ID and asset name
   AssetId ->
-  IO MaestroAssetInfo
+  IO AssetInfo
 getAssetDetail = _assetDetail . assetClient
 
 -- |
@@ -94,7 +94,7 @@ listAssetTx ::
   -- | The Pagination
   Page ->
   Maybe Order ->
-  IO [MaestroAssetTx]
+  IO [AssetTx]
 listAssetTx = _assetTxs . assetClient
 
 -- |
@@ -108,7 +108,7 @@ listAssetUpdates ::
   Page ->
   -- | The order in which the results are sorted (by block height)
   Maybe Order ->
-  IO [MaestroAssetUpdates]
+  IO [MintingTx]
 listAssetUpdates = _assetUpdates . assetClient
 
 -- |
@@ -120,5 +120,5 @@ listAssetUtxos ::
   AssetId ->
   -- | The Pagination
   Page ->
-  IO [MaestroAssetUtxo]
+  IO [AssetUtxo]
 listAssetUtxos = _assetUtxos . assetClient
