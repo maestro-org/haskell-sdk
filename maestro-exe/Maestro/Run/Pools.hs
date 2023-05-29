@@ -3,7 +3,6 @@ module Maestro.Run.Pools where
 import Maestro.Client.Env
 import Maestro.Client.Pools
 import Maestro.Types
-import Maestro.Util.Pagination
 
 poolId :: Bech32StringOf PoolId
 poolId = "pool1rkfs9glmfva3jd0q9vnlqvuhnrflpzj4l07u6sayfx5k7d788us"

@@ -52,7 +52,7 @@ newtype SystemStart = SystemStart { _systemStartTime :: LocalTime }
 -- | The 0-based index for the Ourboros time slot.
 newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Enum, Bounded, Num, ToJSON, FromJSON)
+  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON)
 
 -- | Network era summary.
 data EraSummary = EraSummary

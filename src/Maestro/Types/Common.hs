@@ -41,8 +41,8 @@ data Tx
 
 -- | Index of UTxO in a transaction outputs.
 newtype TxIndex = TxIndex Natural
-  deriving stock (Eq, Show, Generic)
-  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving newtype (Num, Enum, Real, Integral, FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
 
 -- | Minting policy ID.
 newtype PolicyId = PolicyId Text
@@ -74,8 +74,8 @@ newtype AbsoluteSlot = AbsoluteSlot {unAbsoluteSlot :: Natural}
 
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
-  deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON)
+  deriving stock (Show, Eq, Ord, Generic)
+  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON)
 
 -- | Hash of the block.
 newtype BlockHash = BlockHash {unBlockHash :: String}
