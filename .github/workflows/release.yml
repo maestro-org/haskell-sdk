@@ -60,9 +60,9 @@ jobs:
         enable-stack: true
     - name: Update dependencies (cabal)
       run: cabal v2-update
-    - name: Publish to Hackage (cabal)
-      run: |
-        dir=$(mktemp -d dist-docs.XXXXXX)
-        trap 'rm -r "$dir"' EXIT
-        cabal v2-haddock --builddir="$dir" --haddock-for-hackage --enable-doc
-        cabal upload -d --publish $dir/*-docs.tar.gz
+    # - name: Publish to Hackage (cabal)
+    #   run: |
+    #     dir=$(mktemp -d dist-docs.XXXXXX)
+    #     trap 'rm -r "$dir"' EXIT
+    #     cabal v2-haddock --builddir="$dir" --haddock-for-hackage --enable-doc
+    #     cabal upload -d --publish $dir/*-docs.tar.gz
