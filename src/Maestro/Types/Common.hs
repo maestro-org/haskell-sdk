@@ -16,10 +16,10 @@ module Maestro.Types.Common
     DatumOption (..),
     ScriptType (..),
     Script (..),
-    MaestroAsset (..),
+    Asset (..),
     Utxo (..),
     TxCbor (..),
-    TxAddress (..),
+    UtxoAddress (..),
     Order (..),
     LowerFirst,
   )
@@ -78,7 +78,7 @@ newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
   deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON)
 
 -- | Hash of the block.
-newtype BlockHash = BlockHash {unBlockHash :: String}
+newtype BlockHash = BlockHash {unBlockHash :: Text}
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
 
@@ -130,20 +130,19 @@ data Script = Script
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script
 
-data MaestroAsset = MaestroAsset
-  { _maestroAssetQuantity :: !Integer,
-    _maestroAssetUnit     :: !(Maybe String),
-    _maestroAssetName     :: !(Maybe String)
+data Asset = Asset
+  { _assetQuantity :: !Integer
+  , _assetUnit     :: !Text
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_maestroAsset", CamelToSnake]] MaestroAsset
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
 
 -- | Transaction output
 data Utxo = Utxo
   { _utxoAddress         :: !Text,
-    _utxoAssets          :: ![MaestroAsset],
+    _utxoAssets          :: ![Asset],
     _utxoDatum           :: !(Maybe DatumOption),
     _utxoIndex           :: !Natural,
     _utxoReferenceScript :: !(Maybe Script),
@@ -160,11 +159,11 @@ newtype TxCbor = TxCbor {_txCbor :: Text}
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_tx", LowerFirst]] TxCbor
 
-newtype TxAddress = TxAddress {_txAddress :: Text}
+newtype UtxoAddress = UtxoAddress {_utxoAddressAddress :: Text}
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_tx", LowerFirst]] TxAddress
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoAddress", LowerFirst]] UtxoAddress
 
 data Order = Ascending | Descending
 

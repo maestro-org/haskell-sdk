@@ -20,7 +20,7 @@ runTxApi mEnv = do
   utxo <- runTxUtxo mEnv
   putStrLn $ "fetched Tx Utxos: \n " ++ show utxo
 
-runTxAddress :: MaestroEnv -> IO TxAddress
+runTxAddress :: MaestroEnv -> IO UtxoAddress
 runTxAddress mEnv = txAddress mEnv txHash $ TxIndex 0
 
 runTxCbor :: MaestroEnv -> IO TxCbor

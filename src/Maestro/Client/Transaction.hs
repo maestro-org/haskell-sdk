@@ -62,7 +62,7 @@ txAddress ::
   HashStringOf Tx ->
   -- | The Transaction Output Index
   TxIndex ->
-  IO TxAddress
+  IO UtxoAddress
 txAddress = _txAddressApi . txClient
 
 -- |

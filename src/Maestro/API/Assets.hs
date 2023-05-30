@@ -1,10 +1,11 @@
 module Maestro.API.Assets where
 
-import Maestro.Types.Assets
-import Maestro.Types.Common
-import Maestro.Client.Core.Pagination
-import Servant.API
-import Servant.API.Generic
+import           Data.Text                      (Text)
+import           Maestro.Client.Core.Pagination
+import           Maestro.Types.Assets
+import           Maestro.Types.Common
+import           Servant.API
+import           Servant.API.Generic
 
 data AssetsAPI route = AssetsAPI
   { _assetPolicyInfo ::
@@ -19,7 +20,7 @@ data AssetsAPI route = AssetsAPI
         :> Capture "policy" PolicyId
         :> "addresses"
         :> Pagination
-        :> Get '[JSON] [String],
+        :> Get '[JSON] [Text],
     _assetPolicyTxs ::
       route
         :- "policy"
@@ -33,7 +34,7 @@ data AssetsAPI route = AssetsAPI
         :> Capture "policy" PolicyId
         :> "utxos"
         :> Pagination
-        :> Get '[JSON] [AssetUtxo],
+        :> Get '[JSON] [PolicyUtxo],
     _assetDetail ::
       route
         :- Capture "asset" AssetId
@@ -43,7 +44,7 @@ data AssetsAPI route = AssetsAPI
         :- Capture "asset" AssetId
         :> "addresses"
         :> Pagination
-        :> Get '[JSON] [String],
+        :> Get '[JSON] [Text],
     _assetTxs ::
       route
         :- Capture "asset" AssetId

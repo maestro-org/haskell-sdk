@@ -23,7 +23,7 @@ poolsClient :: MaestroEnv -> PoolAPI (AsClientT IO)
 poolsClient = fromServant . _pools . apiClient
 
 -- | Returns a list of currently registered stake pools
-listPools :: MaestroEnv -> Page -> IO [Pool]
+listPools :: MaestroEnv -> Page -> IO [PoolListInfo]
 listPools = _listPools . poolsClient
 
 -- | Return information about blocks minted by a given pool for all epochs
@@ -52,5 +52,5 @@ poolRelays :: MaestroEnv -> Bech32StringOf PoolId -> IO [PoolRelay]
 poolRelays = _poolRelays . poolsClient
 
 -- | Returns a list of updates relating to the specified pool
-poolUpdates :: MaestroEnv -> Bech32StringOf PoolId -> IO [PoolUpdates]
+poolUpdates :: MaestroEnv -> Bech32StringOf PoolId -> IO [PoolUpdate]
 poolUpdates = _poolUpdates . poolsClient

@@ -49,7 +49,7 @@ data TxAPI route = TxAPI
         :> "outputs"
         :> Capture "index" TxIndex
         :> "address"
-        :> Get '[JSON] TxAddress,
+        :> Get '[JSON] UtxoAddress,
     _txUtxo ::
       route
         :- "transactions"

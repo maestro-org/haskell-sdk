@@ -40,10 +40,10 @@ runPoolsAPI mEnv = do
   updates <- runPoolInfo mEnv
   putStrLn $ "fetched pool Updates: \n " ++ show updates
 
-runPoolUpdates :: MaestroEnv -> IO [PoolUpdates]
+runPoolUpdates :: MaestroEnv -> IO [PoolUpdate]
 runPoolUpdates mEnv = poolUpdates mEnv poolId
 
-runListPools :: MaestroEnv -> IO [Pool]
+runListPools :: MaestroEnv -> IO [PoolListInfo]
 runListPools mEnv = listPools mEnv (Page 1 1)
 
 runPoolBlocks :: MaestroEnv -> IO [PoolBlock]

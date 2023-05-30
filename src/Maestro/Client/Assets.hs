@@ -1,5 +1,6 @@
 module Maestro.Client.Assets where
 
+import           Data.Text            (Text)
 import           Maestro.API          (_assets)
 import           Maestro.API.Assets
 import           Maestro.Client.Core
@@ -33,7 +34,7 @@ listAssetAddressByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [String]
+  IO [Text]
 listAssetAddressByPolicyId = _assetPolicyAddress . assetClient
 
 -- |
@@ -57,7 +58,7 @@ listUtxosByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [AssetUtxo]
+  IO [PolicyUtxo]
 listUtxosByPolicyId = _assetPolicyUtxos . assetClient
 
 -- |
@@ -78,7 +79,7 @@ listAssetAddresses ::
   -- | Asset, encoded as concatenation of hex of policy ID and asset name
   AssetId ->
   Page ->
-  IO [String]
+  IO [Text]
 listAssetAddresses = _assetAddresses . assetClient
 
 -- |

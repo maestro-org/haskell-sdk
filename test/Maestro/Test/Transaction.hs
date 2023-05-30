@@ -38,8 +38,8 @@ txAddressSample = [r|
   }
 |]
 
-txAddressExpected :: TxAddress
-txAddressExpected = TxAddress {_txAddress = "addr1wxgg25t3tk30jqzl2elqz94lzgmr8a9c9m5z902ds5sjh0g7uaj8z"}
+txAddressExpected :: UtxoAddress
+txAddressExpected = UtxoAddress {_utxoAddressAddress = "addr1wxgg25t3tk30jqzl2elqz94lzgmr8a9c9m5z902ds5sjh0g7uaj8z"}
 
 txUtxoSample  :: ByteString
 txUtxoSample  = [r|
@@ -81,16 +81,14 @@ txUtxoExpected  =
     , _utxoIndex  = 0
     , _utxoAssets =
         [
-          MaestroAsset
-            { _maestroAssetUnit = Just "lovelace"
-            , _maestroAssetQuantity = 7280082022
-            , _maestroAssetName = Nothing
+          Asset
+            { _assetUnit = "lovelace"
+            , _assetQuantity = 7280082022
             }
           ,
-          MaestroAsset
-            { _maestroAssetUnit = Just "34250edd1e9836f5378702fbf9416b709bc140e04f668cc355208518#4154414441636f696e"
-            , _maestroAssetQuantity = 10824
-            , _maestroAssetName = Nothing
+          Asset
+            { _assetUnit = "34250edd1e9836f5378702fbf9416b709bc140e04f668cc355208518#4154414441636f696e"
+            , _assetQuantity = 10824
             }
         ]
     , _utxoAddress = "addr_test1vpfwv0ezc5g8a4mkku8hhy3y3vp92t7s3ul8g778g5yegsgalc6gc"

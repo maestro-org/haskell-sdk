@@ -1,5 +1,6 @@
 module Maestro.Client.Accounts where
 
+import           Data.Text            (Text)
 import           Maestro.API
 import           Maestro.API.Accounts
 import           Maestro.Client.Core
@@ -11,20 +12,20 @@ import           Servant.Client
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)
 accountsClient = fromServant . _accounts . apiClient
 
-getAccount :: MaestroEnv -> String -> IO AccountInfo
+getAccount :: MaestroEnv -> Text -> IO AccountInfo
 getAccount = _account . accountsClient
 
-listAccountAddresses :: MaestroEnv -> String -> Page -> IO [String]
+listAccountAddresses :: MaestroEnv -> Text -> Page -> IO [Text]
 listAccountAddresses = _accountAddresses . accountsClient
 
-listAccountAssets :: MaestroEnv -> String -> Page -> IO [Asset]
+listAccountAssets :: MaestroEnv -> Text -> Page -> IO [Asset]
 listAccountAssets = _accountAssets . accountsClient
 
-listAccountHistory :: MaestroEnv -> String -> Maybe EpochNo -> Page -> IO [AccountHistory]
+listAccountHistory :: MaestroEnv -> Text -> Maybe EpochNo -> Page -> IO [AccountHistory]
 listAccountHistory = _accountsHistory . accountsClient
 
-listAccountRewards :: MaestroEnv -> String -> Page -> IO [AccountReward]
+listAccountRewards :: MaestroEnv -> Text -> Page -> IO [AccountReward]
 listAccountRewards = _accountsReward . accountsClient
 
-listAccountUpdates :: MaestroEnv -> String -> Page -> IO [AccountUpdate]
+listAccountUpdates :: MaestroEnv -> Text -> Page -> IO [AccountUpdate]
 listAccountUpdates = _accountsUpdates . accountsClient
