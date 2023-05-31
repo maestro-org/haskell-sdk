@@ -100,7 +100,7 @@ newtype HashStringOf a = HashStringOf Text
 
 data DatumOptionType = Inline | Hash
   deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[LowerFirst]] DatumOptionType
+  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] DatumOptionType
 
 data DatumOption = DatumOption
   { _datumOptionBytes :: !(Maybe Text),

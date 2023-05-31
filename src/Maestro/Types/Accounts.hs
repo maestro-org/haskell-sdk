@@ -50,7 +50,7 @@ data AccountReward = AccountReward
 
 data AccountAction = Registration | Deregistration | Delegation | Withdrawal
   deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[LowerFirst]] AccountAction
+  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] AccountAction
 
 -- | Information about an Account Assets
 data AccountUpdate = AccountUpdate
