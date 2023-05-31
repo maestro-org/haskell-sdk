@@ -15,7 +15,7 @@ addressClient = fromServant . _address . apiClient
 
 -- |
 -- Returns list of utxos for multiple addresses
-utxosForMultiAddresses ::
+utxosAtMultiAddresses ::
   -- | The Maestro Environment
   MaestroEnv ->
   -- | Query param to include the corresponding datums for datum hashes
@@ -27,11 +27,11 @@ utxosForMultiAddresses ::
   -- | List of Address in bech32 format to fetch utxo from
   [Text] ->
   IO [Utxo]
-utxosForMultiAddresses = _addressesUtxos . addressClient
+utxosAtMultiAddresses = _addressesUtxos . addressClient
 
 -- |
 -- Returns list of utxo for specific address
-utxosForAddress ::
+utxosAtAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
@@ -42,24 +42,24 @@ utxosForAddress ::
   -- | The pagination attributes
   Page ->
   IO [Utxo]
-utxosForAddress = _addressUtxo . addressClient
+utxosAtAddress = _addressUtxo . addressClient
 
 -- |
 -- Returns list of utxo ref for address
-getUtxoRef ::
+getRefsAtAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
   -- | The pagination attributes
   Page ->
   IO [UtxoRef]
-getUtxoRef = _addressUtxoRefs . addressClient
+getRefsAtAddress = _addressUtxoRefs . addressClient
 
 -- |
 -- Get the transaction count for an address
-getTxCount ::
+getTxCountForAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
   IO [AddressTxCount]
-getTxCount = _addressTransactionCount . addressClient
+getTxCountForAddress = _addressTransactionCount . addressClient
