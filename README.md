@@ -8,7 +8,7 @@
       <img src="https://img.shields.io/badge/-Haddock-5E5184?style=flat-square&logo=haskell&logoColor=white" />
     </a>
     <a href="https://docs.gomaestro.org/docs/intro">
-      <img src="https://img.shields.io/badge/-Documentation-blue?style=flat-square&logo=semantic-scholar&logoColor=white" />
+      <img src="https://img.shields.io/badge/-Docs-blue?style=flat-square&logo=semantic-scholar&logoColor=white" />
     </a>
     <a href="https://github.com/maestro-org/haskell-sdk/blob/main/LICENSE">
       <img src="https://img.shields.io/github/license/maestro-org/haskell-sdk?style=flat-square&label=Licence" />
