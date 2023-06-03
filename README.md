@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/-Docs-blue?style=flat-square&logo=semantic-scholar&logoColor=white" />
     </a>
     <a href="https://github.com/maestro-org/haskell-sdk/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/maestro-org/haskell-sdk?style=flat-square&label=Licence" />
+      <img src="https://img.shields.io/github/license/maestro-org/haskell-sdk?style=flat-square&label=License" />
     </a>
     <a href="https://github.com/maestro-org/haskell-sdk/actions/workflows/build.yml?query=branch%3Amain">
       <img src="https://img.shields.io/github/actions/workflow/status/maestro-org/haskell-sdk/build.yml?style=flat-square&branch=main&label=Build" />
