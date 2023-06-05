@@ -43,7 +43,7 @@ data MaestroError =
     -- ^ 400 status code.
   | MaestroApiKeyMissing !Text
     -- ^ 401 status code.
-  | MaestroNotFound !Text
+  | MaestroNotFound
     -- ^ 404 status code.
   | MaestroUnsupportedMediaType
     -- ^ 415 status code.
@@ -63,7 +63,7 @@ fromServantClientError e = case e of
     | s == status401 ->
         MaestroApiKeyMissing (withMessage body)
     | s == status404 ->
-        MaestroNotFound (withMessage body)
+        MaestroNotFound
     | s == status415 ->
         MaestroUnsupportedMediaType
     | s == status429 ->
