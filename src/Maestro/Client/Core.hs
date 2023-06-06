@@ -63,7 +63,7 @@ fromServantClientError e = case e of
     | s == status401 ->
         MaestroApiKeyMissing (withMessage body)
     | s == status404 ->
-        ServantClientError e
+        MaestroNotFound
     | s == status415 ->
         MaestroUnsupportedMediaType
     | s == status429 ->
