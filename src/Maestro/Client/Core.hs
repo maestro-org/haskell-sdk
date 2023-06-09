@@ -78,7 +78,10 @@ fromServantClientError e = case e of
     withMessage body =
       case decode body of
         Just (ae :: ApiError) -> _apiErrorMessage ae
-        Nothing               -> mempty
+        Nothing               ->
+          case decode body of
+            Just (m :: Text) -> m
+            Nothing          -> mempty
 
 apiV0ClientAuth :: MaestroEnv -> MaestroApiV0Auth (AsClientT IO)
 apiV0ClientAuth MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
