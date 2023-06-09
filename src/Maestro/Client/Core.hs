@@ -18,7 +18,7 @@ import           Maestro.Client.Core.Pagination
 import           Maestro.Client.Env
 import           Maestro.Types.Common           (LowerFirst)
 import           Network.HTTP.Types
-import           Servant.API                    (fromServant)
+import           Servant.API.Generic            (fromServant)
 import           Servant.Client
 import           Servant.Client.Generic
 
