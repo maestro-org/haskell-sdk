@@ -1,6 +1,6 @@
 module Maestro.API where
 
-import           Data.Proxy              (Proxy (..))
+import           Data.Text               (Text)
 import           Maestro.API.Accounts
 import           Maestro.API.Address
 import           Maestro.API.Assets
@@ -13,7 +13,7 @@ import           Maestro.API.Transaction
 import           Servant.API
 import           Servant.API.Generic
 
-data MaestroApi route  = Routes
+data MaestroApiV0 route  = MaestroApiV0
   { _accounts :: route :- "accounts" :> ToServantApi AccountsAPI
   , _address  :: route :- "addresses" :> ToServantApi AddressAPI
   , _assets   :: route :- "assets" :> ToServantApi AssetsAPI
@@ -25,5 +25,6 @@ data MaestroApi route  = Routes
   , _scripts  :: route :- "scripts" :> ToServantApi ScriptsAPI
   } deriving Generic
 
-api :: Proxy (ToServantApi MaestroApi)
-api = genericApi (Proxy :: Proxy MaestroApi)
+newtype MaestroApiV0Auth route = MaestroApiV0Auth
+  { _apiV0 :: route :- Header' '[Required] "api-key" Text :> ToServantApi MaestroApiV0 }
+  deriving Generic

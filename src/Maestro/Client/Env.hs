@@ -6,16 +6,16 @@ module Maestro.Client.Env
   ) where
 
 import           Data.Text               (Text)
-import           Data.Text.Encoding      (encodeUtf8)
-import           Network.HTTP.Client     (managerModifyRequest, requestHeaders)
-import           Network.HTTP.Client.TLS (newTlsManagerWith, tlsManagerSettings)
+import           Network.HTTP.Client     (newManager)
+import           Network.HTTP.Client.TLS (tlsManagerSettings)
 
 import qualified Servant.Client          as Servant
 
 type MaestroToken = Text
 
-newtype MaestroEnv = MaestroEnv
-  { _maeClientEnv :: Servant.ClientEnv
+data MaestroEnv = MaestroEnv
+  { _maeClientEnv :: !Servant.ClientEnv
+  , _maeToken     :: !MaestroToken
   }
 
 data MaestroNetwork = Mainnet | Preprod
@@ -26,15 +26,11 @@ maestroBaseUrl Mainnet = "https://mainnet.gomaestro-api.org/v0"
 
 mkMaestroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
 mkMaestroEnv token nid = do
-  clientEnv <- servantClientEnv token $ maestroBaseUrl nid
-  pure $ MaestroEnv {_maeClientEnv = clientEnv}
+  clientEnv <- servantClientEnv $ maestroBaseUrl nid
+  pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token }
 
-servantClientEnv :: MaestroToken -> String -> IO Servant.ClientEnv
-servantClientEnv token url = do
+servantClientEnv :: String -> IO Servant.ClientEnv
+servantClientEnv url = do
   baseUrl <- Servant.parseBaseUrl url
-  manager <- newTlsManagerWith $ tlsManagerSettings {managerModifyRequest = addTokenHeader}
-
+  manager <- newManager tlsManagerSettings
   pure $ Servant.mkClientEnv manager baseUrl
-
-  where
-    addTokenHeader req  = pure $ req {requestHeaders = [("api-key", encodeUtf8 token), ("Content-Type", "application/json")]}

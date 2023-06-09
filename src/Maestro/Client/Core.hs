@@ -3,7 +3,7 @@
 module Maestro.Client.Core
   (
     ApiError (..)
-  , apiClient
+  , apiV0Client
   , MaestroError (..)
   , fromServantClientError
   , module Maestro.Client.Core.Pagination
@@ -18,6 +18,7 @@ import           Maestro.Client.Core.Pagination
 import           Maestro.Client.Env
 import           Maestro.Types.Common           (LowerFirst)
 import           Network.HTTP.Types
+import           Servant.API                    (fromServant)
 import           Servant.Client
 import           Servant.Client.Generic
 
@@ -79,5 +80,8 @@ fromServantClientError e = case e of
         Just (ae :: ApiError) -> _apiErrorMessage ae
         Nothing               -> mempty
 
-apiClient :: MaestroEnv -> MaestroApi (AsClientT IO)
-apiClient MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
+apiV0ClientAuth :: MaestroEnv -> MaestroApiV0Auth (AsClientT IO)
+apiV0ClientAuth MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
+
+apiV0Client :: MaestroEnv -> MaestroApiV0 (AsClientT IO)
+apiV0Client mEnv@MaestroEnv {..} = fromServant $ _apiV0 (apiV0ClientAuth mEnv) _maeToken

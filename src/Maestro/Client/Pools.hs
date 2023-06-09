@@ -20,7 +20,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 poolsClient :: MaestroEnv -> PoolAPI (AsClientT IO)
-poolsClient = fromServant . _pools . apiClient
+poolsClient = fromServant . _pools . apiV0Client
 
 -- | Returns a list of currently registered stake pools
 listPools :: MaestroEnv -> Page -> IO [PoolListInfo]

@@ -10,7 +10,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)
-accountsClient = fromServant . _accounts . apiClient
+accountsClient = fromServant . _accounts . apiV0Client
 
 getAccount :: MaestroEnv -> Text -> IO AccountInfo
 getAccount = _account . accountsClient

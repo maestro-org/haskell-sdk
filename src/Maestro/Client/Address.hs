@@ -11,7 +11,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
-addressClient = fromServant . _address . apiClient
+addressClient = fromServant . _address . apiV0Client
 
 -- |
 -- Returns list of utxos for multiple addresses

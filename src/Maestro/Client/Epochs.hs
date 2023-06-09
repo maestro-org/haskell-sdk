@@ -12,7 +12,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 epochsClient :: MaestroEnv -> EpochsAPI (AsClientT IO)
-epochsClient = fromServant . _epochs . apiClient
+epochsClient = fromServant . _epochs . apiV0Client
 
 -- | Get information about the current epoch.
 getCurrentEpoch :: MaestroEnv -> IO CurrentEpochInfo

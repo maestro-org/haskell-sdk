@@ -18,7 +18,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 txClient :: MaestroEnv -> TxAPI (AsClientT IO)
-txClient = fromServant . _tx . apiClient
+txClient = fromServant . _tx . apiV0Client
 
 -- |
 -- Submit a signed and serialized transaction to the network.

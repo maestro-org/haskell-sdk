@@ -11,7 +11,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 assetClient :: MaestroEnv -> AssetsAPI (AsClientT IO)
-assetClient = fromServant . _assets . apiClient
+assetClient = fromServant . _assets . apiV0Client
 
 -- |
 -- Returns list of  Information about the assets of the given policy ID
