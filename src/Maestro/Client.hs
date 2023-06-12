@@ -1,13 +1,29 @@
 module Maestro.Client
   (
-    apiClient
+    module Maestro.Client.Accounts
+  , module Maestro.Client.Address
+  , module Maestro.Client.Assets
+  , module Maestro.Client.Core
+  , module Maestro.Client.Datum
+  , module Maestro.Client.Env
+  , module Maestro.Client.Epochs
+  , module Maestro.Client.General
+  , module Maestro.Client.Pools
+  , module Maestro.Client.Scripts
+  , module Maestro.Client.Transaction
+  , module Maestro.Client.TxManager
   ) where
 
-import           Control.Exception      (throwIO)
-import           Maestro.API
-import           Maestro.Client.Env
-import           Servant.Client
-import           Servant.Client.Generic
 
-apiClient :: MaestroEnv -> MaestroApi (AsClientT IO)
-apiClient MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either throwIO pure
+import           Maestro.Client.Accounts
+import           Maestro.Client.Address
+import           Maestro.Client.Assets
+import           Maestro.Client.Core
+import           Maestro.Client.Datum
+import           Maestro.Client.Env
+import           Maestro.Client.Epochs
+import           Maestro.Client.General
+import           Maestro.Client.Pools
+import           Maestro.Client.Scripts
+import           Maestro.Client.Transaction
+import           Maestro.Client.TxManager

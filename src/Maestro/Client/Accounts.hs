@@ -1,31 +1,31 @@
 module Maestro.Client.Accounts where
 
-import Maestro.API
-import Maestro.API.Accounts
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Data.Text            (Text)
+import           Maestro.API
+import           Maestro.API.Accounts
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types
+import           Servant.API.Generic
+import           Servant.Client
 
 accountsClient :: MaestroEnv -> AccountsAPI (AsClientT IO)
-accountsClient = fromServant . _accounts . apiClient
+accountsClient = fromServant . _accounts . apiV0Client
 
-getAccount :: MaestroEnv -> String -> IO AccountsInfo
+getAccount :: MaestroEnv -> Text -> IO AccountInfo
 getAccount = _account . accountsClient
 
-listAccountAddresses :: MaestroEnv -> String -> Page -> IO [String]
+listAccountAddresses :: MaestroEnv -> Text -> Page -> IO [Text]
 listAccountAddresses = _accountAddresses . accountsClient
 
-listAccountAssets :: MaestroEnv -> String -> Page -> IO [AccountsAssets]
+listAccountAssets :: MaestroEnv -> Text -> Page -> IO [Asset]
 listAccountAssets = _accountAssets . accountsClient
 
-listAccountHistory :: MaestroEnv -> String -> Maybe EpochNo -> Page -> IO [AccountsHistory]
+listAccountHistory :: MaestroEnv -> Text -> Maybe EpochNo -> Page -> IO [AccountHistory]
 listAccountHistory = _accountsHistory . accountsClient
 
-listAccountRewards :: MaestroEnv -> String -> Page -> IO [AccountsRewards]
+listAccountRewards :: MaestroEnv -> Text -> Page -> IO [AccountReward]
 listAccountRewards = _accountsReward . accountsClient
 
-listAccountUpdates :: MaestroEnv -> String -> Page -> IO [AccountsUpdates]
+listAccountUpdates :: MaestroEnv -> Text -> Page -> IO [AccountUpdate]
 listAccountUpdates = _accountsUpdates . accountsClient

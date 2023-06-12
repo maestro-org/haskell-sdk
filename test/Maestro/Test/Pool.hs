@@ -64,17 +64,17 @@ poolsSample = [r|
   ]
 |]
 
-poolsExpected :: [Pool]
+poolsExpected :: [PoolListInfo]
 poolsExpected =
   [
-    Pool {
-      _plPoolIdBech32 = "pool12584mjtgz3fhgpx823qht56gycnfnezg6aqqthazv4qdxkd5c46",
-      _plTicker = Just "DOLCA"
+    PoolListInfo {
+      _poolListInfoPoolIdBech32 = "pool12584mjtgz3fhgpx823qht56gycnfnezg6aqqthazv4qdxkd5c46",
+      _poolListInfoTicker = Just "DOLCA"
          },
 
-    Pool {
-      _plPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r",
-      _plTicker = Just "CHOCO"
+    PoolListInfo {
+      _poolListInfoPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r",
+      _poolListInfoTicker = Just "CHOCO"
          }
 
   ]
@@ -283,12 +283,12 @@ poolInfoExpected =
       ]
     , _poolInfRelays =
       [
-        PoolRelayInfo
-          { _poolRelInfoDns = Nothing
-          , _poolRelInfoSrv = Nothing
-          , _poolRelInfoIpv4 = Just "202.182.106.104"
-          , _poolRelInfoIpv6 = Nothing
-          , _poolRelInfoPort = Just 6000
+        Relay
+          { _relayDns = Nothing
+          , _relaySrv = Nothing
+          , _relayIpv4 = Just "202.182.106.104"
+          , _relayIpv6 = Nothing
+          , _relayPort = Just 6000
           }
       ]
     , _poolInfMetaUrl = Just "https://git.io/J0eoF"
@@ -370,12 +370,12 @@ poolRelayExpected =
       { _poolRelPoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
       , _poolRelRelays  =
         [
-          PoolRelayInfo
-            { _poolRelInfoDns = Nothing
-            , _poolRelInfoSrv = Nothing
-            , _poolRelInfoIpv4 = Just "202.182.106.104"
-            , _poolRelInfoIpv6 = Nothing
-            , _poolRelInfoPort = Just 6000
+          Relay
+            { _relayDns = Nothing
+            , _relaySrv = Nothing
+            , _relayIpv4 = Just "202.182.106.104"
+            , _relayIpv6 = Nothing
+            , _relayPort = Just 6000
             }
         ]
       }
@@ -417,10 +417,10 @@ poolUpdatesSample = [r|
   ]
 |]
 
-poolUpdatesExpected :: [PoolUpdates]
+poolUpdatesExpected :: [PoolUpdate]
 poolUpdatesExpected =
   [
-    PoolUpdates
+    PoolUpdate
       { _poolUpdateTxHash = "58011f2d795af54ab076320d5092a7989efd451eb39c5c64794c7b5eccd9da97"
       , _poolUpdateBlockTime  = Just 1629034536
       , _poolUpdatePoolIdBech32 = "pool125kh7e0y9lwya4sz5etmsk7hvga9jtfpuhw00vz9zvk6sh8xh5r"
@@ -434,12 +434,12 @@ poolUpdatesExpected =
       , _poolUpdateOwners = ["stake1uxtdm5q9j89mmme0l6jt9rsap8cn3vjy3eflptx34s2645ge7r9gp"]
       , _poolUpdateRelays =
           [
-            PoolRelayInfo
-            { _poolRelInfoDns = Nothing
-            , _poolRelInfoSrv = Nothing
-            , _poolRelInfoIpv4 = Just "139.180.198.13"
-            , _poolRelInfoIpv6 = Nothing
-            , _poolRelInfoPort = Just 6000
+            Relay
+            { _relayDns = Nothing
+            , _relaySrv = Nothing
+            , _relayIpv4 = Just "139.180.198.13"
+            , _relayIpv6 = Nothing
+            , _relayPort = Just 6000
             }
           ]
       , _poolUpdateMetaUrl = Just "https://git.io/J0eoF"

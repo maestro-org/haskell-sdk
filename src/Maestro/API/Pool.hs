@@ -1,7 +1,7 @@
 module Maestro.API.Pool where
 
 import Maestro.Types
-import Maestro.Util.Pagination
+import Maestro.Client.Core.Pagination
 import Servant.API
 import Servant.API.Generic
 
@@ -9,7 +9,7 @@ data PoolAPI route = PoolAPI
   { _listPools ::
       route
         :- Pagination
-        :> Get '[JSON] [Pool],
+        :> Get '[JSON] [PoolListInfo],
     _poolBlocks ::
       route
         :- Capture "pool_id" (Bech32StringOf PoolId)
@@ -51,6 +51,6 @@ data PoolAPI route = PoolAPI
       route
         :- Capture "pool_id" (Bech32StringOf PoolId)
         :> "updates"
-        :> Get '[JSON] [PoolUpdates]
+        :> Get '[JSON] [PoolUpdate]
   }
   deriving (Generic)

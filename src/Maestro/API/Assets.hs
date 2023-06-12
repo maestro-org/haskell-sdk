@@ -1,10 +1,11 @@
 module Maestro.API.Assets where
 
-import Maestro.Types.Assets
-import Maestro.Types.Common
-import Maestro.Util.Pagination
-import Servant.API
-import Servant.API.Generic
+import           Data.Text                      (Text)
+import           Maestro.Client.Core.Pagination
+import           Maestro.Types.Assets
+import           Maestro.Types.Common
+import           Servant.API
+import           Servant.API.Generic
 
 data AssetsAPI route = AssetsAPI
   { _assetPolicyInfo ::
@@ -12,38 +13,38 @@ data AssetsAPI route = AssetsAPI
         :- "policy"
         :> Capture "policy" PolicyId
         :> Pagination
-        :> Get '[JSON] [MaestroAssetInfo],
+        :> Get '[JSON] [AssetInfo],
     _assetPolicyAddress ::
       route
         :- "policy"
         :> Capture "policy" PolicyId
         :> "addresses"
         :> Pagination
-        :> Get '[JSON] [String],
+        :> Get '[JSON] [Text],
     _assetPolicyTxs ::
       route
         :- "policy"
         :> Capture "policy" PolicyId
         :> "txs"
         :> Pagination
-        :> Get '[JSON] [MaestroAssetTx],
+        :> Get '[JSON] [AssetTx],
     _assetPolicyUtxos ::
       route
         :- "policy"
         :> Capture "policy" PolicyId
         :> "utxos"
         :> Pagination
-        :> Get '[JSON] [MaestroAssetUtxo],
+        :> Get '[JSON] [PolicyUtxo],
     _assetDetail ::
       route
         :- Capture "asset" AssetId
-        :> Get '[JSON] MaestroAssetInfo,
+        :> Get '[JSON] AssetInfo,
     _assetAddresses ::
       route
         :- Capture "asset" AssetId
         :> "addresses"
         :> Pagination
-        :> Get '[JSON] [String],
+        :> Get '[JSON] [Text],
     _assetTxs ::
       route
         :- Capture "asset" AssetId
@@ -51,19 +52,19 @@ data AssetsAPI route = AssetsAPI
         :> QueryParam "from_height" Integer
         :> Pagination
         :> QueryParam "order" Order
-        :> Get '[JSON] [MaestroAssetTx],
+        :> Get '[JSON] [AssetTx],
     _assetUpdates ::
       route
         :- Capture "asset" AssetId
         :> "updates"
         :> Pagination
         :> QueryParam "order" Order
-        :> Get '[JSON] [MaestroAssetUpdates],
+        :> Get '[JSON] [MintingTx],
     _assetUtxos ::
       route
         :- Capture "asset" AssetId
         :> "utxos"
         :> Pagination
-        :> Get '[JSON] [MaestroAssetUtxo]
+        :> Get '[JSON] [AssetUtxo]
   }
   deriving (Generic)

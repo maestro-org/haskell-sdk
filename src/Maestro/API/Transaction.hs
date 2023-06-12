@@ -1,41 +1,18 @@
 module Maestro.API.Transaction where
 
-import qualified Data.ByteString as BS
-import qualified Data.ByteString.Lazy as LBS
-import qualified Data.Text as T
-import Maestro.Types.Common
-import Servant.API
-import Servant.API.Generic
-
-data CBORStream
-
-instance Accept CBORStream where
-  contentType _ = "application/cbor"
-
-instance MimeRender CBORStream BS.ByteString where
-  mimeRender _ = LBS.fromStrict
-
-instance MimeRender CBORStream LBS.ByteString where
-  mimeRender _ = id
-
-instance MimeUnrender CBORStream BS.ByteString where
-  mimeUnrender _ = Right . LBS.toStrict
-
-instance MimeUnrender CBORStream LBS.ByteString where
-  mimeUnrender _ = Right
+import qualified Data.ByteString      as BS
+import qualified Data.Text            as T
+import           Maestro.Types.Common
+import           Servant.API
+import           Servant.API.Generic
 
 data TxAPI route = TxAPI
-  { _monitorTxSubmit ::
-      route
-        :- "transactions"
-        :> ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> Post '[JSON] T.Text,
-    _submitTx ::
+  { _submitTx ::
       route
         :- "submit"
         :> "tx"
         :> ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> Post '[JSON] T.Text,
+        :> PostAccepted '[JSON] T.Text,
     _txCborApi ::
       route
         :- "transactions"
@@ -49,7 +26,7 @@ data TxAPI route = TxAPI
         :> "outputs"
         :> Capture "index" TxIndex
         :> "address"
-        :> Get '[JSON] TxAddress,
+        :> Get '[JSON] UtxoAddress,
     _txUtxo ::
       route
         :- "transactions"

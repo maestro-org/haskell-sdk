@@ -7,14 +7,14 @@ module Maestro.Client.General
 
 import           Maestro.API           (_general)
 import           Maestro.API.General
-import           Maestro.Client
+import           Maestro.Client.Core
 import           Maestro.Client.Env
 import           Maestro.Types.General
 import           Servant.API.Generic
 import           Servant.Client
 
 generalClient :: MaestroEnv -> GeneralAPI (AsClientT IO)
-generalClient = fromServant . _general . apiClient
+generalClient = fromServant . _general . apiV0Client
 
 -- | Get details about the latest block of the network.
 getChainTip :: MaestroEnv -> IO ChainTip

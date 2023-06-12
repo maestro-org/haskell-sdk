@@ -1,21 +1,21 @@
 module Maestro.Client.Address where
 
-import Data.Text (Text)
-import Maestro.API
-import Maestro.API.Address
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Address
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Data.Text             (Text)
+import           Maestro.API
+import           Maestro.API.Address
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Address
+import           Maestro.Types.Common  (Utxo)
+import           Servant.API.Generic
+import           Servant.Client
 
 addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
-addressClient = fromServant . _address . apiClient
+addressClient = fromServant . _address . apiV0Client
 
 -- |
 -- Returns list of utxos for multiple addresses
-utxosForMultiAddresses ::
+utxosAtMultiAddresses ::
   -- | The Maestro Environment
   MaestroEnv ->
   -- | Query param to include the corresponding datums for datum hashes
@@ -26,12 +26,12 @@ utxosForMultiAddresses ::
   Page ->
   -- | List of Address in bech32 format to fetch utxo from
   [Text] ->
-  IO [AddressUtxo]
-utxosForMultiAddresses = _addressesUtxos . addressClient
+  IO [Utxo]
+utxosAtMultiAddresses = _addressesUtxos . addressClient
 
 -- |
 -- Returns list of utxo for specific address
-utxosForAddress ::
+utxosAtAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
@@ -41,25 +41,25 @@ utxosForAddress ::
   Maybe Bool ->
   -- | The pagination attributes
   Page ->
-  IO [AddressUtxo]
-utxosForAddress = _addressUtxo . addressClient
+  IO [Utxo]
+utxosAtAddress = _addressUtxo . addressClient
 
 -- |
 -- Returns list of utxo ref for address
-getUtxoRef ::
+getRefsAtAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
   -- | The pagination attributes
   Page ->
-  IO [AddressUtxoRef]
-getUtxoRef = _addressUtxoRefs . addressClient
+  IO [UtxoRef]
+getRefsAtAddress = _addressUtxoRefs . addressClient
 
 -- |
 -- Get the transaction count for an address
-getTxCount ::
+getTxCountForAddress ::
   MaestroEnv ->
   -- | The Address in bech32 format
   Text ->
   IO [AddressTxCount]
-getTxCount = _addressTransactionCount . addressClient
+getTxCountForAddress = _addressTransactionCount . addressClient

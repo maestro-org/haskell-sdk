@@ -3,6 +3,7 @@ module Maestro.Types.Common
     TxIndex (..),
     PolicyId (..),
     AssetId (..),
+    CBORStream,
     EpochNo (..),
     EpochSize (..),
     AbsoluteSlot (..),
@@ -15,34 +16,36 @@ module Maestro.Types.Common
     DatumOptionType (..),
     DatumOption (..),
     ScriptType (..),
-    ReferenceScript (..),
-    MaestroAsset (..),
+    Script (..),
+    Asset (..),
     Utxo (..),
     TxCbor (..),
-    TxAddress (..),
+    UtxoAddress (..),
     Order (..),
     LowerFirst,
   )
 where
 
-import qualified Data.Aeson         as Aeson
-import           Data.Char          (toLower)
+import qualified Data.Aeson           as Aeson
+import qualified Data.ByteString      as BS
+import qualified Data.ByteString.Lazy as LBS
+import           Data.Char            (toLower)
 import           Data.Default.Class
-import           Data.String        (IsString)
-import           Data.Text          (Text)
-import qualified Data.Text          as T
-import           Data.Word          (Word64)
+import           Data.String          (IsString)
+import           Data.Text            (Text)
+import qualified Data.Text            as T
+import           Data.Word            (Word64)
 import           Deriving.Aeson
-import           GHC.Natural        (Natural)
-import           Web.HttpApiData
+import           GHC.Natural          (Natural)
+import           Servant.API
 
 -- | Phantom datatype to be used with constructors like `HashStringOf`.
 data Tx
 
 -- | Index of UTxO in a transaction outputs.
 newtype TxIndex = TxIndex Natural
-  deriving stock (Eq, Show, Generic)
-  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving newtype (Num, Enum, Real, Integral, FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
 
 -- | Minting policy ID.
 newtype PolicyId = PolicyId Text
@@ -74,11 +77,11 @@ newtype AbsoluteSlot = AbsoluteSlot {unAbsoluteSlot :: Natural}
 
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
-  deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON)
+  deriving stock (Show, Eq, Ord, Generic)
+  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON)
 
 -- | Hash of the block.
-newtype BlockHash = BlockHash {unBlockHash :: String}
+newtype BlockHash = BlockHash {unBlockHash :: Text}
   deriving stock (Show, Eq, Generic)
   deriving (FromJSON, ToJSON)
 
@@ -100,7 +103,7 @@ newtype HashStringOf a = HashStringOf Text
 
 data DatumOptionType = Inline | Hash
   deriving stock (Show, Eq, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[LowerFirst]] DatumOptionType
+  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] DatumOptionType
 
 data DatumOption = DatumOption
   { _datumOptionBytes :: !(Maybe Text),
@@ -119,34 +122,33 @@ data ScriptType = Native | PlutusV1 | PlutusV2
     (FromJSON, ToJSON)
     via CustomJSON '[ConstructorTagModifier '[LowerAll]] ScriptType
 
-data ReferenceScript = ReferenceScript
-  { _refScriptBytes :: !(Maybe Text),
-    _refScriptHash  :: !Text,
-    _refScriptJson  :: !(Maybe Aeson.Value),
-    _refScriptType  :: !ScriptType
+data Script = Script
+  { _scriptBytes :: !(Maybe Text),
+    _scriptHash  :: !Text,
+    _scriptJson  :: !(Maybe Aeson.Value),
+    _scriptType  :: !ScriptType
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_refScript", LowerFirst]] ReferenceScript
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script
 
-data MaestroAsset = MaestroAsset
-  { _maestroAssetQuantity :: !Integer,
-    _maestroAssetUnit     :: !(Maybe String),
-    _maestroAssetName     :: !(Maybe String)
+data Asset = Asset
+  { _assetQuantity :: !Integer
+  , _assetUnit     :: !Text
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_maestroAsset", CamelToSnake]] MaestroAsset
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
 
 -- | Transaction output
 data Utxo = Utxo
   { _utxoAddress         :: !Text,
-    _utxoAssets          :: ![MaestroAsset],
+    _utxoAssets          :: ![Asset],
     _utxoDatum           :: !(Maybe DatumOption),
     _utxoIndex           :: !Natural,
-    _utxoReferenceScript :: !(Maybe ReferenceScript),
+    _utxoReferenceScript :: !(Maybe Script),
     _utxoTxHash          :: !Text
   }
   deriving stock (Show, Eq, Generic)
@@ -160,11 +162,11 @@ newtype TxCbor = TxCbor {_txCbor :: Text}
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_tx", LowerFirst]] TxCbor
 
-newtype TxAddress = TxAddress {_txAddress :: Text}
+newtype UtxoAddress = UtxoAddress {_utxoAddressAddress :: Text}
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_tx", LowerFirst]] TxAddress
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoAddress", LowerFirst]] UtxoAddress
 
 data Order = Ascending | Descending
 
@@ -178,6 +180,23 @@ instance Default Order where
 instance Show Order where
   show Ascending  = "asc"
   show Descending = "desc"
+
+data CBORStream
+
+instance Accept CBORStream where
+  contentType _ = "application/cbor"
+
+instance MimeRender CBORStream BS.ByteString where
+  mimeRender _ = LBS.fromStrict
+
+instance MimeRender CBORStream LBS.ByteString where
+  mimeRender _ = id
+
+instance MimeUnrender CBORStream BS.ByteString where
+  mimeUnrender _ = Right . LBS.toStrict
+
+instance MimeUnrender CBORStream LBS.ByteString where
+  mimeUnrender _ = Right
 
 -- | Will lower the first character for your type.
 data LowerFirst

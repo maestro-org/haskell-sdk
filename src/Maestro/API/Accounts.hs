@@ -1,8 +1,9 @@
 module Maestro.API.Accounts where
 
+import           Data.Text                      (Text)
+import           Maestro.Client.Core.Pagination
 import           Maestro.Types.Accounts
 import           Maestro.Types.Common
-import           Maestro.Util.Pagination
 import           Servant.API
 import           Servant.API.Generic
 
@@ -10,43 +11,43 @@ data AccountsAPI route = AccountsAPI
   {
     _account
       :: route
-      :- Capture "stake_addr" String
-      :> Get '[JSON] AccountsInfo
+      :- Capture "stake_addr" Text
+      :> Get '[JSON] AccountInfo
 
   , _accountAddresses
       ::  route
-      :- Capture "stake_addr" String
+      :- Capture "stake_addr" Text
       :> "addresses"
       :> Pagination
-      :> Get '[JSON] [String]
+      :> Get '[JSON] [Text]
 
   , _accountAssets
       ::  route
-      :- Capture "stake_addr" String
+      :- Capture "stake_addr" Text
       :> "assets"
       :> Pagination
-      :> Get  '[JSON] [AccountsAssets]
+      :> Get  '[JSON] [Asset]
 
   , _accountsHistory
       ::  route
-      :- Capture "stake_addr" String
+      :- Capture "stake_addr" Text
       :> "history"
       :> QueryParam "epoch_no" EpochNo
       :> Pagination
-      :> Get  '[JSON] [AccountsHistory]
+      :> Get  '[JSON] [AccountHistory]
 
   , _accountsReward
       ::  route
-      :- Capture "stake_addr" String
+      :- Capture "stake_addr" Text
       :> "rewards"
       :> Pagination
-      :> Get  '[JSON] [AccountsRewards]
+      :> Get  '[JSON] [AccountReward]
 
   , _accountsUpdates
       ::  route
-      :- Capture "stake_addr" String
+      :- Capture "stake_addr" Text
       :> "updates"
       :> Pagination
-      :> Get  '[JSON] [AccountsUpdates]
+      :> Get  '[JSON] [AccountUpdate]
 
   } deriving (Generic)

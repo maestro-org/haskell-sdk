@@ -1,7 +1,6 @@
 module Maestro.Run.Tx where
 
-import Maestro.Client.Env
-import Maestro.Client.Transaction
+import Maestro.Client
 import Maestro.Types
 
 txHash :: HashStringOf Tx
@@ -21,7 +20,7 @@ runTxApi mEnv = do
   utxo <- runTxUtxo mEnv
   putStrLn $ "fetched Tx Utxos: \n " ++ show utxo
 
-runTxAddress :: MaestroEnv -> IO TxAddress
+runTxAddress :: MaestroEnv -> IO UtxoAddress
 runTxAddress mEnv = txAddress mEnv txHash $ TxIndex 0
 
 runTxCbor :: MaestroEnv -> IO TxCbor

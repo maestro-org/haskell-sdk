@@ -1,17 +1,17 @@
 module Maestro.Client.Assets where
 
-import Maestro.API (_assets)
-import Maestro.API.Assets
-import Maestro.Client
-import Maestro.Client.Env
-import Maestro.Types.Assets
-import Maestro.Types.Common
-import Maestro.Util.Pagination (Page)
-import Servant.API.Generic
-import Servant.Client
+import           Data.Text            (Text)
+import           Maestro.API          (_assets)
+import           Maestro.API.Assets
+import           Maestro.Client.Core
+import           Maestro.Client.Env
+import           Maestro.Types.Assets
+import           Maestro.Types.Common
+import           Servant.API.Generic
+import           Servant.Client
 
 assetClient :: MaestroEnv -> AssetsAPI (AsClientT IO)
-assetClient = fromServant . _assets . apiClient
+assetClient = fromServant . _assets . apiV0Client
 
 -- |
 -- Returns list of  Information about the assets of the given policy ID
@@ -22,7 +22,7 @@ listAssetInfoByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetInfo]
+  IO [AssetInfo]
 listAssetInfoByPolicyId = _assetPolicyInfo . assetClient
 
 -- |
@@ -34,7 +34,7 @@ listAssetAddressByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [String]
+  IO [Text]
 listAssetAddressByPolicyId = _assetPolicyAddress . assetClient
 
 -- |
@@ -46,7 +46,7 @@ listTxByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetTx]
+  IO [AssetTx]
 listTxByPolicyId = _assetPolicyTxs . assetClient
 
 -- |
@@ -58,7 +58,7 @@ listUtxosByPolicyId ::
   PolicyId ->
   -- | Pagination
   Page ->
-  IO [MaestroAssetUtxo]
+  IO [PolicyUtxo]
 listUtxosByPolicyId = _assetPolicyUtxos . assetClient
 
 -- |
@@ -68,7 +68,7 @@ getAssetDetail ::
   MaestroEnv ->
   -- | Asset, encoded as concatenation of hex of policy ID and asset name
   AssetId ->
-  IO MaestroAssetInfo
+  IO AssetInfo
 getAssetDetail = _assetDetail . assetClient
 
 -- |
@@ -79,7 +79,7 @@ listAssetAddresses ::
   -- | Asset, encoded as concatenation of hex of policy ID and asset name
   AssetId ->
   Page ->
-  IO [String]
+  IO [Text]
 listAssetAddresses = _assetAddresses . assetClient
 
 -- |
@@ -94,7 +94,7 @@ listAssetTx ::
   -- | The Pagination
   Page ->
   Maybe Order ->
-  IO [MaestroAssetTx]
+  IO [AssetTx]
 listAssetTx = _assetTxs . assetClient
 
 -- |
@@ -108,7 +108,7 @@ listAssetUpdates ::
   Page ->
   -- | The order in which the results are sorted (by block height)
   Maybe Order ->
-  IO [MaestroAssetUpdates]
+  IO [MintingTx]
 listAssetUpdates = _assetUpdates . assetClient
 
 -- |
@@ -120,5 +120,5 @@ listAssetUtxos ::
   AssetId ->
   -- | The Pagination
   Page ->
-  IO [MaestroAssetUtxo]
+  IO [AssetUtxo]
 listAssetUtxos = _assetUtxos . assetClient

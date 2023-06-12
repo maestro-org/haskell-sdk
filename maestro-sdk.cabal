@@ -48,8 +48,11 @@ library
       Maestro.API.Pool
       Maestro.API.Scripts
       Maestro.API.Transaction
+      Maestro.API.TxManager
 
       Maestro.Client
+      Maestro.Client.Core
+      Maestro.Client.Core.Pagination
       Maestro.Client.Datum
       Maestro.Client.Env
       Maestro.Client.Epochs
@@ -60,6 +63,7 @@ library
       Maestro.Client.Pools
       Maestro.Client.Scripts
       Maestro.Client.Transaction
+      Maestro.Client.TxManager
 
       Maestro.Types
       Maestro.Types.Accounts
@@ -70,8 +74,6 @@ library
       Maestro.Types.Epochs
       Maestro.Types.General
       Maestro.Types.Pool
-
-      Maestro.Util.Pagination
 
     -- other-modules:
     -- other-extensions:
@@ -85,9 +87,10 @@ library
       , servant-client
       , servant-client-core
       , text
-      , time ^>= 1.12.1
+      , time
       , http-client
       , http-client-tls
+      , http-types
       , http-api-data
       , data-default-class
 

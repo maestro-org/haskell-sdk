@@ -1,7 +1,6 @@
 module Maestro.Run.Scripts where
 
-import           Maestro.Client.Env
-import           Maestro.Client.Scripts
+import           Maestro.Client
 import           Text.Printf            (printf)
 
 runScriptsAPI :: MaestroEnv -> IO ()

@@ -11,7 +11,8 @@ import           Numeric.Natural       (Natural)
 import           Text.Read             (readMaybe)
 
 -- | Sum of all the fees within the epoch in lovelaces.
-newtype EpochInfoFees = EpochInfoFees Natural deriving newtype (Eq, Show)
+newtype EpochInfoFees = EpochInfoFees Natural
+  deriving newtype (Eq, Ord, Show, Num, Enum, Real, Integral)
 
 instance ToJSON EpochInfoFees where
   toEncoding = toEncoding . show

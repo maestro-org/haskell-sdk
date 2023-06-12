@@ -52,7 +52,7 @@ newtype SystemStart = SystemStart { _systemStartTime :: LocalTime }
 -- | The 0-based index for the Ourboros time slot.
 newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Enum, Bounded, Num, ToJSON, FromJSON)
+  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON)
 
 -- | Network era summary.
 data EraSummary = EraSummary
@@ -172,9 +172,9 @@ data ProtocolParameters = ProtocolParameters
   { _protocolParametersProtocolVersion                 :: !ProtocolVersion
   -- ^ See `ProtocolVersion`.
   , _protocolParametersMinFeeConstant                  :: !Natural
-  -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_a@ and @tx_fee_fixed@.
+  -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_b@ and @tx_fee_fixed@.
   , _protocolParametersMinFeeCoefficient               :: !Natural
-  -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_b@ and @tx_fee_per_byte@.
+  -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_a@ and @tx_fee_per_byte@.
   , _protocolParametersMaxBlockBodySize                :: !Natural
   -- ^ Maximum block body size.
   , _protocolParametersMaxBlockHeaderSize              :: !Natural
