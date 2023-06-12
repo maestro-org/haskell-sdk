@@ -1,6 +1,5 @@
 module Maestro.Client.Transaction
-  ( submitAndMonitorTx,
-    submitTx,
+  ( submitTx,
     txCbor,
     txAddress,
     txUtxo,
@@ -19,17 +18,6 @@ import           Servant.Client
 
 txClient :: MaestroEnv -> TxAPI (AsClientT IO)
 txClient = fromServant . _tx . apiV0Client
-
--- |
--- Submit a signed and serialized transaction to the network.
--- A transaction submited with this endpoint will be monitored by Maestro.
-submitAndMonitorTx ::
-  -- | The Maestro Environment
-  MaestroEnv ->
-  -- | CBOR encoded Transaction
-  BS.ByteString ->
-  IO Text
-submitAndMonitorTx = _monitorTxSubmit . txClient
 
 -- |
 -- Submit a signed and serialized transaction to the network.

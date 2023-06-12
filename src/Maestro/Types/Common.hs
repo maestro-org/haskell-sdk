@@ -3,6 +3,7 @@ module Maestro.Types.Common
     TxIndex (..),
     PolicyId (..),
     AssetId (..),
+    CBORStream,
     EpochNo (..),
     EpochSize (..),
     AbsoluteSlot (..),
@@ -25,16 +26,18 @@ module Maestro.Types.Common
   )
 where
 
-import qualified Data.Aeson         as Aeson
-import           Data.Char          (toLower)
+import qualified Data.Aeson           as Aeson
+import qualified Data.ByteString      as BS
+import qualified Data.ByteString.Lazy as LBS
+import           Data.Char            (toLower)
 import           Data.Default.Class
-import           Data.String        (IsString)
-import           Data.Text          (Text)
-import qualified Data.Text          as T
-import           Data.Word          (Word64)
+import           Data.String          (IsString)
+import           Data.Text            (Text)
+import qualified Data.Text            as T
+import           Data.Word            (Word64)
 import           Deriving.Aeson
-import           GHC.Natural        (Natural)
-import           Web.HttpApiData
+import           GHC.Natural          (Natural)
+import           Servant.API
 
 -- | Phantom datatype to be used with constructors like `HashStringOf`.
 data Tx
@@ -177,6 +180,23 @@ instance Default Order where
 instance Show Order where
   show Ascending  = "asc"
   show Descending = "desc"
+
+data CBORStream
+
+instance Accept CBORStream where
+  contentType _ = "application/cbor"
+
+instance MimeRender CBORStream BS.ByteString where
+  mimeRender _ = LBS.fromStrict
+
+instance MimeRender CBORStream LBS.ByteString where
+  mimeRender _ = id
+
+instance MimeUnrender CBORStream BS.ByteString where
+  mimeUnrender _ = Right . LBS.toStrict
+
+instance MimeUnrender CBORStream LBS.ByteString where
+  mimeUnrender _ = Right
 
 -- | Will lower the first character for your type.
 data LowerFirst
