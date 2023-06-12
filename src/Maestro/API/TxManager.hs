@@ -10,6 +10,6 @@ newtype TxManagerAPI route = TxManagerAPI
   { _monitorTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> Post '[JSON] T.Text
+        :> PostAccepted '[JSON] T.Text
   }
   deriving (Generic)

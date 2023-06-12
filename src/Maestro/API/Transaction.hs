@@ -12,7 +12,7 @@ data TxAPI route = TxAPI
         :- "submit"
         :> "tx"
         :> ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> Post '[JSON] T.Text,
+        :> PostAccepted '[JSON] T.Text,
     _txCborApi ::
       route
         :- "transactions"
