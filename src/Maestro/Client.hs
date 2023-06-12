@@ -11,6 +11,7 @@ module Maestro.Client
   , module Maestro.Client.Pools
   , module Maestro.Client.Scripts
   , module Maestro.Client.Transaction
+  , module Maestro.Client.TxManager
   ) where
 
 
@@ -25,3 +26,4 @@ import           Maestro.Client.General
 import           Maestro.Client.Pools
 import           Maestro.Client.Scripts
 import           Maestro.Client.Transaction
+import           Maestro.Client.TxManager

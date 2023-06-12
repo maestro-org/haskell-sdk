@@ -1,4 +1,4 @@
-module Maestro.Client.Transaction
+module Maestro.Client.TxManager
   ( submitAndMonitorTx
   )
 where

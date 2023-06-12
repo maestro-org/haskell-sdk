@@ -48,6 +48,7 @@ library
       Maestro.API.Pool
       Maestro.API.Scripts
       Maestro.API.Transaction
+      Maestro.API.TxManager
 
       Maestro.Client
       Maestro.Client.Core
@@ -62,6 +63,7 @@ library
       Maestro.Client.Pools
       Maestro.Client.Scripts
       Maestro.Client.Transaction
+      Maestro.Client.TxManager
 
       Maestro.Types
       Maestro.Types.Accounts
