@@ -72,6 +72,7 @@ library
       Maestro.Client.V0.Transaction
       Maestro.Client.V0.TxManager
 
+      Maestro.Types.Common
       Maestro.Types.V0
       Maestro.Types.V0.Accounts
       Maestro.Types.V0.Address
