@@ -26,6 +26,8 @@ common common
       DerivingStrategies
       DerivingVia
       GeneralisedNewtypeDeriving
+      FlexibleInstances
+      FlexibleContexts
       MultiParamTypeClasses
       NumericUnderscores
       OverloadedStrings
@@ -33,6 +35,8 @@ common common
       RoleAnnotations
       ScopedTypeVariables
       TemplateHaskell
+      TypeApplications
+      TypeFamilies
       TypeOperators
       QuasiQuotes
 
