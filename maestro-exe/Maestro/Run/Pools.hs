@@ -1,7 +1,7 @@
 module Maestro.Run.Pools where
 
-import Maestro.Client
-import Maestro.Types
+import           Maestro.Client.V0
+import           Maestro.Types.V0
 
 poolId :: Bech32StringOf PoolId
 poolId = "pool1rkfs9glmfva3jd0q9vnlqvuhnrflpzj4l07u6sayfx5k7d788us"

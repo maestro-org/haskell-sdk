@@ -13,10 +13,10 @@ import           Control.Exception              (Exception, throwIO)
 import           Data.Aeson                     (decode)
 import           Data.Text                      (Text)
 import           Deriving.Aeson
-import           Maestro.API
+import           Maestro.API.V0
 import           Maestro.Client.Core.Pagination
 import           Maestro.Client.Env
-import           Maestro.Types.Common           (LowerFirst)
+import           Maestro.Types.V0.Common        (LowerFirst)
 import           Network.HTTP.Types
 import           Servant.API.Generic            (fromServant)
 import           Servant.Client

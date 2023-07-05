@@ -1,6 +1,6 @@
 module Maestro.Run.Datum where
 
-import           Maestro.Client
+import           Maestro.Client.V0
 import           Text.Printf          (printf)
 
 runDatumAPI :: MaestroEnv -> IO ()

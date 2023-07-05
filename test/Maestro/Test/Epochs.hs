@@ -5,7 +5,7 @@ import           Test.Hspec
 import           Text.RawString.QQ
 
 import           Data.ByteString.Lazy (ByteString)
-import           Maestro.Types
+import           Maestro.Types.V0
 
 spec_general :: Spec
 spec_general = do

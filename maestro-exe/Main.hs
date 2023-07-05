@@ -1,7 +1,7 @@
 module Main (main) where
 
 import qualified Data.Text           as T
-import           Maestro.Client.Env
+import           Maestro.Client.V0
 import           Maestro.Run.Datum
 import           Maestro.Run.Epochs
 import           Maestro.Run.General
@@ -15,7 +15,7 @@ main :: IO ()
 
 main = do
     apiKey <- maestroKey
-    env <- mkMaestroEnv (T.pack apiKey) Preprod
+    env <- mkMaestroEnv (T.pack apiKey) Preprod V0
     runPoolsAPI env
     runTxApi env
     runEpochsAPI env

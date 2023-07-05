@@ -1,8 +1,9 @@
 module Maestro.Client.Env
   (
-    MaestroEnv(..)
+    MaestroEnv (..)
+  , MaestroNetwork (..)
+  , MaestroApiVersion (..)
   , mkMaestroEnv
-  , MaestroNetwork(..)
   ) where
 
 import           Data.Text               (Text)
@@ -20,13 +21,18 @@ data MaestroEnv = MaestroEnv
 
 data MaestroNetwork = Mainnet | Preprod
 
-maestroBaseUrl :: MaestroNetwork -> String
-maestroBaseUrl Preprod = "https://preprod.gomaestro-api.org/v0"
-maestroBaseUrl Mainnet = "https://mainnet.gomaestro-api.org/v0"
+data MaestroApiVersion = V0 | V1
 
-mkMaestroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
-mkMaestroEnv token nid = do
-  clientEnv <- servantClientEnv $ maestroBaseUrl nid
+-- TODO : Move version check inside.
+maestroBaseUrl :: MaestroNetwork -> MaestroApiVersion -> String
+maestroBaseUrl Preprod V0 = "https://preprod.gomaestro-api.org/v0"
+maestroBaseUrl Preprod V1 = "https://preprod.gomaestro-api.org/v1"
+maestroBaseUrl Mainnet V0 = "https://mainnet.gomaestro-api.org/v0"
+maestroBaseUrl Mainnet V1 = "https://mainnet.gomaestro-api.org/v1"
+
+mkMaestroEnv :: MaestroToken -> MaestroNetwork -> MaestroApiVersion -> IO MaestroEnv
+mkMaestroEnv token nid apiVersion = do
+  clientEnv <- servantClientEnv $ maestroBaseUrl nid apiVersion
   pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token }
 
 servantClientEnv :: String -> IO Servant.ClientEnv

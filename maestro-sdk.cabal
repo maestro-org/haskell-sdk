@@ -39,42 +39,42 @@ common common
 library
     import:           common
     exposed-modules:  
-      Maestro.API
-      Maestro.API.Accounts
-      Maestro.API.Address
-      Maestro.API.Assets
-      Maestro.API.Datum
-      Maestro.API.Epochs
-      Maestro.API.General
-      Maestro.API.Pool
-      Maestro.API.Scripts
-      Maestro.API.Transaction
-      Maestro.API.TxManager
+      Maestro.API.V0
+      Maestro.API.V0.Accounts
+      Maestro.API.V0.Address
+      Maestro.API.V0.Assets
+      Maestro.API.V0.Datum
+      Maestro.API.V0.Epochs
+      Maestro.API.V0.General
+      Maestro.API.V0.Pool
+      Maestro.API.V0.Scripts
+      Maestro.API.V0.Transaction
+      Maestro.API.V0.TxManager
 
-      Maestro.Client
+      Maestro.Client.V0
       Maestro.Client.Core
       Maestro.Client.Core.Pagination
-      Maestro.Client.Datum
+      Maestro.Client.V0.Datum
       Maestro.Client.Env
-      Maestro.Client.Epochs
-      Maestro.Client.Accounts
-      Maestro.Client.Address
-      Maestro.Client.Assets
-      Maestro.Client.General
-      Maestro.Client.Pools
-      Maestro.Client.Scripts
-      Maestro.Client.Transaction
-      Maestro.Client.TxManager
+      Maestro.Client.V0.Epochs
+      Maestro.Client.V0.Accounts
+      Maestro.Client.V0.Address
+      Maestro.Client.V0.Assets
+      Maestro.Client.V0.General
+      Maestro.Client.V0.Pools
+      Maestro.Client.V0.Scripts
+      Maestro.Client.V0.Transaction
+      Maestro.Client.V0.TxManager
 
-      Maestro.Types
-      Maestro.Types.Accounts
-      Maestro.Types.Address
-      Maestro.Types.Assets
-      Maestro.Types.Common
-      Maestro.Types.Datum
-      Maestro.Types.Epochs
-      Maestro.Types.General
-      Maestro.Types.Pool
+      Maestro.Types.V0
+      Maestro.Types.V0.Accounts
+      Maestro.Types.V0.Address
+      Maestro.Types.V0.Assets
+      Maestro.Types.V0.Common
+      Maestro.Types.V0.Datum
+      Maestro.Types.V0.Epochs
+      Maestro.Types.V0.General
+      Maestro.Types.V0.Pool
 
     -- other-modules:
     -- other-extensions:

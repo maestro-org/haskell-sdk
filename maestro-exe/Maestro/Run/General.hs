@@ -1,6 +1,6 @@
 module Maestro.Run.General where
 
-import           Maestro.Client
+import           Maestro.Client.V0
 import           Text.Printf          (printf)
 
 runGeneralAPI :: MaestroEnv -> IO ()

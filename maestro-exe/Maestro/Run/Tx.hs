@@ -1,7 +1,7 @@
 module Maestro.Run.Tx where
 
-import Maestro.Client
-import Maestro.Types
+import           Maestro.Client.V0
+import           Maestro.Types.V0
 
 txHash :: HashStringOf Tx
 txHash = "7fdf7a20ba50d841344ab0cb368da6a047ce1e2a29b707586f61f0b8fea6bcf2"
