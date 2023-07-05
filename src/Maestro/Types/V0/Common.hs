@@ -88,7 +88,7 @@ newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
 
 -- | Hash of the block.
 newtype BlockHash = BlockHash {unBlockHash :: Text}
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving (FromJSON, ToJSON)
 
 -- | Hash of the Transaction.
