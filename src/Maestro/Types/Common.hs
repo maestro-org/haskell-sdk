@@ -18,7 +18,6 @@ module Maestro.Types.Common
     DatumOption (..),
     ScriptType (..),
     Script (..),
-    Asset (..),
     TxCbor (..),
     UtxoAddress (..),
     Order (..),
@@ -137,15 +136,6 @@ data Script = Script
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script
-
-data Asset = Asset
-  { _assetQuantity :: !Integer
-  , _assetUnit     :: !Text
-  }
-  deriving stock (Show, Eq, Generic)
-  deriving
-    (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
 
 newtype TxCbor = TxCbor {_txCbor :: Text}
   deriving stock (Show, Eq, Generic)

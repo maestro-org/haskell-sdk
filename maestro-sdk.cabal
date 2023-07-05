@@ -55,6 +55,10 @@ library
       Maestro.API.V0.Transaction
       Maestro.API.V0.TxManager
 
+      Maestro.API.V1
+      Maestro.API.V1.Address
+      Maestro.API.V1.General
+
       Maestro.Client.Env
       Maestro.Client.Error
       Maestro.Client.V0
@@ -66,11 +70,15 @@ library
       Maestro.Client.V0.Address
       Maestro.Client.V0.Assets
       Maestro.Client.V0.General
-      Maestro.Client.V0.Pagination
       Maestro.Client.V0.Pools
       Maestro.Client.V0.Scripts
       Maestro.Client.V0.Transaction
       Maestro.Client.V0.TxManager
+
+      Maestro.Client.V1
+      Maestro.Client.V1.Core
+      Maestro.Client.V1.Core.Pagination
+      Maestro.Client.V1.Address
 
       Maestro.Types.Common
       Maestro.Types.V0
@@ -82,6 +90,10 @@ library
       Maestro.Types.V0.Epochs
       Maestro.Types.V0.General
       Maestro.Types.V0.Pool
+
+      Maestro.Types.V1
+      Maestro.Types.V1.Common
+      Maestro.Types.V1.General
 
     -- other-modules:
     -- other-extensions:
@@ -142,6 +154,7 @@ executable maestro-exe
       Maestro.Run.Scripts
       Maestro.Run.Tx
       Maestro.Run.Epochs
+      Maestro.Run.AddressV1
     -- other-extensions:
     hs-source-dirs:   maestro-exe
     main-is:          Main.hs

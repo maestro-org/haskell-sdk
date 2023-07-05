@@ -181,6 +181,8 @@ data ProtocolParameters = ProtocolParameters
   { _protocolParametersData        :: !ProtocolParametersData
   , _protocolParametersLastUpdated :: !LastUpdated
   }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
 
 -- | Protocol parameters for the latest epoch.
 data ProtocolParametersData = ProtocolParametersData

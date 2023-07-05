@@ -1,5 +1,6 @@
 module Maestro.Types.V0.Common
-  ( Utxo (..),
+  ( Asset (..),
+    Utxo (..),
     module Maestro.Types.Common
   )
 where
@@ -9,7 +10,17 @@ import           Deriving.Aeson
 import           GHC.Natural          (Natural)
 import           Maestro.Types.Common
 
--- | Transaction output
+-- | Representation of asset in an UTxO.
+data Asset = Asset
+  { _assetQuantity :: !Integer
+  , _assetUnit     :: !Text
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving
+    (FromJSON, ToJSON)
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
+
+-- | Transaction output.
 data Utxo = Utxo
   { _utxoAddress         :: !Text,
     _utxoAssets          :: ![Asset],
