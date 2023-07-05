@@ -1,7 +1,7 @@
 module Maestro.API.V0.Accounts where
 
-import           Data.Text                      (Text)
-import           Maestro.Client.Core.Pagination
+import           Data.Text                         (Text)
+import           Maestro.Client.V0.Core.Pagination
 import           Maestro.Types.V0
 import           Servant.API
 import           Servant.API.Generic

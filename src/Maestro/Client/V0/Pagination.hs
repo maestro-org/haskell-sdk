@@ -5,7 +5,7 @@
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE TypeOperators         #-}
 
-module Maestro.Client.Core.Pagination where
+module Maestro.Client.V0.Pagination where
 
 import           Data.Default.Class
 import           Data.Proxy          (Proxy (..))

@@ -1,26 +1,19 @@
 {-# LANGUAGE DeriveAnyClass #-}
 
-module Maestro.Client.Core
+module Maestro.Client.Error
   (
     ApiError (..)
-  , apiV0Client
   , MaestroError (..)
   , fromServantClientError
-  , module Maestro.Client.Core.Pagination
   ) where
 
-import           Control.Exception              (Exception, throwIO)
-import           Data.Aeson                     (decode)
-import           Data.Text                      (Text)
+import           Control.Exception       (Exception)
+import           Data.Aeson              (decode)
+import           Data.Text               (Text)
 import           Deriving.Aeson
-import           Maestro.API.V0
-import           Maestro.Client.Core.Pagination
-import           Maestro.Client.Env
-import           Maestro.Types.V0.Common        (LowerFirst)
+import           Maestro.Types.V0.Common (LowerFirst)
 import           Network.HTTP.Types
-import           Servant.API.Generic            (fromServant)
 import           Servant.Client
-import           Servant.Client.Generic
 
 -- | In cases of failure, at times, Maestro returns a JSON object with an error message.
 data ApiError = ApiError
@@ -82,9 +75,3 @@ fromServantClientError e = case e of
           case decode body of
             Just (m :: Text) -> m
             Nothing          -> mempty
-
-apiV0ClientAuth :: MaestroEnv -> MaestroApiV0Auth (AsClientT IO)
-apiV0ClientAuth MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
-
-apiV0Client :: MaestroEnv -> MaestroApiV0 (AsClientT IO)
-apiV0Client mEnv@MaestroEnv {..} = fromServant $ _apiV0 (apiV0ClientAuth mEnv) _maeToken

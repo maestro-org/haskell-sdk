@@ -1,9 +1,9 @@
 module Maestro.API.V0.Pool where
 
-import Maestro.Types.V0
-import Maestro.Client.Core.Pagination
-import Servant.API
-import Servant.API.Generic
+import           Maestro.Client.V0.Core.Pagination
+import           Maestro.Types.V0
+import           Servant.API
+import           Servant.API.Generic
 
 data PoolAPI route = PoolAPI
   { _listPools ::

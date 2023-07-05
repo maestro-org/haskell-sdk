@@ -51,16 +51,18 @@ library
       Maestro.API.V0.Transaction
       Maestro.API.V0.TxManager
 
-      Maestro.Client.V0
-      Maestro.Client.Core
-      Maestro.Client.Core.Pagination
-      Maestro.Client.V0.Datum
       Maestro.Client.Env
+      Maestro.Client.Error
+      Maestro.Client.V0
+      Maestro.Client.V0.Core
+      Maestro.Client.V0.Core.Pagination
+      Maestro.Client.V0.Datum
       Maestro.Client.V0.Epochs
       Maestro.Client.V0.Accounts
       Maestro.Client.V0.Address
       Maestro.Client.V0.Assets
       Maestro.Client.V0.General
+      Maestro.Client.V0.Pagination
       Maestro.Client.V0.Pools
       Maestro.Client.V0.Scripts
       Maestro.Client.V0.Transaction

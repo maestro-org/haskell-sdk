@@ -5,8 +5,8 @@ module Maestro.Client.V0.Epochs
 
 import           Maestro.API.V0         (_epochs)
 import           Maestro.API.V0.Epochs
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client

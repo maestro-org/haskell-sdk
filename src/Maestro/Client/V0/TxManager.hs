@@ -7,8 +7,8 @@ import qualified Data.ByteString          as BS
 import           Data.Text                (Text)
 import           Maestro.API.V0           (_txManager)
 import           Maestro.API.V0.TxManager
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Servant.API.Generic
 import           Servant.Client
 

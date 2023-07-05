@@ -5,8 +5,8 @@ module Maestro.Client.V0.Scripts
 import           Data.Text              (Text)
 import           Maestro.API.V0         (_scripts)
 import           Maestro.API.V0.Scripts
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client

@@ -2,11 +2,11 @@ module Maestro.Client.V0.Datum
   ( getDatumByHash
   ) where
 
-import           Data.Text            (Text)
-import           Maestro.API.V0       (_datum)
+import           Data.Text              (Text)
+import           Maestro.API.V0         (_datum)
 import           Maestro.API.V0.Datum
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client

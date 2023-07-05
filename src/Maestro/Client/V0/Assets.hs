@@ -1,10 +1,10 @@
 module Maestro.Client.V0.Assets where
 
-import           Data.Text             (Text)
-import           Maestro.API.V0        (_assets)
+import           Data.Text              (Text)
+import           Maestro.API.V0         (_assets)
 import           Maestro.API.V0.Assets
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client

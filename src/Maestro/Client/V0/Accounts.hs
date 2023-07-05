@@ -3,8 +3,8 @@ module Maestro.Client.V0.Accounts where
 import           Data.Text               (Text)
 import           Maestro.API.V0
 import           Maestro.API.V0.Accounts
-import           Maestro.Client.Core
 import           Maestro.Client.Env
+import           Maestro.Client.V0.Core
 import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client
