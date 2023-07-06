@@ -1,5 +1,6 @@
 module Maestro.Types.Common
   ( Tx,
+    TxOutCbor,
     TxIndex (..),
     PolicyId (..),
     AssetId (..),
@@ -40,6 +41,9 @@ import           Servant.API
 
 -- | Phantom datatype to be used with constructors like `HashStringOf`.
 data Tx
+
+-- | Phantom datatype to be used with `HexStringOf` to represent hex encoded CBOR bytes of transaction output.
+data TxOutCbor
 
 -- | Index of UTxO in a transaction outputs.
 newtype TxIndex = TxIndex Natural
@@ -106,7 +110,7 @@ newtype HashStringOf a = HashStringOf Text
   deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON, IsString)
 
 data DatumOptionType = Inline | Hash
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] DatumOptionType
 
 data DatumOption = DatumOption
@@ -115,13 +119,13 @@ data DatumOption = DatumOption
     _datumOptionJson  :: !(Maybe Aeson.Value),
     _datumOptionType  :: !DatumOptionType
   }
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_datumOption", LowerFirst]] DatumOption
 
 data ScriptType = Native | PlutusV1 | PlutusV2
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[ConstructorTagModifier '[LowerAll]] ScriptType
@@ -132,7 +136,7 @@ data Script = Script
     _scriptJson  :: !(Maybe Aeson.Value),
     _scriptType  :: !ScriptType
   }
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script

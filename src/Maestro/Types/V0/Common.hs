@@ -15,7 +15,7 @@ data Asset = Asset
   { _assetQuantity :: !Integer
   , _assetUnit     :: !Text
   }
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
@@ -27,9 +27,10 @@ data Utxo = Utxo
     _utxoDatum           :: !(Maybe DatumOption),
     _utxoIndex           :: !Natural,
     _utxoReferenceScript :: !(Maybe Script),
-    _utxoTxHash          :: !Text
+    _utxoTxHash          :: !Text,
+    _utxoTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
   }
-  deriving stock (Show, Eq, Generic)
+  deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxo", CamelToSnake]] Utxo

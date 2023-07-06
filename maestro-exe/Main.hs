@@ -24,9 +24,9 @@ main = do
     runDatumAPI env
     runScriptsAPI env
     runGeneralAPI env
-    -- env' <- mkMaestroEnv @'V1 (T.pack apiKeyMain) Mainnet
-    env' <- mkMaestroEnv @'V0 (T.pack apiKeyMain) Mainnet
-    runAddressAPI env'
+    envV1 <- mkMaestroEnv @'V1 (T.pack apiKeyMain) Mainnet
+    envV0 <- mkMaestroEnv @'V0 (T.pack apiKeyMain) Mainnet
+    runAddressAPI envV0 envV1
 
     where
       maestroKey = getEnv  "MAESTRO_API_KEY"
