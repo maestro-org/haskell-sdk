@@ -11,9 +11,9 @@ import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client
 
-scriptsClient :: MaestroEnv -> ScriptsAPI (AsClientT IO)
+scriptsClient :: MaestroEnv 'V0 -> ScriptsAPI (AsClientT IO)
 scriptsClient = fromServant . _scripts . apiV0Client
 
 -- | Get information about the script from it's hash.
-getScriptByHash :: MaestroEnv -> Text -> IO Script
+getScriptByHash :: MaestroEnv 'V0 -> Text -> IO Script
 getScriptByHash = _scriptByHash . scriptsClient

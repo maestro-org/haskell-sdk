@@ -11,13 +11,13 @@ import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client
 
-epochsClient :: MaestroEnv -> EpochsAPI (AsClientT IO)
+epochsClient :: MaestroEnv 'V0 -> EpochsAPI (AsClientT IO)
 epochsClient = fromServant . _epochs . apiV0Client
 
 -- | Get information about the current epoch.
-getCurrentEpoch :: MaestroEnv -> IO CurrentEpochInfo
+getCurrentEpoch :: MaestroEnv 'V0 -> IO CurrentEpochInfo
 getCurrentEpoch = _currentEpochInfo . epochsClient
 
 -- | Get information about a specific epoch.
-getEpochInfo :: MaestroEnv -> EpochNo -> IO EpochInfo
+getEpochInfo :: MaestroEnv 'V0 -> EpochNo -> IO EpochInfo
 getEpochInfo = _epochInfo . epochsClient

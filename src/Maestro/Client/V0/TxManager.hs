@@ -12,7 +12,7 @@ import           Maestro.Client.V0.Core
 import           Servant.API.Generic
 import           Servant.Client
 
-txClient :: MaestroEnv -> TxManagerAPI (AsClientT IO)
+txClient :: MaestroEnv 'V0 -> TxManagerAPI (AsClientT IO)
 txClient = fromServant . _txManager . apiV0Client
 
 -- |
@@ -20,7 +20,7 @@ txClient = fromServant . _txManager . apiV0Client
 -- A transaction submited with this endpoint will be monitored by Maestro.
 submitAndMonitorTx ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | CBOR encoded Transaction
   BS.ByteString ->
   IO Text

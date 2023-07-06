@@ -21,6 +21,7 @@ source-repository head
 common common 
     ghc-options: -Wall
     default-extensions:
+      GADTs
       DataKinds
       DeriveGeneric
       DerivingStrategies
@@ -154,7 +155,7 @@ executable maestro-exe
       Maestro.Run.Scripts
       Maestro.Run.Tx
       Maestro.Run.Epochs
-      Maestro.Run.AddressV1
+      Maestro.Run.Address
     -- other-extensions:
     hs-source-dirs:   maestro-exe
     main-is:          Main.hs

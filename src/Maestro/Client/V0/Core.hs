@@ -13,8 +13,8 @@ import           Servant.Client
 import           Servant.Client.Generic
 
 
-apiV0ClientAuth :: MaestroEnv -> MaestroApiV0Auth (AsClientT IO)
-apiV0ClientAuth MaestroEnv{..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
+apiV0ClientAuth :: MaestroEnv 'V0 -> MaestroApiV0Auth (AsClientT IO)
+apiV0ClientAuth MaestroEnv {..} = genericClientHoist $ \x -> runClientM x _maeClientEnv >>= either (throwIO . fromServantClientError) pure
 
-apiV0Client :: MaestroEnv -> MaestroApiV0 (AsClientT IO)
+apiV0Client :: MaestroEnv 'V0 -> MaestroApiV0 (AsClientT IO)
 apiV0Client mEnv@MaestroEnv {..} = fromServant $ _apiV0 (apiV0ClientAuth mEnv) _maeToken

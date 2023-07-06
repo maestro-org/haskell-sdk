@@ -36,8 +36,8 @@
 ```haskell
 import Maestro.Client.Env
 
-myEnvPreprod <- mkMaestroEnv "Your-API-Key" Preprod
-myEnvMainnet <- mkMaestroEnv "Your-API-Key" Mainnet
+myEnvPreprod <- mkMaestroEnv @'V0 "Your-API-Key" Preprod
+myEnvMainnet <- mkMaestroEnv @'V0 "Your-API-Key" Mainnet
 ```
 4. Example: chain tip
 ```haskell

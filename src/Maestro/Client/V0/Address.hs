@@ -9,14 +9,14 @@ import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client
 
-addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
+addressClient :: MaestroEnv 'V0 -> AddressAPI (AsClientT IO)
 addressClient = fromServant . _address . apiV0Client
 
 -- |
 -- Returns list of utxos for multiple addresses
 utxosAtMultiAddresses ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | Query param to include the corresponding datums for datum hashes
   Maybe Bool ->
   -- | Query Param to include the CBOR encodings of the transaction outputs in the response
@@ -31,7 +31,7 @@ utxosAtMultiAddresses = _addressesUtxos . addressClient
 -- |
 -- Returns list of utxo for specific address
 utxosAtAddress ::
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | The Address in bech32 format
   Text ->
   -- | Query param to include the corresponding datums for datum hashes
@@ -46,7 +46,7 @@ utxosAtAddress = _addressUtxo . addressClient
 -- |
 -- Returns list of utxo ref for address
 getRefsAtAddress ::
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | The Address in bech32 format
   Text ->
   -- | The pagination attributes
@@ -57,7 +57,7 @@ getRefsAtAddress = _addressUtxoRefs . addressClient
 -- |
 -- Get the transaction count for an address
 getTxCountForAddress ::
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | The Address in bech32 format
   Text ->
   IO [AddressTxCount]

@@ -16,7 +16,7 @@ import           Maestro.Types.V0
 import           Servant.API.Generic
 import           Servant.Client
 
-txClient :: MaestroEnv -> TxAPI (AsClientT IO)
+txClient :: MaestroEnv 'V0 -> TxAPI (AsClientT IO)
 txClient = fromServant . _tx . apiV0Client
 
 -- |
@@ -24,7 +24,7 @@ txClient = fromServant . _tx . apiV0Client
 -- Interaction with this endpoint is identical to IOG's Cardano Submit API and will not be monitored by Maestro.
 submitTx ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | CBOR encoded Transaction
   BS.ByteString ->
   IO Text
@@ -34,7 +34,7 @@ submitTx = _submitTx . txClient
 -- Returns hex-encoded CBOR bytes of a transaction
 txCbor ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | Hex Encoded Transaction Hash
   HashStringOf Tx ->
   -- | hex-encoded CBOR bytes of a transaction
@@ -45,7 +45,7 @@ txCbor = _txCborApi . txClient
 -- Returns the address specified in the given transaction output
 txAddress ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V0 ->
   -- | Hex Encoded Transaction Hash
   HashStringOf Tx ->
   -- | The Transaction Output Index
@@ -56,8 +56,8 @@ txAddress = _txAddressApi . txClient
 -- |
 -- Returns the specified transaction output of a transaction output reference
 txUtxo ::
-  -- | The MaestroEnv
-  MaestroEnv ->
+  -- | The Maestro Environment.
+  MaestroEnv 'V0 ->
   -- | Hex encoded transaction hash
   HashStringOf Tx ->
   -- | The Transaction Output Index

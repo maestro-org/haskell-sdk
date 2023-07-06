@@ -9,13 +9,13 @@ import           Maestro.Types.V1
 import           Servant.API.Generic
 import           Servant.Client
 
-addressClient :: MaestroEnv -> AddressAPI (AsClientT IO)
+addressClient :: MaestroEnv 'V1 -> AddressAPI (AsClientT IO)
 addressClient = fromServant . _address . apiV1Client
 
 -- | Returns list of utxos for multiple addresses
 utxosAtMultiAddresses ::
   -- | The Maestro Environment
-  MaestroEnv ->
+  MaestroEnv 'V1 ->
   -- | Query param to include the corresponding datums for datum hashes
   Maybe Bool ->
   -- | Query Param to include the CBOR encodings of the transaction outputs in the response
