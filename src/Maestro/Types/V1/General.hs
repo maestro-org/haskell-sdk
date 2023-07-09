@@ -5,7 +5,7 @@ module Maestro.Types.V1.General
     SystemStart (..)
     -- * Types for @/era-history@ endpoint
   , EraSummaries (..)
-  , EraSummaryData (..)
+  , EraSummary (..)
   , EraParameters (..)
   , EraBound (..)
     -- * Types for @/protocol-params@ endpoint
@@ -59,8 +59,8 @@ data SystemStart = SystemStart
 
 -- | Network era summaries.
 data EraSummaries = EraSummaries
-  { _eraSummariesData        :: ![EraSummaryData]
-  -- ^ Era summaries, see `EraSummaryData`.
+  { _eraSummariesData        :: ![EraSummary]
+  -- ^ Era summaries, see `EraSummary`.
   , _eraSummariesLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
@@ -68,7 +68,7 @@ data EraSummaries = EraSummaries
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaries", LowerFirst]] EraSummaries
 
 -- | Network era summary.
-data EraSummaryData = EraSummaryData
+data EraSummary = EraSummary
   { _eraSummaryDataStart      :: !EraBound
   -- ^ Start of this era.
   , _eraSummaryDataEnd        :: !(Maybe EraBound)
@@ -77,7 +77,7 @@ data EraSummaryData = EraSummaryData
   -- ^ Parameters of this era.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaryData", LowerFirst]] EraSummaryData
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaryData", LowerFirst]] EraSummary
 
 -- | Parameters for a network era which can vary between hardforks.
 data EraParameters = EraParameters
