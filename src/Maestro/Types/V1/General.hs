@@ -1,4 +1,4 @@
--- | Module to define types for /\"General\"/ endpoints defined at [reference.gomaestro.org](https://reference.gomaestro.org/).
+-- | Module to define types for /\"General\"/ endpoints defined at [docs.gomaestro.org](https://docs.gomaestro.org/docs/category/general).
 
 module Maestro.Types.V1.General
   ( -- * Types for @/system-start@ endpoint
@@ -46,7 +46,9 @@ import           Numeric.Natural         (Natural)
 -- | Network start time since genesis.
 data SystemStart = SystemStart
   { _systemStartData        :: !LocalTime
+  -- ^ Network start time since genesis.
   , _systemStartLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Ord, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_systemStart", CamelToSnake]] SystemStart
@@ -58,7 +60,9 @@ data SystemStart = SystemStart
 -- | Network era summaries.
 data EraSummaries = EraSummaries
   { _eraSummariesData        :: ![EraSummaryData]
+  -- ^ Era summaries, see `EraSummaryData`.
   , _eraSummariesLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaries", LowerFirst]] EraSummaries
@@ -179,7 +183,9 @@ instance FromJSON MaestroRational where
 -- See `ProtocolParametersData`.
 data ProtocolParameters = ProtocolParameters
   { _protocolParametersData        :: !ProtocolParametersData
+  -- ^ See `ProtocolParametersData`.
   , _protocolParametersLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
@@ -254,7 +260,9 @@ data ChainTipData = ChainTipData
 -- | See `ChainTipData`.
 data ChainTip = ChainTip
   { _chainTipData        :: !ChainTipData
+  -- ^ See `ChainTipData`.
   , _chainTipLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTip", CamelToSnake]] ChainTip

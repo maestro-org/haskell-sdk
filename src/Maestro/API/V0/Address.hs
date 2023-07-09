@@ -1,6 +1,6 @@
 module Maestro.API.V0.Address where
 
-import           Data.Text                      (Text)
+import           Data.Text                         (Text)
 import           Maestro.Client.V0.Core.Pagination
 import           Maestro.Types.V0
 import           Servant.API
@@ -12,8 +12,8 @@ data AddressAPI route = AddressAPI
     _addressesUtxos
       :: route
       :- "utxos"
-      :> QueryParam "resolve_datums"  Bool
-      :> QueryParam "with_cbor"  Bool
+      :> QueryParam "resolve_datums" Bool
+      :> QueryParam "with_cbor" Bool
       :> Pagination
       :> ReqBody '[JSON] [Text]
       :> Post '[JSON] [Utxo]
@@ -22,8 +22,8 @@ data AddressAPI route = AddressAPI
       :: route
       :- Capture "address" Text
       :> "utxos"
-      :> QueryParam "resolve_datums"  Bool
-      :> QueryParam "with_cbor"  Bool
+      :> QueryParam "resolve_datums" Bool
+      :> QueryParam "with_cbor" Bool
       :> Pagination
       :> Get  '[JSON] [Utxo]
 

@@ -57,8 +57,12 @@ library
       Maestro.API.V0.TxManager
 
       Maestro.API.V1
-      Maestro.API.V1.Address
+      Maestro.API.V1.Addresses
+      Maestro.API.V1.Datum
       Maestro.API.V1.General
+      Maestro.API.V1.Pools
+      Maestro.API.V1.Transactions
+      Maestro.API.V1.TxManager
 
       Maestro.Client.Env
       Maestro.Client.Error
@@ -79,7 +83,12 @@ library
       Maestro.Client.V1
       Maestro.Client.V1.Core
       Maestro.Client.V1.Core.Pagination
-      Maestro.Client.V1.Address
+      Maestro.Client.V1.Addresses
+      Maestro.Client.V1.Datum
+      Maestro.Client.V1.General
+      Maestro.Client.V1.Pools
+      Maestro.Client.V1.Transactions
+      Maestro.Client.V1.TxManager
 
       Maestro.Types.Common
       Maestro.Types.V0
@@ -91,10 +100,16 @@ library
       Maestro.Types.V0.Epochs
       Maestro.Types.V0.General
       Maestro.Types.V0.Pool
+      Maestro.Types.V0.Transactions
 
       Maestro.Types.V1
+      Maestro.Types.V1.Addresses
+      Maestro.Types.V1.Datum
       Maestro.Types.V1.Common
+      Maestro.Types.V1.Common.Pagination
       Maestro.Types.V1.General
+      Maestro.Types.V1.Pools
+      Maestro.Types.V1.Transactions
 
     -- other-modules:
     -- other-extensions:

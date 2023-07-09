@@ -1,18 +1,18 @@
 module Maestro.Client.V1.Core.Pagination where
 
 import           Data.Default.Class
-import           Data.Kind           (Type)
-import           Data.Maybe          (isNothing)
-import           Data.Proxy          (Proxy (..))
-import           Data.Text           (Text)
-import           Servant.API         (QueryParam, (:>))
-import           Servant.Client.Core (Client, HasClient, clientWithRoute,
-                                      hoistClientMonad)
+import           Data.Maybe                         (isNothing)
+import           Data.Proxy                         (Proxy (..))
+import           Maestro.Types.V1.Common.Pagination
+import           Servant.API                        (QueryParam, (:>))
+import           Servant.Client.Core                (Client, HasClient,
+                                                     clientWithRoute,
+                                                     hoistClientMonad)
 
 --  | Pagination parameters.
 data Cursor = Cursor
-  { resultPerPage :: !Int          -- ^ Total result to have per page.
-  , cursor        :: !(Maybe Text) -- ^ Cursor.
+  { resultPerPage :: !Int                -- ^ Total result to have per page.
+  , cursor        :: !(Maybe NextCursor) -- ^ Cursor.
   }
 
 -- | Maximum number of result per page.
@@ -21,12 +21,6 @@ maxResultsPerPage = 100
 
 instance Default Cursor where
   def = Cursor maxResultsPerPage Nothing
-
--- | Is the endpoint paged?
-class (Monoid (CursorData a)) => HasCursor a where
-  type CursorData a :: Type
-  getNextCursor :: a -> Maybe Text
-  getCursorData :: a -> CursorData a
 
 -- Utility for querying all results from a paged endpoint.
 allPages :: (Monad m, HasCursor a) => (Cursor -> m a) -> m (CursorData a)
@@ -46,7 +40,7 @@ data Pagination
 
 type PaginationApi api =
      QueryParam "count" Int
-  :> QueryParam "cursor" Text
+  :> QueryParam "cursor" NextCursor
   :> api
 
 instance HasClient m api => HasClient m (Pagination :> api) where

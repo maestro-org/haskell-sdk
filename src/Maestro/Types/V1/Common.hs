@@ -1,21 +1,48 @@
+-- | Common (shared) types used which are not specific to single category of endpoints.
+
 module Maestro.Types.V1.Common
-  ( LastUpdated (..),
+  ( PaymentCredentialAddress,
+    StakingCredentialAddress,
+    RewardAddress,
+    TaggedText (..),
+    LastUpdated (..),
     Asset (..),
     v1AssetToV0,
-    UtxoData (..),
-    v1UtxoToV0,
-    Utxos (..),
-    module Maestro.Types.Common
-  )
-where
+    UtxoWithSlot (..),
+    v1UtxoWithSlotToV0,
+    PaginatedUtxoWithSlot (..),
+    module Maestro.Types.Common,
+    module Maestro.Types.V1.Common.Pagination
+  ) where
 
-import           Data.Text                         (Text)
-import qualified Data.Text                         as T (splitAt)
+import           Data.Aeson                         (FromJSON (..), ToJSON (..),
+                                                     Value (..), withText)
+import           Data.Coerce                        (coerce)
+import           Data.String                        (IsString)
+import           Data.Text                          (Text)
+import qualified Data.Text                          as T (splitAt)
 import           Deriving.Aeson
-import           GHC.Natural                       (Natural)
-import           Maestro.Client.V1.Core.Pagination (HasCursor (..))
+import           GHC.TypeLits                       (Symbol)
 import           Maestro.Types.Common
-import qualified Maestro.Types.V0                  as V0 (Asset (..), Utxo (..))
+import qualified Maestro.Types.V0                   as V0 (Asset (..),
+                                                           Utxo (..))
+import           Maestro.Types.V1.Common.Pagination
+import           Servant.API                        (FromHttpApiData (..),
+                                                     ToHttpApiData (..))
+
+-- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of payment credential of an address.
+data PaymentCredentialAddress
+
+-- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of staking credential of an address.
+data StakingCredentialAddress
+
+-- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of stake address (See [CIP-19](https://cips.cardano.org/cips/cip19/) for more details).
+data RewardAddress
+
+-- | Wrapper around `Text` type with mentioned description of it.
+newtype TaggedText (description :: Symbol) = TaggedText Text
+  deriving stock (Eq, Ord, Show, Generic)
+  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON, IsString)
 
 -- | Details of the most recent block processed by the indexer (aka chain tip); that is, the data returned is correct as of this block in time.
 data LastUpdated = LastUpdated
@@ -27,10 +54,41 @@ data LastUpdated = LastUpdated
   deriving stock (Eq, Ord, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_lastUpdated", CamelToSnake]] LastUpdated
 
+-- | Type to denote for native tokens (besides ada).
+data NonAdaNativeToken = NonAdaNativeToken !PolicyId !TokenName
+  deriving stock (Eq, Ord, Show)
+
+instance ToHttpApiData NonAdaNativeToken where
+  toUrlPiece (NonAdaNativeToken policyId tokenName) = coerce policyId <> coerce tokenName
+
+-- | Given asset name is either /lovelace/ or concatenation of hex encoded policy ID and hex encoded asset name for native asset.
+data AssetUnit = Lovelace
+               -- ^ Lovelace.
+               | UserMintedToken !NonAdaNativeToken
+               -- ^ For non-ada native-tokens.
+  deriving stock (Eq, Ord)
+
+instance Show AssetUnit where
+  show Lovelace                            = "lovelace"
+  show (UserMintedToken nonAdaNativeToken) = show nonAdaNativeToken
+
+instance FromJSON AssetUnit where
+  parseJSON = withText "AssetUnit" $ \t ->
+    if t == "lovelace" then pure Lovelace
+    else
+      let (policyId, tokenName) = T.splitAt 56 t
+      in pure $ UserMintedToken $ NonAdaNativeToken (coerce policyId) (coerce tokenName)
+
+instance ToJSON AssetUnit where
+  toJSON Lovelace                  = String "lovelace"
+  toJSON (UserMintedToken nonAdaNativeToken) = String $ toUrlPiece nonAdaNativeToken
+
 -- | Representation of asset in an UTxO.
 data Asset = Asset
   { _assetAmount :: !Integer
-  , _assetUnit   :: !Text
+  -- ^ Amount of the asset.
+  , _assetUnit   :: !AssetUnit
+  -- ^ See `AssetUnit`.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
@@ -41,54 +99,62 @@ data Asset = Asset
 v1AssetToV0 :: Asset -> V0.Asset
 v1AssetToV0 Asset {..} = V0.Asset {
     V0._assetQuantity = _assetAmount
-  , V0._assetUnit =
-      if _assetUnit == "lovelace" then _assetUnit
-      else
-        let (policyId, tokenName) = T.splitAt 56 _assetUnit
-        in policyId <> "#" <> tokenName
+  , V0._assetUnit = case _assetUnit of
+      Lovelace -> "lovelace"
+      UserMintedToken (NonAdaNativeToken policyId tokenName) -> coerce policyId <> "#" <> coerce tokenName
   }
 
 -- | Transaction output.
-data UtxoData = UtxoData
-  { _utxoDataAddress         :: !Text,
-    _utxoDataAssets          :: ![Asset],
-    _utxoDataDatum           :: !(Maybe DatumOption),
-    _utxoDataIndex           :: !Natural,
-    _utxoDataReferenceScript :: !(Maybe Script),
-    _utxoDataTxHash          :: !Text,
-    _utxoDataSlot            :: !SlotNo,
-    _utxoDataTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
-
+data UtxoWithSlot = UtxoWithSlot
+  { _utxoWithSlotAddress         :: !(Bech32StringOf Address),
+  -- ^ UTxO's address.
+    _utxoWithSlotAssets          :: ![Asset],
+  -- ^ UTxO's assets.
+    _utxoWithSlotDatum           :: !(Maybe DatumOption),
+  -- ^ UTxO's datum.
+    _utxoWithSlotIndex           :: !TxIndex,
+  -- ^ UTxO's transaction index.
+    _utxoWithSlotReferenceScript :: !(Maybe Script),
+  -- ^ UTxO's script.
+    _utxoWithSlotTxHash          :: !TxHash,
+  -- ^ UTxO's transaction hash.
+    _utxoWithSlotSlot            :: !SlotNo,
+  -- ^ Absolute slot of block which produced the UTxO.
+    _utxoWithSlotTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
+  -- ^ Hex encoded transaction output CBOR bytes.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoData", CamelToSnake]] UtxoData
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoWithSlot", CamelToSnake]] UtxoWithSlot
 
--- | Convert @V1@ API version `UtxoData` type into corresponding @V0@ type.
-v1UtxoToV0 :: UtxoData -> V0.Utxo
-v1UtxoToV0 UtxoData {..} = V0.Utxo {
-    V0._utxoAddress = _utxoDataAddress
-  , V0._utxoAssets = map v1AssetToV0 _utxoDataAssets
-  , V0._utxoDatum = _utxoDataDatum
-  , V0._utxoIndex = _utxoDataIndex
-  , V0._utxoReferenceScript = _utxoDataReferenceScript
-  , V0._utxoTxHash = _utxoDataTxHash
-  , V0._utxoTxoutCbor = _utxoDataTxoutCbor
+-- | Convert @V1@ API version UTxO (with slot) type into corresponding @V0@ type.
+v1UtxoWithSlotToV0 :: UtxoWithSlot -> V0.Utxo
+v1UtxoWithSlotToV0 UtxoWithSlot {..} = V0.Utxo {
+    V0._utxoAddress = _utxoWithSlotAddress
+  , V0._utxoAssets = map v1AssetToV0 _utxoWithSlotAssets
+  , V0._utxoDatum = _utxoWithSlotDatum
+  , V0._utxoIndex = coerce _utxoWithSlotIndex
+  , V0._utxoReferenceScript = _utxoWithSlotReferenceScript
+  , V0._utxoTxHash = coerce _utxoWithSlotTxHash
+  , V0._utxoTxoutCbor = _utxoWithSlotTxoutCbor
   }
 
--- | Transaction Outputs
-data Utxos = Utxos
-  { _utxosData        :: ![UtxoData],
-    _utxosLastUpdated :: !LastUpdated,
-    _utxosNextCursor  :: !(Maybe Text)
+-- | A paginated response of transaction outputs.
+data PaginatedUtxoWithSlot = PaginatedUtxoWithSlot
+  { _paginatedUtxoWithSlotData        :: ![UtxoWithSlot],
+  -- ^ List of UTxOs.
+    _paginatedUtxoWithSlotLastUpdated :: !LastUpdated,
+  -- ^ See `LastUpdated`.
+    _paginatedUtxoWithSlotNextCursor  :: !(Maybe NextCursor)
+  -- ^ See `NextCursor`
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxos", CamelToSnake]] Utxos
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedUtxoWithSlot", CamelToSnake]] PaginatedUtxoWithSlot
 
-instance HasCursor Utxos where
-  type CursorData Utxos = [UtxoData]
-  getNextCursor utxos = _utxosNextCursor utxos
-  getCursorData utxos = _utxosData utxos
+instance HasCursor PaginatedUtxoWithSlot where
+  type CursorData PaginatedUtxoWithSlot = [UtxoWithSlot]
+  getNextCursor utxos = _paginatedUtxoWithSlotNextCursor utxos
+  getCursorData utxos = _paginatedUtxoWithSlotData utxos
