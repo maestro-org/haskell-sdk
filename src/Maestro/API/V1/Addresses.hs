@@ -22,11 +22,4 @@ data AddressesAPI route = AddressesAPI
       :> ReqBody '[JSON] [Bech32StringOf Address]
       :> Post '[JSON] PaginatedUtxoWithSlot
 
-  -- , _addressUtxoRefs
-  --     :: route
-  --     :- Capture "address" Text
-  --     :> "utxo_refs"
-  --     :> Pagination
-  --     :> Get  '[JSON] [UtxoRef]
-
   } deriving (Generic)

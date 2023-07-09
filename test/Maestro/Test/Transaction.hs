@@ -107,4 +107,5 @@ txUtxoExpected  =
         , _scriptType  = PlutusV2
         , _scriptJson  = Nothing
         }
+    , _utxoTxoutCbor = Nothing
     }
