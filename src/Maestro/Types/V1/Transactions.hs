@@ -9,7 +9,6 @@ module Maestro.Types.V1.Transactions
 
 import           Data.Aeson              (ToJSON (..), Value (..))
 import           Data.Coerce             (coerce)
-import qualified Data.Text               as T (pack)
 import           Deriving.Aeson
 import           Maestro.Types.Common
 import qualified Maestro.Types.V0        as V0 (Utxo (..))
@@ -21,7 +20,7 @@ data OutputReference = OutputReference !TxHash !TxIndex
   deriving stock (Show, Eq, Ord)
 
 instance ToHttpApiData OutputReference where
-  toQueryParam (OutputReference txHash txIndex) = coerce txHash <> "#" <> T.pack (show txIndex)
+  toQueryParam (OutputReference txHash txIndex) = toUrlPiece txHash <> "#" <> toUrlPiece txIndex
 
 instance ToJSON OutputReference where
   toJSON outputReference = String $ toQueryParam outputReference
