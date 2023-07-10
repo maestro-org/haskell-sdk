@@ -6,8 +6,11 @@ module Maestro.Types.V1.Common
     RewardAddress,
     TaggedText (..),
     LastUpdated (..),
+    NonAdaNativeToken (..),
+    AssetUnit (..),
     Asset (..),
     v1AssetToV0,
+    IsUtxo (..),
     UtxoWithSlot (..),
     v1UtxoWithSlotToV0,
     PaginatedUtxoWithSlot (..),
@@ -104,6 +107,15 @@ v1AssetToV0 Asset {..} = V0.Asset {
       UserMintedToken (NonAdaNativeToken policyId tokenName) -> coerce policyId <> "#" <> coerce tokenName
   }
 
+-- | To get basic details from an UTxO.
+class IsUtxo a where
+  getAddress :: a -> Bech32StringOf Address
+  getAssets :: a -> [Asset]
+  getDatum :: a -> Maybe DatumOption
+  getTxHash :: a -> TxHash
+  getIndex :: a -> TxIndex
+  getReferenceScript :: a -> Maybe Script
+
 -- | Transaction output.
 data UtxoWithSlot = UtxoWithSlot
   { _utxoWithSlotAddress         :: !(Bech32StringOf Address),
@@ -127,6 +139,14 @@ data UtxoWithSlot = UtxoWithSlot
   deriving
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoWithSlot", CamelToSnake]] UtxoWithSlot
+
+instance IsUtxo UtxoWithSlot where
+  getAddress = _utxoWithSlotAddress
+  getAssets = _utxoWithSlotAssets
+  getDatum = _utxoWithSlotDatum
+  getTxHash = _utxoWithSlotTxHash
+  getIndex = _utxoWithSlotIndex
+  getReferenceScript = _utxoWithSlotReferenceScript
 
 -- | Convert @V1@ API version UTxO (with slot) type into corresponding @V0@ type.
 v1UtxoWithSlotToV0 :: UtxoWithSlot -> V0.Utxo
