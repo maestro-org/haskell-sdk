@@ -10,6 +10,8 @@ module Maestro.Types.V1.Addresses (
     ChainPointer (..),
     StakingCredential (..),
     AddressInfo (..),
+    OutputReferenceObject (..),
+    PaginatedOutputReferenceObject (..),
   ) where
 
 import           Deriving.Aeson
@@ -99,3 +101,30 @@ data AddressInfo = AddressInfo
   deriving stock (Show, Eq, Ord, Generic)
   deriving (FromJSON, ToJSON)
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_addressInfo", CamelToSnake]] AddressInfo
+
+-- | Output reference of an UTxO. This is different from `OutputReference` type as later JSON representation is a string whereas this has an object format.
+data OutputReferenceObject = OutputReferenceObject
+  { _outputReferenceObjectIndex  :: !TxIndex
+  , _outputReferenceObjectTxHash :: !TxHash
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_outputReferenceObject", CamelToSnake]] OutputReferenceObject
+
+-- | UTxO IDs for all the unspent transaction outputs at an address.
+data PaginatedOutputReferenceObject = PaginatedOutputReferenceObject
+  { _paginatedOutputReferenceObjectData        :: ![OutputReferenceObject]
+  -- ^ See `OutputReferenceObject`.
+  , _paginatedOutputReferenceObjectLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
+  , _paginatedOutputReferenceObjectNextCursor  :: !(Maybe NextCursor)
+  -- ^ See `NextCursor`.
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedOutputReferenceObject", CamelToSnake]] PaginatedOutputReferenceObject
+
+instance HasCursor PaginatedOutputReferenceObject where
+  type CursorData PaginatedOutputReferenceObject = [OutputReferenceObject]
+  getNextCursor orefs = _paginatedOutputReferenceObjectNextCursor orefs
+  getCursorData orefs = _paginatedOutputReferenceObjectData orefs

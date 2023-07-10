@@ -2,6 +2,7 @@
 
 module Maestro.Client.V1.Addresses (
     utxosAtMultiAddresses,
+    getRefsAtAddress,
   ) where
 
 import           Maestro.API.V1
@@ -9,7 +10,8 @@ import           Maestro.API.V1.Addresses
 import           Maestro.Client.Env
 import           Maestro.Client.V1.Core
 import           Maestro.Types.Common     (Address, Bech32StringOf)
-import           Maestro.Types.V1         (PaginatedUtxoWithSlot)
+import           Maestro.Types.V1         (PaginatedOutputReferenceObject,
+                                           PaginatedUtxoWithSlot)
 import           Servant.API.Generic
 import           Servant.Client
 
@@ -30,3 +32,13 @@ utxosAtMultiAddresses ::
   [Bech32StringOf Address] ->
   IO PaginatedUtxoWithSlot
 utxosAtMultiAddresses = _addressesUtxos . addressClient
+
+-- | UTxO IDs for all the unspent transaction outputs at an address.
+getRefsAtAddress ::
+  MaestroEnv 'V1 ->
+  -- | The Address in Bech32 format.
+  Bech32StringOf Address ->
+  -- | The pagination attributes
+  Cursor ->
+  IO PaginatedOutputReferenceObject
+getRefsAtAddress = _addressUtxoRefs . addressClient
