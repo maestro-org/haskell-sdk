@@ -124,7 +124,10 @@ data PaginatedOutputReferenceObject = PaginatedOutputReferenceObject
   deriving (FromJSON, ToJSON)
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedOutputReferenceObject", CamelToSnake]] PaginatedOutputReferenceObject
 
+instance IsTimestamped PaginatedOutputReferenceObject where
+  type TimestampedData PaginatedOutputReferenceObject = [OutputReferenceObject]
+  getTimestampedData = _paginatedOutputReferenceObjectData
+  getTimestamp = _paginatedOutputReferenceObjectLastUpdated
+
 instance HasCursor PaginatedOutputReferenceObject where
-  type CursorData PaginatedOutputReferenceObject = [OutputReferenceObject]
-  getNextCursor orefs = _paginatedOutputReferenceObjectNextCursor orefs
-  getCursorData orefs = _paginatedOutputReferenceObjectData orefs
+  getNextCursor = _paginatedOutputReferenceObjectNextCursor

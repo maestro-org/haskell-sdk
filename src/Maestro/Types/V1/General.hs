@@ -2,9 +2,9 @@
 
 module Maestro.Types.V1.General
   ( -- * Types for @/system-start@ endpoint
-    SystemStart (..)
+    TimestampedSystemStart (..)
     -- * Types for @/era-history@ endpoint
-  , EraSummaries (..)
+  , TimestampedEraSummaries (..)
   , EraSummary (..)
   , EraParameters (..)
   , EraBound (..)
@@ -16,11 +16,11 @@ module Maestro.Types.V1.General
   , MaestroRational (..)
   , textToMaestroRational
   , textFromMaestroRational
+  , TimestampedProtocolParameters (..)
   , ProtocolParameters (..)
-  , ProtocolParametersData (..)
     -- * Types for @/chain-tip@ endpoint
+  , TimestampedChainTip (..)
   , ChainTip (..)
-  , ChainTipData (..)
   ) where
 
 import           Control.Monad           (unless, when)
@@ -36,7 +36,7 @@ import           Data.Word               (Word64)
 import           Deriving.Aeson
 import           Maestro.Types.V0.Common (BlockHash, EpochNo, EpochSize,
                                           LowerFirst, SlotNo)
-import           Maestro.Types.V1.Common (LastUpdated (..))
+import           Maestro.Types.V1.Common (IsTimestamped (..), LastUpdated (..))
 import           Numeric.Natural         (Natural)
 
 ------------------------------------------------------------------
@@ -44,28 +44,38 @@ import           Numeric.Natural         (Natural)
 ------------------------------------------------------------------
 
 -- | Network start time since genesis.
-data SystemStart = SystemStart
-  { _systemStartData        :: !LocalTime
+data TimestampedSystemStart = TimestampedSystemStart
+  { _timestampedSystemStartData        :: !LocalTime
   -- ^ Network start time since genesis.
-  , _systemStartLastUpdated :: !LastUpdated
+  , _timestampedSystemStartLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Ord, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_systemStart", CamelToSnake]] SystemStart
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedSystemStart", CamelToSnake]] TimestampedSystemStart
+
+instance IsTimestamped TimestampedSystemStart where
+  type TimestampedData TimestampedSystemStart = LocalTime
+  getTimestampedData = _timestampedSystemStartData
+  getTimestamp = _timestampedSystemStartLastUpdated
 
 ------------------------------------------------------------------
 --  Types for @/era-history@ endpoint
 ------------------------------------------------------------------
 
 -- | Network era summaries.
-data EraSummaries = EraSummaries
-  { _eraSummariesData        :: ![EraSummary]
+data TimestampedEraSummaries = TimestampedEraSummaries
+  { _timestampedEraSummariesData        :: ![EraSummary]
   -- ^ Era summaries, see `EraSummary`.
-  , _eraSummariesLastUpdated :: !LastUpdated
+  , _timestampedEraSummariesLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaries", CamelToSnake]] EraSummaries
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedEraSummaries", CamelToSnake]] TimestampedEraSummaries
+
+instance IsTimestamped TimestampedEraSummaries where
+  type TimestampedData TimestampedEraSummaries = [EraSummary]
+  getTimestampedData = _timestampedEraSummariesData
+  getTimestamp = _timestampedEraSummariesLastUpdated
 
 -- | Network era summary.
 data EraSummary = EraSummary
@@ -180,89 +190,98 @@ instance ToJSON MaestroRational where
 instance FromJSON MaestroRational where
   parseJSON = withText "MaestroRational" $ \ratTxt -> either fail pure $ textToMaestroRational ratTxt
 
--- See `ProtocolParametersData`.
-data ProtocolParameters = ProtocolParameters
-  { _protocolParametersData        :: !ProtocolParametersData
+-- | Timestamped `ProtocolParameters` response.
+data TimestampedProtocolParameters = TimestampedProtocolParameters
+  { _timestampedProtocolParametersData        :: !ProtocolParameters
   -- ^ See `ProtocolParametersData`.
-  , _protocolParametersLastUpdated :: !LastUpdated
+  , _timestampedProtocolParametersLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedProtocolParameters", CamelToSnake]] TimestampedProtocolParameters
+
+instance IsTimestamped TimestampedProtocolParameters where
+  type TimestampedData TimestampedProtocolParameters = ProtocolParameters
+  getTimestampedData = _timestampedProtocolParametersData
+  getTimestamp = _timestampedProtocolParametersLastUpdated
 
 -- | Protocol parameters for the latest epoch.
-data ProtocolParametersData = ProtocolParametersData
-  { _protocolParametersDataProtocolVersion                 :: !ProtocolVersion
+data ProtocolParameters = ProtocolParameters
+  { _protocolParametersProtocolVersion                 :: !ProtocolVersion
   -- ^ See `ProtocolVersion`.
-  , _protocolParametersDataMinFeeConstant                  :: !Natural
+  , _protocolParametersMinFeeConstant                  :: !Natural
   -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_b@ and @tx_fee_fixed@.
-  , _protocolParametersDataMinFeeCoefficient               :: !Natural
+  , _protocolParametersMinFeeCoefficient               :: !Natural
   -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_a@ and @tx_fee_per_byte@.
-  , _protocolParametersDataMaxBlockBodySize                :: !Natural
+  , _protocolParametersMaxBlockBodySize                :: !Natural
   -- ^ Maximum block body size.
-  , _protocolParametersDataMaxBlockHeaderSize              :: !Natural
+  , _protocolParametersMaxBlockHeaderSize              :: !Natural
   -- ^ Maximum block header size.
-  , _protocolParametersDataMaxTxSize                       :: !Natural
+  , _protocolParametersMaxTxSize                       :: !Natural
   -- ^ Maximum transaction size.
-  , _protocolParametersDataStakeKeyDeposit                 :: !Natural
+  , _protocolParametersStakeKeyDeposit                 :: !Natural
   -- 	The deposit required to register a stake address.
-  , _protocolParametersDataPoolDeposit                     :: !Natural
+  , _protocolParametersPoolDeposit                     :: !Natural
   -- ^ The amount of a pool registration deposit in lovelaces /AKA/ @stake_pool_deposit@.
-  , _protocolParametersDataPoolRetirementEpochBound        :: !EpochNo
+  , _protocolParametersPoolRetirementEpochBound        :: !EpochNo
   -- ^ The maximum number of epochs into the future that stake pools are permitted to schedule a retirement /AKA/ @pool_retire_max_epoch@, @e_max@.
-  , _protocolParametersDataDesiredNumberOfPools            :: !Natural
+  , _protocolParametersDesiredNumberOfPools            :: !Natural
   -- The equilibrium target number of stake pools. This is the \"k\" incentives parameter from the design document, /AKA/ @n_opt@, @stake_pool_target@.
-  , _protocolParametersDataPoolInfluence                   :: !MaestroRational
+  , _protocolParametersPoolInfluence                   :: !MaestroRational
   -- The influence of the pledge in stake pool rewards. This is the \"a_0\" incentives parameter from the design document.
-  , _protocolParametersDataMonetaryExpansion               :: !MaestroRational
+  , _protocolParametersMonetaryExpansion               :: !MaestroRational
   -- ^ The monetary expansion rate. This determines the fraction of the reserves that are added to the fee pot each epoch. This is the \"rho\" incentives parameter from the design document.
-  , _protocolParametersDataTreasuryExpansion               :: !MaestroRational
+  , _protocolParametersTreasuryExpansion               :: !MaestroRational
   -- ^ The fraction of the fee pot each epoch that goes to the treasury. This is the \"tau\" incentives parameter from the design document, /AKA/ @treasury_cut@.
-  , _protocolParametersDataMinPoolCost                     :: !Natural
+  , _protocolParametersMinPoolCost                     :: !Natural
   -- ^ The minimum value that stake pools are permitted to declare for their cost parameter.
-  , _protocolParametersDataPrices                          :: !(MemoryStepsWith MaestroRational)
+  , _protocolParametersPrices                          :: !(MemoryStepsWith MaestroRational)
   -- ^ The price per unit memory & price per reduction step corresponding to abstract notions of the relative memory usage and script execution steps respectively.
-  , _protocolParametersDataMaxExecutionUnitsPerTransaction :: !(MemoryStepsWith Natural)
+  , _protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryStepsWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single transaction.
-  , _protocolParametersDataMaxExecutionUnitsPerBlock       :: !(MemoryStepsWith Natural)
+  , _protocolParametersMaxExecutionUnitsPerBlock       :: !(MemoryStepsWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single block.
-  , _protocolParametersDataMaxValueSize                    :: !Natural
+  , _protocolParametersMaxValueSize                    :: !Natural
   -- ^ Maximum size of the /value/ part of an output in a serialized transaction.
-  , _protocolParametersDataCollateralPercentage            :: !Natural
+  , _protocolParametersCollateralPercentage            :: !Natural
   -- ^ The percentage of the transactions fee which must be provided as collateral when including non-native scripts.
-  , _protocolParametersDataMaxCollateralInputs             :: !Natural
+  , _protocolParametersMaxCollateralInputs             :: !Natural
   -- ^ The maximum number of collateral inputs allowed in a transaction.
-  , _protocolParametersDataCoinsPerUtxoByte                :: !Natural
+  , _protocolParametersCoinsPerUtxoByte                :: !Natural
   -- ^ The cost per UTxO size. Cost per UTxO /word/ for Alozno. Cost per UTxO /byte/ for Babbage and later.
-  , _protocolParametersDataCostModels                      :: !CostModels
+  , _protocolParametersCostModels                      :: !CostModels
   -- ^ See `CostModels`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParametersData", CamelToSnake]] ProtocolParametersData
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
 
 ------------------------------------------------------------------
 --  Types for @/chain-tip@ endpoint.
 ------------------------------------------------------------------
 
 -- | Details about the most recently adopted block.
-data ChainTipData = ChainTipData
-  { _chainTipDataBlockHash :: !BlockHash
+data ChainTip = ChainTip
+  { _chainTipBlockHash :: !BlockHash
   -- ^ Hash of this most recent block.
-  , _chainTipDataSlot      :: !SlotNo
+  , _chainTipSlot      :: !SlotNo
   -- ^ Slot number for this most recent block.
-  , _chainTipDataHeight    :: !Word64
+  , _chainTipHeight    :: !Word64
   -- ^ Block number (height) of this most recent block.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTipData", CamelToSnake]] ChainTipData
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTip", CamelToSnake]] ChainTip
 
-
--- | See `ChainTipData`.
-data ChainTip = ChainTip
-  { _chainTipData        :: !ChainTipData
-  -- ^ See `ChainTipData`.
-  , _chainTipLastUpdated :: !LastUpdated
+-- | Timestamped `ChainTip` response.
+data TimestampedChainTip = TimestampedChainTip
+  { _timestampedChainTipData        :: !ChainTip
+  -- ^ See `ChainTip`.
+  , _timestampedChainTipLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTip", CamelToSnake]] ChainTip
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedChainTip", CamelToSnake]] TimestampedChainTip
+
+instance IsTimestamped TimestampedChainTip where
+  type TimestampedData TimestampedChainTip = ChainTip
+  getTimestampedData = _timestampedChainTipData
+  getTimestamp = _timestampedChainTipLastUpdated

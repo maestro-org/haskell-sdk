@@ -19,17 +19,17 @@ generalClient :: MaestroEnv 'V1 -> GeneralAPI (AsClientT IO)
 generalClient = fromServant . _general . apiV1Client
 
 -- | Get details about the latest block of the network.
-getChainTip :: MaestroEnv 'V1 -> IO ChainTip
+getChainTip :: MaestroEnv 'V1 -> IO TimestampedChainTip
 getChainTip = _chainTip . generalClient
 
 -- | Get network start time since genesis.
-getSystemStart :: MaestroEnv 'V1 -> IO SystemStart
+getSystemStart :: MaestroEnv 'V1 -> IO TimestampedSystemStart
 getSystemStart = _systemStart . generalClient
 
 -- | Get network era history.
-getEraHistory :: MaestroEnv 'V1 -> IO EraSummaries
+getEraHistory :: MaestroEnv 'V1 -> IO TimestampedEraSummaries
 getEraHistory = _eraHistory . generalClient
 
 -- | Get protocol parameters for the latest epoch.
-getProtocolParameters :: MaestroEnv 'V1 -> IO ProtocolParameters
+getProtocolParameters :: MaestroEnv 'V1 -> IO TimestampedProtocolParameters
 getProtocolParameters = _protocolParams . generalClient

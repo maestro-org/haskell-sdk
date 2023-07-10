@@ -16,5 +16,5 @@ datumClient :: MaestroEnv 'V1 -> DatumAPI (AsClientT IO)
 datumClient = fromServant . _datum . apiV1Client
 
 -- | Get information about the datum from it's hash.
-getDatumByHash :: MaestroEnv 'V1 -> HexStringOf DatumHash -> IO Datum
+getDatumByHash :: MaestroEnv 'V1 -> HexStringOf DatumHash -> IO TimestampedDatum
 getDatumByHash = _datumByHash . datumClient

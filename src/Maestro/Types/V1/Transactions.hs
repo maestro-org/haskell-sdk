@@ -82,7 +82,10 @@ data PaginatedUtxo = PaginatedUtxo
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedUtxo", CamelToSnake]] PaginatedUtxo
 
+instance IsTimestamped PaginatedUtxo where
+  type TimestampedData PaginatedUtxo = [UtxoWithBytes]
+  getTimestampedData = _paginatedUtxoData
+  getTimestamp = _paginatedUtxoLastUpdated
+
 instance HasCursor PaginatedUtxo where
-  type CursorData PaginatedUtxo = [UtxoWithBytes]
-  getNextCursor utxos = _paginatedUtxoNextCursor utxos
-  getCursorData utxos = _paginatedUtxoData utxos
+  getNextCursor = _paginatedUtxoNextCursor

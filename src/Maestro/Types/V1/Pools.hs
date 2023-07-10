@@ -38,7 +38,10 @@ data PaginatedPoolListInfo = PaginatedPoolListInfo
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedPoolListInfo", CamelToSnake]] PaginatedPoolListInfo
 
+instance IsTimestamped PaginatedPoolListInfo where
+  type TimestampedData PaginatedPoolListInfo = [PoolListInfo]
+  getTimestampedData = _paginatedPoolListInfoData
+  getTimestamp = _paginatedPoolListInfoLastUpdated
+
 instance HasCursor PaginatedPoolListInfo where
-  type CursorData PaginatedPoolListInfo = [PoolListInfo]
-  getNextCursor pools = _paginatedPoolListInfoNextCursor pools
-  getCursorData pools = _paginatedPoolListInfoData pools
+  getNextCursor = _paginatedPoolListInfoNextCursor

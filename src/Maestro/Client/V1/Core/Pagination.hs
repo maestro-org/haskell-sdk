@@ -3,6 +3,8 @@ module Maestro.Client.V1.Core.Pagination where
 import           Data.Default.Class
 import           Data.Maybe                         (isNothing)
 import           Data.Proxy                         (Proxy (..))
+import           Maestro.Types.V1.Common            (IsTimestamped (getTimestampedData),
+                                                     TimestampedData)
 import           Maestro.Types.V1.Common.Pagination
 import           Servant.API                        (QueryParam, (:>))
 import           Servant.Client.Core                (Client, HasClient,
@@ -23,13 +25,13 @@ instance Default Cursor where
   def = Cursor maxResultsPerPage Nothing
 
 -- Utility for querying all results from a paged endpoint.
-allPages :: (Monad m, HasCursor a) => (Cursor -> m a) -> m (CursorData a)
+allPages :: (Monad m, HasCursor a) => (Cursor -> m a) -> m (TimestampedData a)
 allPages act = fetch Nothing
   where
     fetch cursor = do
       xs <- act $ Cursor maxResultsPerPage cursor
       let nextCursor = getNextCursor xs
-          cursorData = getCursorData xs
+          cursorData = getTimestampedData xs
       if isNothing nextCursor then
         pure cursorData
       else do

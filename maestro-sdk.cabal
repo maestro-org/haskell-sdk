@@ -107,6 +107,7 @@ library
       Maestro.Types.V1.Datum
       Maestro.Types.V1.Common
       Maestro.Types.V1.Common.Pagination
+      Maestro.Types.V1.Common.Timestamped
       Maestro.Types.V1.General
       Maestro.Types.V1.Pools
       Maestro.Types.V1.Transactions

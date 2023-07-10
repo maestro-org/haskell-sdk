@@ -10,5 +10,5 @@ newtype DatumAPI route =
       _datumByHash
         :: route
         :- Capture "datum_hash" (HexStringOf DatumHash)
-        :> Get '[JSON] Datum
+        :> Get '[JSON] TimestampedDatum
     } deriving Generic

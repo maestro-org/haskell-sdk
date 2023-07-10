@@ -5,7 +5,6 @@ module Maestro.Types.V1.Common
     StakingCredentialAddress,
     RewardAddress,
     TaggedText (..),
-    LastUpdated (..),
     NonAdaNativeToken (..),
     AssetUnit (..),
     Asset (..),
@@ -15,23 +14,26 @@ module Maestro.Types.V1.Common
     v1UtxoWithSlotToV0,
     PaginatedUtxoWithSlot (..),
     module Maestro.Types.Common,
-    module Maestro.Types.V1.Common.Pagination
+    module Maestro.Types.V1.Common.Pagination,
+    module Maestro.Types.V1.Common.Timestamped
   ) where
 
-import           Data.Aeson                         (FromJSON (..), ToJSON (..),
-                                                     Value (..), withText)
-import           Data.Coerce                        (coerce)
-import           Data.String                        (IsString)
-import           Data.Text                          (Text)
-import qualified Data.Text                          as T (splitAt)
+import           Data.Aeson                          (FromJSON (..),
+                                                      ToJSON (..), Value (..),
+                                                      withText)
+import           Data.Coerce                         (coerce)
+import           Data.String                         (IsString)
+import           Data.Text                           (Text)
+import qualified Data.Text                           as T (splitAt)
 import           Deriving.Aeson
-import           GHC.TypeLits                       (Symbol)
+import           GHC.TypeLits                        (Symbol)
 import           Maestro.Types.Common
-import qualified Maestro.Types.V0                   as V0 (Asset (..),
-                                                           Utxo (..))
+import qualified Maestro.Types.V0                    as V0 (Asset (..),
+                                                            Utxo (..))
 import           Maestro.Types.V1.Common.Pagination
-import           Servant.API                        (FromHttpApiData (..),
-                                                     ToHttpApiData (..))
+import           Maestro.Types.V1.Common.Timestamped
+import           Servant.API                         (FromHttpApiData (..),
+                                                      ToHttpApiData (..))
 
 -- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of payment credential of an address.
 data PaymentCredentialAddress
@@ -46,16 +48,6 @@ data RewardAddress
 newtype TaggedText (description :: Symbol) = TaggedText Text
   deriving stock (Eq, Ord, Show, Generic)
   deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON, IsString)
-
--- | Details of the most recent block processed by the indexer (aka chain tip); that is, the data returned is correct as of this block in time.
-data LastUpdated = LastUpdated
-  { _lastUpdatedBlockHash :: !BlockHash
-  -- ^ Hash of the latest block.
-  , _lastUpdatedBlockSlot :: !SlotNo
-  -- ^ Slot number for the tip.
-  }
-  deriving stock (Eq, Ord, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_lastUpdated", CamelToSnake]] LastUpdated
 
 -- | Type to denote for native tokens (besides ada).
 data NonAdaNativeToken = NonAdaNativeToken !PolicyId !TokenName
@@ -174,7 +166,10 @@ data PaginatedUtxoWithSlot = PaginatedUtxoWithSlot
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedUtxoWithSlot", CamelToSnake]] PaginatedUtxoWithSlot
 
+instance IsTimestamped PaginatedUtxoWithSlot where
+  type TimestampedData PaginatedUtxoWithSlot = [UtxoWithSlot]
+  getTimestampedData = _paginatedUtxoWithSlotData
+  getTimestamp = _paginatedUtxoWithSlotLastUpdated
+
 instance HasCursor PaginatedUtxoWithSlot where
-  type CursorData PaginatedUtxoWithSlot = [UtxoWithSlot]
-  getNextCursor utxos = _paginatedUtxoWithSlotNextCursor utxos
-  getCursorData utxos = _paginatedUtxoWithSlotData utxos
+  getNextCursor = _paginatedUtxoWithSlotNextCursor

@@ -10,17 +10,17 @@ data GeneralAPI route =
       _systemStart
         :: route
         :- "system-start"
-        :> Get '[JSON] SystemStart
+        :> Get '[JSON] TimestampedSystemStart
     , _eraHistory
         :: route
         :- "era-history"
-        :> Get '[JSON] EraSummaries
+        :> Get '[JSON] TimestampedEraSummaries
     , _protocolParams
         :: route
         :- "protocol-params"
-        :> Get '[JSON] ProtocolParameters
+        :> Get '[JSON] TimestampedProtocolParameters
     , _chainTip
         :: route
         :- "chain-tip"
-        :> Get '[JSON] ChainTip
+        :> Get '[JSON] TimestampedChainTip
     } deriving Generic

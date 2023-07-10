@@ -5,7 +5,7 @@ import           Maestro.Types.V1
 import           Servant.API
 import           Servant.API.Generic
 
-data PoolsAPI route = PoolsAPI
+newtype PoolsAPI route = PoolsAPI
   { _listPools ::
       route
         :- Pagination

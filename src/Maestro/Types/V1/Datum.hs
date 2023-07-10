@@ -2,12 +2,14 @@
 
 module Maestro.Types.V1.Datum
   ( Datum (..)
+  , TimestampedDatum (..)
   ) where
 
 import           Data.Aeson              (Value)
 import           Data.Text               (Text)
 import           Deriving.Aeson
-import           Maestro.Types.V1.Common (LowerFirst)
+import           Maestro.Types.V1.Common (IsTimestamped (..), LastUpdated,
+                                          LowerFirst)
 
 -- | Details of datum when queried by it's hash.
 data Datum = Datum
@@ -18,3 +20,18 @@ data Datum = Datum
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_datum", LowerFirst]] Datum
+
+-- | Timestamped `Datum` response.
+data TimestampedDatum = TimestampedDatum
+  { _timestampedDatumData        :: !Datum
+  -- ^ See `Datum`.
+  , _timestampedDatumLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedDatum", CamelToSnake]] TimestampedDatum
+
+instance IsTimestamped TimestampedDatum where
+  type TimestampedData TimestampedDatum = Datum
+  getTimestampedData = _timestampedDatumData
+  getTimestamp = _timestampedDatumLastUpdated

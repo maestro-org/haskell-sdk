@@ -5,12 +5,13 @@ module Maestro.Types.V1.Common.Pagination (
   , HasCursor (..)
   ) where
 
-import           Data.Aeson   (FromJSON, ToJSON)
-import           Data.Kind    (Type)
-import           Data.String  (IsString)
-import           Data.Text    (Text)
-import           GHC.Generics (Generic)
-import           Servant.API  (FromHttpApiData, ToHttpApiData)
+import           Data.Aeson                          (FromJSON, ToJSON)
+import           Data.String                         (IsString)
+import           Data.Text                           (Text)
+import           GHC.Generics                        (Generic)
+import           Maestro.Types.V1.Common.Timestamped
+import           Servant.API                         (FromHttpApiData,
+                                                      ToHttpApiData)
 
 -- | Type to denote for cursor to be returned in a paginated endpoint.
 newtype NextCursor = NextCursor Text
@@ -18,10 +19,6 @@ newtype NextCursor = NextCursor Text
   deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON, IsString)
 
 -- | Is the endpoint paged?
-class (Monoid (CursorData a)) => HasCursor a where
-  -- | What is the type of the main data in question?
-  type CursorData a :: Type
+class (IsTimestamped a, Monoid (TimestampedData a)) => HasCursor a where
   -- | Get the next cursor from the value of the given type @a@.
   getNextCursor :: a -> Maybe NextCursor
-  -- | Get the main data from the value of the given type @a@.
-  getCursorData :: a -> CursorData a
