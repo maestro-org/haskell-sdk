@@ -21,9 +21,9 @@ import           Servant.API             (FromHttpApiData, ToHttpApiData)
 type AddressToDecode = "Bech32/Hex/Base58 encoded address"
 
 -- | Denotes network for the entity in question, such as address.
-data NetworkId = Mainnet | Testnet
+data NetworkId = NIDMainnet | NIDTestnet
   deriving stock (Show, Eq, Ord, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] NetworkId
+  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[StripPrefix "NID", LowerFirst]] NetworkId
 
 -- | Denotes kind of a payment credential.
 data PaymentCredKind = PCKKey | PCKScript
