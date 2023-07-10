@@ -69,15 +69,15 @@ data EraSummaries = EraSummaries
 
 -- | Network era summary.
 data EraSummary = EraSummary
-  { _eraSummaryDataStart      :: !EraBound
+  { _eraSummaryStart      :: !EraBound
   -- ^ Start of this era.
-  , _eraSummaryDataEnd        :: !(Maybe EraBound)
+  , _eraSummaryEnd        :: !(Maybe EraBound)
   -- ^ End of this era.
-  , _eraSummaryDataParameters :: !EraParameters
+  , _eraSummaryParameters :: !EraParameters
   -- ^ Parameters of this era.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaryData", LowerFirst]] EraSummary
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummary", LowerFirst]] EraSummary
 
 -- | Parameters for a network era which can vary between hardforks.
 data EraParameters = EraParameters
