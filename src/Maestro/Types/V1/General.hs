@@ -65,7 +65,7 @@ data EraSummaries = EraSummaries
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaries", LowerFirst]] EraSummaries
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummaries", CamelToSnake]] EraSummaries
 
 -- | Network era summary.
 data EraSummary = EraSummary

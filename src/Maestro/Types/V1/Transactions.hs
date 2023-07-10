@@ -21,7 +21,7 @@ data OutputReference = OutputReference !TxHash !TxIndex
   deriving stock (Show, Eq, Ord)
 
 instance ToHttpApiData OutputReference where
-  toQueryParam (OutputReference txHash txIndex) = coerce txHash <> T.pack (show txIndex)
+  toQueryParam (OutputReference txHash txIndex) = coerce txHash <> "#" <> T.pack (show txIndex)
 
 instance ToJSON OutputReference where
   toJSON outputReference = String $ toQueryParam outputReference
