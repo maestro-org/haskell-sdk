@@ -38,7 +38,7 @@ getRefsAtAddress ::
   MaestroEnv 'V1 ->
   -- | The Address in Bech32 format.
   Bech32StringOf Address ->
-  -- | The pagination attributes
+  -- | The pagination attributes.
   Cursor ->
   IO PaginatedOutputReferenceObject
 getRefsAtAddress = _addressUtxoRefs . addressClient

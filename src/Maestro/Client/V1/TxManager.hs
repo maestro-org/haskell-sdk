@@ -17,9 +17,9 @@ txClient = fromServant . _txManager . apiV1Client
 
 -- | Submit a signed and serialized transaction to the network. A transaction submited with this endpoint will be monitored by Maestro.
 submitAndMonitorTx ::
-  -- | The Maestro Environment
+  -- | The Maestro Environment.
   MaestroEnv 'V1 ->
-  -- | CBOR encoded Transaction
+  -- | CBOR encoded Transaction.
   BS.ByteString ->
   IO Text
 submitAndMonitorTx = _monitoredTxSubmit . txClient

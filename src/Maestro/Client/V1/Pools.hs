@@ -16,6 +16,6 @@ import           Servant.Client
 poolsClient :: MaestroEnv 'V1 -> PoolsAPI (AsClientT IO)
 poolsClient = fromServant . _pools . apiV1Client
 
--- | Returns a list of currently registered stake pools
+-- | Returns a list of currently registered stake pools.
 listPools :: MaestroEnv 'V1 -> Cursor -> IO PaginatedPoolListInfo
 listPools = _listPools . poolsClient
