@@ -9,7 +9,7 @@ import           Text.RawString.QQ
 
 import           Data.ByteString.Lazy           (ByteString)
 import           Data.Time.Calendar.OrdinalDate (fromOrdinalDate)
-import           Maestro.Types
+import           Maestro.Types.V0
 
 spec_general :: Spec
 spec_general = do

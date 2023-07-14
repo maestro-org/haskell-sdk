@@ -1,12 +1,12 @@
 module Maestro.Run.Pools where
 
-import Maestro.Client
-import Maestro.Types
+import           Maestro.Client.V0
+import           Maestro.Types.V0
 
 poolId :: Bech32StringOf PoolId
 poolId = "pool1rkfs9glmfva3jd0q9vnlqvuhnrflpzj4l07u6sayfx5k7d788us"
 
-runPoolsAPI :: MaestroEnv -> IO ()
+runPoolsAPI :: MaestroEnv 'V0 -> IO ()
 runPoolsAPI mEnv = do
   putStrLn "Fetching List Pools ..."
   lstPools <- runListPools mEnv
@@ -40,26 +40,26 @@ runPoolsAPI mEnv = do
   updates <- runPoolInfo mEnv
   putStrLn $ "fetched pool Updates: \n " ++ show updates
 
-runPoolUpdates :: MaestroEnv -> IO [PoolUpdate]
+runPoolUpdates :: MaestroEnv 'V0 -> IO [PoolUpdate]
 runPoolUpdates mEnv = poolUpdates mEnv poolId
 
-runListPools :: MaestroEnv -> IO [PoolListInfo]
+runListPools :: MaestroEnv 'V0 -> IO [PoolListInfo]
 runListPools mEnv = listPools mEnv (Page 1 1)
 
-runPoolBlocks :: MaestroEnv -> IO [PoolBlock]
+runPoolBlocks :: MaestroEnv 'V0 -> IO [PoolBlock]
 runPoolBlocks mEnv = poolBlocks mEnv poolId (Page 1 1) Nothing (Just Ascending)
 
-runPoolDelegators :: MaestroEnv -> IO [DelegatorInfo]
+runPoolDelegators :: MaestroEnv 'V0 -> IO [DelegatorInfo]
 runPoolDelegators mEnv = poolDelegators mEnv poolId (Page 1 1)
 
-runPoolHistory :: MaestroEnv -> IO [PoolHistory]
+runPoolHistory :: MaestroEnv 'V0 -> IO [PoolHistory]
 runPoolHistory mEnv = poolHistory mEnv poolId (Page 1 1) Nothing (Just Ascending)
 
-runPoolInfo :: MaestroEnv -> IO PoolInfo
+runPoolInfo :: MaestroEnv 'V0 -> IO PoolInfo
 runPoolInfo mEnv = poolInfo mEnv poolId
 
-runPoolMetadata :: MaestroEnv -> IO PoolMetadata
+runPoolMetadata :: MaestroEnv 'V0 -> IO PoolMetadata
 runPoolMetadata mEnv = poolMetadata mEnv poolId
 
-runPoolRelay :: MaestroEnv -> IO [PoolRelay]
+runPoolRelay :: MaestroEnv 'V0 -> IO [PoolRelay]
 runPoolRelay mEnv = poolRelays mEnv poolId

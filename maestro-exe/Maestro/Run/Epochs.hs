@@ -1,8 +1,8 @@
 module Maestro.Run.Epochs where
 
-import           Maestro.Client
+import           Maestro.Client.V0
 
-runEpochsAPI :: MaestroEnv -> IO ()
+runEpochsAPI :: MaestroEnv 'V0 -> IO ()
 runEpochsAPI mEnv = do
   putStrLn "Fetching Current Epoch's Info ..."
   currentEpochInfo <- getCurrentEpoch mEnv

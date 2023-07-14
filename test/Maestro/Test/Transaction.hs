@@ -6,7 +6,7 @@ import           Test.Hspec
 import           Text.RawString.QQ
 
 import           Data.ByteString.Lazy (ByteString)
-import           Maestro.Types
+import           Maestro.Types.V0
 
 spec_pool :: Spec
 spec_pool = do
@@ -107,4 +107,5 @@ txUtxoExpected  =
         , _scriptType  = PlutusV2
         , _scriptJson  = Nothing
         }
+    , _utxoTxoutCbor = Nothing
     }

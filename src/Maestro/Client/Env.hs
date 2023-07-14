@@ -1,8 +1,9 @@
 module Maestro.Client.Env
   (
-    MaestroEnv(..)
+    MaestroEnv (..)
+  , MaestroNetwork (..)
+  , MaestroApiVersion (..)
   , mkMaestroEnv
-  , MaestroNetwork(..)
   ) where
 
 import           Data.Text               (Text)
@@ -13,20 +14,40 @@ import qualified Servant.Client          as Servant
 
 type MaestroToken = Text
 
-data MaestroEnv = MaestroEnv
+data MaestroApiVersion = V0 | V1
+
+instance Show MaestroApiVersion where
+  show V0 = "v0"
+  show V1 = "v1"
+
+data SingMaestroApiVersion (v :: MaestroApiVersion) where
+  SingV0 :: SingMaestroApiVersion 'V0
+  SingV1 :: SingMaestroApiVersion 'V1
+
+fromSingMaestroApiVersion :: SingMaestroApiVersion v -> MaestroApiVersion
+fromSingMaestroApiVersion SingV0 = V0
+fromSingMaestroApiVersion SingV1 = V1
+
+class SingMaestroApiVersionI (v :: MaestroApiVersion)
+  where singMaestroApiVersion :: SingMaestroApiVersion v
+
+instance SingMaestroApiVersionI 'V0 where singMaestroApiVersion = SingV0
+instance SingMaestroApiVersionI 'V1 where singMaestroApiVersion = SingV1
+
+data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
   { _maeClientEnv :: !Servant.ClientEnv
   , _maeToken     :: !MaestroToken
   }
 
 data MaestroNetwork = Mainnet | Preprod
 
-maestroBaseUrl :: MaestroNetwork -> String
-maestroBaseUrl Preprod = "https://preprod.gomaestro-api.org/v0"
-maestroBaseUrl Mainnet = "https://mainnet.gomaestro-api.org/v0"
+maestroBaseUrl :: MaestroNetwork -> MaestroApiVersion -> String
+maestroBaseUrl Preprod v = "https://preprod.gomaestro-api.org/" <> show v
+maestroBaseUrl Mainnet v = "https://mainnet.gomaestro-api.org/" <> show v
 
-mkMaestroEnv :: MaestroToken -> MaestroNetwork -> IO MaestroEnv
+mkMaestroEnv :: forall (apiVersion :: MaestroApiVersion). SingMaestroApiVersionI apiVersion => MaestroToken -> MaestroNetwork -> IO (MaestroEnv apiVersion)
 mkMaestroEnv token nid = do
-  clientEnv <- servantClientEnv $ maestroBaseUrl nid
+  clientEnv <- servantClientEnv $ maestroBaseUrl nid (fromSingMaestroApiVersion $ singMaestroApiVersion @apiVersion)
   pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token }
 
 servantClientEnv :: String -> IO Servant.ClientEnv
