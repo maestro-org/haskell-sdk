@@ -1,5 +1,6 @@
 module Maestro.Client.V1.TxManager
   ( submitAndMonitorTx
+  , turboSubmitAndMonitorTx
   )
 where
 
@@ -23,3 +24,12 @@ submitAndMonitorTx ::
   BS.ByteString ->
   IO Text
 submitAndMonitorTx = _monitoredTxSubmit . txClient
+
+-- | Submit a signed and serialized transaction to the network. A transaction submited with this endpoint will be [turbo submitted & monitored by Maestro](https://docs.gomaestro.org/docs/API%20reference/Transaction%20Manager/tx-manager-turbo-submit).
+turboSubmitAndMonitorTx ::
+  -- | The Maestro Environment.
+  MaestroEnv 'V1 ->
+  -- | CBOR encoded Transaction.
+  BS.ByteString ->
+  IO Text
+turboSubmitAndMonitorTx = _monitoredTurboTxSubmit . txClient

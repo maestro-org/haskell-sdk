@@ -6,8 +6,12 @@ import           Maestro.Types.V1
 import           Servant.API
 import           Servant.API.Generic
 
-newtype TxManagerAPI route = TxManagerAPI
+data TxManagerAPI route = TxManagerAPI
   { _monitoredTxSubmit ::
+      route
+        :- ReqBody' '[Required] '[CBORStream] BS.ByteString
+        :> PostAccepted '[JSON] T.Text
+  , _monitoredTurboTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
         :> PostAccepted '[JSON] T.Text
