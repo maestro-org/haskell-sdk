@@ -44,18 +44,6 @@ common common
 library
     import:           common
     exposed-modules:
-      Maestro.API.V0
-      Maestro.API.V0.Accounts
-      Maestro.API.V0.Address
-      Maestro.API.V0.Assets
-      Maestro.API.V0.Datum
-      Maestro.API.V0.Epochs
-      Maestro.API.V0.General
-      Maestro.API.V0.Pool
-      Maestro.API.V0.Scripts
-      Maestro.API.V0.Transaction
-      Maestro.API.V0.TxManager
-
       Maestro.API.V1
       Maestro.API.V1.Addresses
       Maestro.API.V1.Blocks
@@ -67,19 +55,6 @@ library
 
       Maestro.Client.Env
       Maestro.Client.Error
-      Maestro.Client.V0
-      Maestro.Client.V0.Core
-      Maestro.Client.V0.Core.Pagination
-      Maestro.Client.V0.Datum
-      Maestro.Client.V0.Epochs
-      Maestro.Client.V0.Accounts
-      Maestro.Client.V0.Address
-      Maestro.Client.V0.Assets
-      Maestro.Client.V0.General
-      Maestro.Client.V0.Pools
-      Maestro.Client.V0.Scripts
-      Maestro.Client.V0.Transaction
-      Maestro.Client.V0.TxManager
 
       Maestro.Client.V1
       Maestro.Client.V1.Core
@@ -93,16 +68,6 @@ library
       Maestro.Client.V1.TxManager
 
       Maestro.Types.Common
-      Maestro.Types.V0
-      Maestro.Types.V0.Accounts
-      Maestro.Types.V0.Address
-      Maestro.Types.V0.Assets
-      Maestro.Types.V0.Common
-      Maestro.Types.V0.Datum
-      Maestro.Types.V0.Epochs
-      Maestro.Types.V0.General
-      Maestro.Types.V0.Pool
-      Maestro.Types.V0.Transactions
 
       Maestro.Types.V1
       Maestro.Types.V1.Addresses
@@ -134,48 +99,3 @@ library
 
     hs-source-dirs:   src
     default-language: Haskell2010
-
-test-suite maestro-sdk-tests
-    import:           common
-    default-language: Haskell2010
-    type:             exitcode-stdio-1.0
-    hs-source-dirs:   test
-    main-is:          Driver.hs
-    other-modules:
-        Maestro.Test.Datum
-        Maestro.Test.Epochs
-        Maestro.Test.General
-        Maestro.Test.Pool
-        Maestro.Test.Transaction
-
-    build-depends:
-        base
-      , maestro-sdk
-      , aeson
-      , bytestring
-      , containers
-      , raw-strings-qq
-      , hspec
-      , tasty
-      , tasty-hspec
-      , time
-    build-tool-depends:
-        tasty-discover:tasty-discover
-
-executable maestro-exe
-    import:           common
-    default-language: Haskell2010
-    other-modules:
-      Maestro.Run.Datum
-      Maestro.Run.General
-      Maestro.Run.Pools
-      Maestro.Run.Scripts
-      Maestro.Run.Tx
-      Maestro.Run.Epochs
-      Maestro.Run.Address
-    hs-source-dirs:   maestro-exe
-    main-is:          Main.hs
-    build-depends:
-        base,
-        maestro-sdk,
-        text
