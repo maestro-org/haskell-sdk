@@ -3,15 +3,12 @@
 module Maestro.Types.V1.Transactions
   ( OutputReference (..)
   , UtxoWithBytes (..)
-  , v1UtxoToV0
   , PaginatedUtxo (..)
   ) where
 
 import           Data.Aeson              (ToJSON (..), Value (..))
-import           Data.Coerce             (coerce)
 import           Deriving.Aeson
 import           Maestro.Types.Common
-import qualified Maestro.Types.V0        as V0 (Utxo (..))
 import           Maestro.Types.V1.Common
 import           Servant.API             (ToHttpApiData (..))
 
@@ -54,18 +51,6 @@ instance IsUtxo UtxoWithBytes where
   getTxHash = _utxoWithBytesTxHash
   getIndex = _utxoWithBytesIndex
   getReferenceScript = _utxoWithBytesReferenceScript
-
--- | Convert @V1@ API version UTxO type into corresponding @V0@ type.
-v1UtxoToV0 :: UtxoWithBytes -> V0.Utxo
-v1UtxoToV0 UtxoWithBytes {..} = V0.Utxo {
-    V0._utxoAddress = _utxoWithBytesAddress
-  , V0._utxoAssets = map v1AssetToV0 _utxoWithBytesAssets
-  , V0._utxoDatum = _utxoWithBytesDatum
-  , V0._utxoIndex = coerce _utxoWithBytesIndex
-  , V0._utxoReferenceScript = _utxoWithBytesReferenceScript
-  , V0._utxoTxHash = coerce _utxoWithBytesTxHash
-  , V0._utxoTxoutCbor = _utxoWithBytesTxoutCbor
-  }
 
 -- | A paginated response of transaction outputs.
 data PaginatedUtxo = PaginatedUtxo

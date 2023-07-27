@@ -34,7 +34,7 @@ import qualified Data.Text.Read          as TxtRead
 import           Data.Time               (LocalTime, NominalDiffTime)
 import           Data.Word               (Word64)
 import           Deriving.Aeson
-import           Maestro.Types.V0.Common (BlockHash, EpochNo, EpochSize,
+import           Maestro.Types.Common    (BlockHash, EpochNo, EpochSize,
                                           LowerFirst, SlotNo)
 import           Maestro.Types.V1.Common (IsTimestamped (..), LastUpdated (..))
 import           Numeric.Natural         (Natural)

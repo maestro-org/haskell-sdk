@@ -11,7 +11,7 @@ import           Control.Exception       (Exception)
 import           Data.Aeson              (decode)
 import           Data.Text               (Text)
 import           Deriving.Aeson
-import           Maestro.Types.V0.Common (LowerFirst)
+import           Maestro.Types.Common (LowerFirst)
 import           Network.HTTP.Types
 import           Servant.Client
 
