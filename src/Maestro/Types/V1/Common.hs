@@ -8,10 +8,8 @@ module Maestro.Types.V1.Common
     NonAdaNativeToken (..),
     AssetUnit (..),
     Asset (..),
-    v1AssetToV0,
     IsUtxo (..),
     UtxoWithSlot (..),
-    v1UtxoWithSlotToV0,
     PaginatedUtxoWithSlot (..),
     module Maestro.Types.Common,
     module Maestro.Types.V1.Common.Pagination,
@@ -28,8 +26,6 @@ import qualified Data.Text                           as T (splitAt)
 import           Deriving.Aeson
 import           GHC.TypeLits                        (Symbol)
 import           Maestro.Types.Common
-import qualified Maestro.Types.V0                    as V0 (Asset (..),
-                                                            Utxo (..))
 import           Maestro.Types.V1.Common.Pagination
 import           Maestro.Types.V1.Common.Timestamped
 import           Servant.API                         (FromHttpApiData (..),
@@ -90,15 +86,6 @@ data Asset = Asset
     (FromJSON, ToJSON)
     via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
 
--- | Convert @V1@ API version `Asset` type into corresponding @V0@ type.
-v1AssetToV0 :: Asset -> V0.Asset
-v1AssetToV0 Asset {..} = V0.Asset {
-    V0._assetQuantity = _assetAmount
-  , V0._assetUnit = case _assetUnit of
-      Lovelace -> "lovelace"
-      UserMintedToken (NonAdaNativeToken policyId tokenName) -> coerce policyId <> "#" <> coerce tokenName
-  }
-
 -- | To get basic details from an UTxO.
 class IsUtxo a where
   getAddress :: a -> Bech32StringOf Address
@@ -139,18 +126,6 @@ instance IsUtxo UtxoWithSlot where
   getTxHash = _utxoWithSlotTxHash
   getIndex = _utxoWithSlotIndex
   getReferenceScript = _utxoWithSlotReferenceScript
-
--- | Convert @V1@ API version UTxO (with slot) type into corresponding @V0@ type.
-v1UtxoWithSlotToV0 :: UtxoWithSlot -> V0.Utxo
-v1UtxoWithSlotToV0 UtxoWithSlot {..} = V0.Utxo {
-    V0._utxoAddress = _utxoWithSlotAddress
-  , V0._utxoAssets = map v1AssetToV0 _utxoWithSlotAssets
-  , V0._utxoDatum = _utxoWithSlotDatum
-  , V0._utxoIndex = coerce _utxoWithSlotIndex
-  , V0._utxoReferenceScript = _utxoWithSlotReferenceScript
-  , V0._utxoTxHash = coerce _utxoWithSlotTxHash
-  , V0._utxoTxoutCbor = _utxoWithSlotTxoutCbor
-  }
 
 -- | A paginated response of transaction outputs.
 data PaginatedUtxoWithSlot = PaginatedUtxoWithSlot
