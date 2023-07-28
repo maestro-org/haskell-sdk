@@ -29,4 +29,15 @@ data AddressesAPI route = AddressesAPI
       :> Pagination
       :> Get '[JSON] PaginatedOutputReferenceObject
 
+  , _paymentCredentialUtxos
+      :: route
+      :- "cred"
+      :> Capture "credential" (Bech32StringOf PaymentCredentialAddress)
+      :> "utxos"
+      :> QueryParam "resolve_datums" Bool
+      :> QueryParam "with_cbor" Bool
+      -- TODO: Support for more query parameters.
+      :> Pagination
+      :> Get '[JSON] PaginatedUtxoWithSlot
+
   } deriving (Generic)

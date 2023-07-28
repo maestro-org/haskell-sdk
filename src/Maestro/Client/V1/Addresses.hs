@@ -3,6 +3,7 @@
 module Maestro.Client.V1.Addresses (
     utxosAtMultiAddresses,
     getRefsAtAddress,
+    utxosByPaymentCredential,
   ) where
 
 import           Maestro.API.V1
@@ -11,7 +12,8 @@ import           Maestro.Client.Env
 import           Maestro.Client.V1.Core
 import           Maestro.Types.Common     (Address, Bech32StringOf)
 import           Maestro.Types.V1         (PaginatedOutputReferenceObject,
-                                           PaginatedUtxoWithSlot)
+                                           PaginatedUtxoWithSlot,
+                                           PaymentCredentialAddress)
 import           Servant.API.Generic
 import           Servant.Client
 
@@ -42,3 +44,17 @@ getRefsAtAddress ::
   Cursor ->
   IO PaginatedOutputReferenceObject
 getRefsAtAddress = _addressUtxoRefs . addressClient
+
+-- | Query UTxOs by payment credential in bech32 format.
+utxosByPaymentCredential ::
+  MaestroEnv 'V1 ->
+  -- | The Address in Bech32 format.
+  Bech32StringOf PaymentCredentialAddress ->
+  -- | Query param to include the corresponding datums for datum hashes.
+  Maybe Bool ->
+  -- | Query Param to include the CBOR encodings of the transaction outputs in the response.
+  Maybe Bool ->
+  -- | The pagination attributes.
+  Cursor ->
+  IO PaginatedUtxoWithSlot
+utxosByPaymentCredential = _paymentCredentialUtxos . addressClient
