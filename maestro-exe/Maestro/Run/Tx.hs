@@ -3,11 +3,24 @@ module Maestro.Run.Tx where
 import           Maestro.Client.V0
 import           Maestro.Types.V0
 
-txHash :: HashStringOf Tx
-txHash = "7fdf7a20ba50d841344ab0cb368da6a047ce1e2a29b707586f61f0b8fea6bcf2"
+import           Maestro.Client.V1
+import           Maestro.Types.V1
 
-runTxApi :: MaestroEnv 'V0 -> IO ()
-runTxApi mEnv = do
+txHash :: HashStringOf Tx
+txHash = "3cc22b391e63d0ebf1b0553dc100253b8cba3e715e95672319c7e6e5cb6739e9"
+
+runTxApiV1 :: MaestroEnv 'V1 -> IO ()
+runTxApiV1 mEnv = do
+    putStrLn "Fetching Tx Details"
+    txDetails <- txDetailsByHash mEnv txHash
+    putStrLn $ "fetched Tx Details: \n " ++ show txDetails
+    putStrLn "Fetching Block Details"
+    blockDetails <- blockDetailsByHash mEnv
+                    $ _txDetailsBlockHash $ getTimestampedData txDetails
+    putStrLn $ "fetched Block Details: \n " ++ show blockDetails
+
+runTxApiV0 :: MaestroEnv 'V0 -> IO ()
+runTxApiV0 mEnv = do
   putStrLn "Fetching Tx Address ..."
   txAddr <- runTxAddress mEnv
   putStrLn $ "fetched Tx Addr: \n " ++ show txAddr

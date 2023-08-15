@@ -95,12 +95,12 @@ newtype SlotNo = SlotNo {unSlotNo :: Word64}
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
   deriving stock (Show, Eq, Ord, Generic)
-  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON)
+  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData)
 
 -- | Hash of the block.
 newtype BlockHash = BlockHash {unBlockHash :: Text}
   deriving stock (Show, Eq, Ord, Generic)
-  deriving (FromJSON, ToJSON)
+  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
 
 -- | Hash of the Transaction.
 newtype TxHash = TxHash Text

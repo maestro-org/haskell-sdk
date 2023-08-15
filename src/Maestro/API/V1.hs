@@ -2,6 +2,7 @@ module Maestro.API.V1 where
 
 import           Data.Text                   (Text)
 import           Maestro.API.V1.Addresses
+import           Maestro.API.V1.Blocks
 import           Maestro.API.V1.Datum
 import           Maestro.API.V1.General
 import           Maestro.API.V1.Pools
@@ -13,6 +14,7 @@ import           Servant.API.Generic
 data MaestroApiV1 route  = MaestroApiV1
   { _general      :: route :- ToServantApi GeneralAPI
   , _addresses    :: route :- "addresses" :> ToServantApi AddressesAPI
+  , _blocks       :: route :- ToServantApi BlocksAPI
   , _datum        :: route :- "datum" :> ToServantApi DatumAPI
   , _pools        :: route :- "pools" :> ToServantApi PoolsAPI
   , _txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
