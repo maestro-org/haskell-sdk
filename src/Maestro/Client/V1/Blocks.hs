@@ -29,7 +29,7 @@ blockDetailsByHash = _blockByHash . txClient
 blockDetailsByHeight ::
   -- | The Maestro Environment.
   MaestroEnv 'V1 ->
-  -- | Block height in hex.
+  -- | Block height.
   BlockHeight ->
   IO TimestampedBlockDetails
 blockDetailsByHeight = _blockByHeight . txClient
