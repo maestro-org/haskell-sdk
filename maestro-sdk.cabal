@@ -18,7 +18,7 @@ source-repository head
   type:     git
   location: https://github.com/maestro-org/haskell-sdk
 
-common common 
+common common
     ghc-options: -Wall
     default-extensions:
       GADTs
@@ -43,9 +43,10 @@ common common
 
 library
     import:           common
-    exposed-modules:  
+    exposed-modules:
       Maestro.API.V1
       Maestro.API.V1.Addresses
+      Maestro.API.V1.Blocks
       Maestro.API.V1.Datum
       Maestro.API.V1.General
       Maestro.API.V1.Pools
@@ -59,6 +60,7 @@ library
       Maestro.Client.V1.Core
       Maestro.Client.V1.Core.Pagination
       Maestro.Client.V1.Addresses
+      Maestro.Client.V1.Blocks
       Maestro.Client.V1.Datum
       Maestro.Client.V1.General
       Maestro.Client.V1.Pools
@@ -69,6 +71,7 @@ library
 
       Maestro.Types.V1
       Maestro.Types.V1.Addresses
+      Maestro.Types.V1.Blocks
       Maestro.Types.V1.Datum
       Maestro.Types.V1.Common
       Maestro.Types.V1.Common.Pagination
@@ -77,9 +80,7 @@ library
       Maestro.Types.V1.Pools
       Maestro.Types.V1.Transactions
 
-    -- other-modules:
-    -- other-extensions:
-    build-depends:    
+    build-depends:
       , base                >= 4.14.3.0  &&  < 4.19
       , bytestring
       , aeson

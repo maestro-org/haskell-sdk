@@ -2,6 +2,7 @@
 
 module Maestro.Client.V1.Transactions
   ( outputsByReferences,
+    txDetailsByHash,
   ) where
 
 import           Maestro.API.V1              (_transactions)
@@ -29,3 +30,12 @@ outputsByReferences ::
   [OutputReference] ->
   IO PaginatedUtxo
 outputsByReferences = _txOutputs . txClient
+
+-- | Returns the complete transaction information given a transaction hash.
+txDetailsByHash ::
+  -- | The Maestro Environment.
+  MaestroEnv 'V1 ->
+  -- | Transaction hash.
+  TxHash ->
+  IO TimestampedTxDetails
+txDetailsByHash = _txDetailsByHash . txClient
