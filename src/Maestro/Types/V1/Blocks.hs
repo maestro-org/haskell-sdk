@@ -9,7 +9,7 @@ import           Data.Text               (Text)
 import           Data.Word               (Word64, Word32)
 import           Deriving.Aeson
 import           Maestro.Types.Common
-import           Maestro.Types.V0.Pool   (PoolId)
+import           Maestro.Types.V1.Pools   (PoolId)
 import           Maestro.Types.V1.Common
 
 -- | Complete block Details when queried by its hash or height.
