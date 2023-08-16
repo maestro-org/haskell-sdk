@@ -35,7 +35,7 @@ outputsByReferences = _txOutputs . txClient
 txDetailsByHash ::
   -- | The Maestro Environment.
   MaestroEnv 'V1 ->
-  -- | Transaction hash in hex.
-  HashStringOf Tx ->
+  -- | Transaction hash.
+  TxHash ->
   IO TimestampedTxDetails
 txDetailsByHash = _txDetailsByHash . txClient

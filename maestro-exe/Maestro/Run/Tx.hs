@@ -11,8 +11,9 @@ txHash = "3cc22b391e63d0ebf1b0553dc100253b8cba3e715e95672319c7e6e5cb6739e9"
 
 runTxApiV1 :: MaestroEnv 'V1 -> IO ()
 runTxApiV1 mEnv = do
+    let HashStringOf txH = txHash
     putStrLn "Fetching Tx Details"
-    txDetails <- txDetailsByHash mEnv txHash
+    txDetails <- txDetailsByHash mEnv $ TxHash txH
     putStrLn $ "fetched Tx Details: \n " ++ show txDetails
     putStrLn "Fetching Block Details"
     blockDetails <- blockDetailsByHash mEnv

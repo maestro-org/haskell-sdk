@@ -18,7 +18,7 @@ data TransactionsAPI route = TransactionsAPI
   , _txDetailsByHash
       :: route
       :- "transactions"
-      :> Capture "tx_hash" (HashStringOf Tx)
+      :> Capture "tx_hash" TxHash
       :> Get '[JSON] TimestampedTxDetails
   }
   deriving (Generic)
