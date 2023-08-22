@@ -17,14 +17,14 @@ runTxApiV1 mEnv = do
     putStrLn $ "Fetched Tx Details: \n " ++ show txDetails
 
     putStrLn "Fetching Block Details By Hash"
-    blockDetails <- blockDetailsByHash mEnv
-                    $ _txDetailsBlockHash $ getTimestampedData txDetails
-    putStrLn $ "Fetched Block Details by Hash: \n " ++ show blockDetails
+    blockDetailsHash <- blockDetailsByHash mEnv
+                        $ _txDetailsBlockHash $ getTimestampedData txDetails
+    putStrLn $ "Fetched Block Details by Hash: \n " ++ show blockDetailsHash
 
     putStrLn "Fetching Block Details By Height"
-    blockDetails <- blockDetailsByHeight mEnv
-                    $ _txDetailsBlockHeight $ getTimestampedData txDetails
-    putStrLn $ "Fetched Block Details by Height: \n " ++ show blockDetails
+    blockDetailsHeight <- blockDetailsByHeight mEnv
+                          $ _txDetailsBlockHeight $ getTimestampedData txDetails
+    putStrLn $ "Fetched Block Details by Height: \n " ++ show blockDetailsHeight
 
 runTxApiV0 :: MaestroEnv 'V0 -> IO ()
 runTxApiV0 mEnv = do
