@@ -8,10 +8,12 @@ module Maestro.Types.V1.Transactions
   , TimestampedTxDetails (..)
   ) where
 
-import           Data.Text               (Text)
 import           Data.Aeson              (ToJSON (..), Value (..))
+import           Data.Text               (Text)
+import           Data.Time               (NominalDiffTime)
 import           Data.Word               (Word64)
 import           Deriving.Aeson
+import           GHC.Natural             (Natural)
 import           Maestro.Types.Common
 import           Maestro.Types.V1.Common
 import           Servant.API             (ToHttpApiData (..))
@@ -88,9 +90,9 @@ data TxDetails = TxDetails
   -- ^ Absolute slot of the block which includes the transaction
   , _txDetailsBlockHeight :: !BlockHeight
   -- ^ Block height (number) of the block which includes the transaction
-  , _txDetailsBlockTimestamp :: !Word64
+  , _txDetailsBlockTimestamp :: !NominalDiffTime
   -- ^ UNIX timestamp of the block which includes the transaction
-  , _txDetailsBlockTxIndex :: !Integer
+  , _txDetailsBlockTxIndex :: !Natural
   -- ^ The transaction's position within the block which includes it
   , _txDetailsDeposit :: !Word64
   -- ^ The amount of lovelace used for deposits (negative if being returned)
@@ -101,9 +103,9 @@ data TxDetails = TxDetails
   , _txDetailsScriptsSuccessful :: !Bool
   -- ^ False if any executed Plutus scripts failed (aka phase-two validity),
   --   meaning collateral was processed.
-  , _txDetailsInvalidBefore :: !(Maybe Word64)
+  , _txDetailsInvalidBefore :: !(Maybe SlotNo)
   -- ^ The slot before which the transaction would not be accepted onto the chain
-  , _txDetailsInvalidHereafter :: !(Maybe Word64)
+  , _txDetailsInvalidHereafter :: !(Maybe SlotNo)
   -- ^ The slot from which the transaction would not be accepted onto the chain
   , _txDetailsMetadata :: !(Maybe Value)
   -- ^ Transaction metadata JSON

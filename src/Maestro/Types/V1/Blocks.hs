@@ -5,7 +5,7 @@ module Maestro.Types.V1.Blocks
   , TimestampedBlockDetails (..)
   ) where
 
-import           Data.Text               (Text)
+import           Data.Time               (LocalTime)
 import           Data.Word               (Word64, Word32)
 import           Deriving.Aeson
 import           Maestro.Types.Common
@@ -18,7 +18,7 @@ data BlockDetails = BlockDetails
   -- ^ Block hash (identifier)
   , _blockDetailsHeight :: !BlockHeight
   -- ^ Block height
-  , _blockDetailsAbsoluteSlot :: !Word64
+  , _blockDetailsAbsoluteSlot :: !AbsoluteSlot
   -- ^ Absolute slot of the block which includes the transaction
   , _blockDetailsBlockProducer :: !(Maybe (Bech32StringOf PoolId))
   -- ^ Block producer identifier name
@@ -26,7 +26,7 @@ data BlockDetails = BlockDetails
   -- ^ Total number of confirmations
   , _blockDetailsEpoch :: !EpochNo
     -- ^ Epoch number
-  , _blockDetailsEpochSlot :: !EpochSize
+  , _blockDetailsEpochSlot :: !SlotNo
     -- ^ Epoch Slot number
   , _blockDetailsPreviousBlock :: !(Maybe BlockHash)
     -- ^ Previous block hash
@@ -34,7 +34,7 @@ data BlockDetails = BlockDetails
     -- ^ Previous block hash
   , _blockDetailsSize :: !Word32
     -- ^ Block total size
-  , _blockDetailsTimestamp :: !Text
+  , _blockDetailsTimestamp :: !LocalTime
     -- ^ UNIX timestamp
   , _blockDetailsTotalFees  :: !Word64
     -- ^ Total number of fees
