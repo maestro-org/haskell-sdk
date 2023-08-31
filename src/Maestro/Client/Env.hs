@@ -39,9 +39,10 @@ data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
   , _maeToken     :: !MaestroToken
   }
 
-data MaestroNetwork = Mainnet | Preprod
+data MaestroNetwork = Mainnet | Preprod | Preview
 
 maestroBaseUrl :: MaestroNetwork -> MaestroApiVersion -> String
+maestroBaseUrl Preview v = "https://preview.gomaestro-api.org/" <> show v
 maestroBaseUrl Preprod v = "https://preprod.gomaestro-api.org/" <> show v
 maestroBaseUrl Mainnet v = "https://mainnet.gomaestro-api.org/" <> show v
 
