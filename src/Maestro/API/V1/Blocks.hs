@@ -6,16 +6,14 @@ import           Servant.API.Generic
 
 data BlocksAPI route = BlocksAPI
   { -- | Get details of the specified block by hash
-    _blockByHash
+    blockByHash
       :: route
-      :- "blocks"
-      :> Capture "hash_or_height" BlockHash
+      :- Capture "hash_or_height" BlockHash
       :> Get '[JSON] TimestampedBlockDetails
   -- | Get details of the specified block by height
-  , _blockByHeight
+  , blockByHeight
       :: route
-      :- "blocks"
-      :> Capture "hash_or_height" BlockHeight
+      :- Capture "hash_or_height" BlockHeight
       :> Get '[JSON] TimestampedBlockDetails
   }
   deriving (Generic)

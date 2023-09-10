@@ -2,19 +2,19 @@
 
 module Maestro.Client.V1.Transactions
   ( outputsByReferences,
-    txDetailsByHash,
+    txInfo,
   ) where
 
-import           Maestro.API.V1              (_transactions)
-import           Maestro.API.V1.Transactions
+import           Maestro.API.V1              (transactions)
+import qualified Maestro.API.V1.Transactions as Mapi
 import           Maestro.Client.Env
 import           Maestro.Client.V1.Core
 import           Maestro.Types.V1
 import           Servant.API.Generic
 import           Servant.Client
 
-txClient :: MaestroEnv 'V1 -> TransactionsAPI (AsClientT IO)
-txClient = fromServant . _transactions . apiV1Client
+txClient :: MaestroEnv 'V1 -> Mapi.TransactionsAPI (AsClientT IO)
+txClient = fromServant . transactions . apiV1Client
 
 -- | Returns outputs for given output references.
 outputsByReferences ::
@@ -29,13 +29,13 @@ outputsByReferences ::
   -- | Output references.
   [OutputReference] ->
   IO PaginatedUtxo
-outputsByReferences = _txOutputs . txClient
+outputsByReferences = Mapi.txOutputs . txClient
 
 -- | Returns the complete transaction information given a transaction hash.
-txDetailsByHash ::
+txInfo ::
   -- | The Maestro Environment.
   MaestroEnv 'V1 ->
   -- | Transaction hash.
   TxHash ->
   IO TimestampedTxDetails
-txDetailsByHash = _txDetailsByHash . txClient
+txInfo = Mapi.txInfo . txClient

@@ -7,11 +7,11 @@ import           Servant.API
 import           Servant.API.Generic
 
 data TxManagerAPI route = TxManagerAPI
-  { _monitoredTxSubmit ::
+  { monitoredTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
         :> PostAccepted '[JSON] T.Text
-  , _monitoredTurboTxSubmit ::
+  , monitoredTurboTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
         :> PostAccepted '[JSON] T.Text

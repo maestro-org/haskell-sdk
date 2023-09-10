@@ -11,13 +11,13 @@ import           Maestro.Types.Common (BlockHash, SlotNo)
 
 -- | Details of the most recent block processed by the indexer (aka chain tip); that is, the data returned is correct as of this block in time.
 data LastUpdated = LastUpdated
-  { _lastUpdatedBlockHash :: !BlockHash
+  { lastUpdatedBlockHash :: !BlockHash
   -- ^ Hash of the latest block.
-  , _lastUpdatedBlockSlot :: !SlotNo
+  , lastUpdatedBlockSlot :: !SlotNo
   -- ^ Slot number for the tip.
   }
   deriving stock (Eq, Ord, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_lastUpdated", CamelToSnake]] LastUpdated
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "lastUpdated", CamelToSnake]] LastUpdated
 
 -- | Is the endpoint timestamped?
 class IsTimestamped a where

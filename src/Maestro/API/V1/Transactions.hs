@@ -6,19 +6,17 @@ import           Servant.API
 import           Servant.API.Generic
 
 data TransactionsAPI route = TransactionsAPI
-  { _txOutputs
+  { txOutputs
       :: route
-      :- "transactions"
-      :> "outputs"
+      :- "outputs"
       :> QueryParam "resolve_datums" Bool
       :> QueryParam "with_cbor" Bool
       :> Pagination
       :> ReqBody '[JSON] [OutputReference]
       :> Post '[JSON] PaginatedUtxo
-  , _txDetailsByHash
+  , txInfo
       :: route
-      :- "transactions"
-      :> Capture "tx_hash" TxHash
+      :- Capture "tx_hash" TxHash
       :> Get '[JSON] TimestampedTxDetails
   }
   deriving (Generic)

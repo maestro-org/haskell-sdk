@@ -6,7 +6,7 @@ import           Servant.API
 import           Servant.API.Generic
 
 newtype PoolsAPI route = PoolsAPI
-  { _listPools ::
+  { listPools ::
       route
         :- Pagination
         :> Get '[JSON] PaginatedPoolListInfo

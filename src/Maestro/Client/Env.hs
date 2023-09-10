@@ -35,8 +35,8 @@ instance SingMaestroApiVersionI 'V0 where singMaestroApiVersion = SingV0
 instance SingMaestroApiVersionI 'V1 where singMaestroApiVersion = SingV1
 
 data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
-  { _maeClientEnv :: !Servant.ClientEnv
-  , _maeToken     :: !MaestroToken
+  { maeClientEnv :: !Servant.ClientEnv
+  , maeToken     :: !MaestroToken
   }
 
 data MaestroNetwork = Mainnet | Preprod | Preview
@@ -49,7 +49,7 @@ maestroBaseUrl Mainnet v = "https://mainnet.gomaestro-api.org/" <> show v
 mkMaestroEnv :: forall (apiVersion :: MaestroApiVersion). SingMaestroApiVersionI apiVersion => MaestroToken -> MaestroNetwork -> IO (MaestroEnv apiVersion)
 mkMaestroEnv token nid = do
   clientEnv <- servantClientEnv $ maestroBaseUrl nid (fromSingMaestroApiVersion $ singMaestroApiVersion @apiVersion)
-  pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token }
+  pure $ MaestroEnv { maeClientEnv = clientEnv, maeToken = token }
 
 servantClientEnv :: String -> IO Servant.ClientEnv
 servantClientEnv url = do

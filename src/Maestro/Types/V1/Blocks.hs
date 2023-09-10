@@ -6,55 +6,54 @@ module Maestro.Types.V1.Blocks
   ) where
 
 import           Data.Time               (LocalTime)
-import           Data.Word               (Word64, Word32)
+import           Data.Word               (Word32, Word64)
 import           Deriving.Aeson
 import           Maestro.Types.Common
-import           Maestro.Types.V1.Pools   (PoolId)
 import           Maestro.Types.V1.Common
 
--- | Complete block Details when queried by its hash or height.
+-- | Complete block details when queried by its hash or height.
 data BlockDetails = BlockDetails
-  { _blockDetailsHash :: !BlockHash
+  { blockDetailsHash              :: !BlockHash
   -- ^ Block hash (identifier)
-  , _blockDetailsHeight :: !BlockHeight
+  , blockDetailsHeight            :: !BlockHeight
   -- ^ Block height
-  , _blockDetailsAbsoluteSlot :: !AbsoluteSlot
+  , blockDetailsAbsoluteSlot      :: !AbsoluteSlot
   -- ^ Absolute slot of the block which includes the transaction
-  , _blockDetailsBlockProducer :: !(Maybe (Bech32StringOf PoolId))
+  , blockDetailsBlockProducer     :: !(Maybe (Bech32StringOf PoolId))
   -- ^ Block producer identifier name
-  , _blockDetailsConfirmations :: !Word64
+  , blockDetailsConfirmations     :: !Word64
   -- ^ Total number of confirmations
-  , _blockDetailsEpoch :: !EpochNo
+  , blockDetailsEpoch             :: !EpochNo
     -- ^ Epoch number
-  , _blockDetailsEpochSlot :: !SlotNo
+  , blockDetailsEpochSlot         :: !SlotNo
     -- ^ Epoch Slot number
-  , _blockDetailsPreviousBlock :: !(Maybe BlockHash)
+  , blockDetailsPreviousBlock     :: !(Maybe BlockHash)
     -- ^ Previous block hash
-  , _blockDetailsScriptInvocations :: !Word32
+  , blockDetailsScriptInvocations :: !Word32
     -- ^ Previous block hash
-  , _blockDetailsSize :: !Word32
+  , blockDetailsSize              :: !Word32
     -- ^ Block total size
-  , _blockDetailsTimestamp :: !LocalTime
+  , blockDetailsTimestamp         :: !LocalTime
     -- ^ UNIX timestamp
-  , _blockDetailsTotalFees  :: !Word64
+  , blockDetailsTotalFees         :: !Word64
     -- ^ Total number of fees
-  , _blockDetailsTxHashes :: ![TxHash]
+  , blockDetailsTxHashes          :: ![TxHash]
     -- ^ List of transaction hashes included on the block
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_blockDetails", CamelToSnake]] BlockDetails
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "blockDetails", CamelToSnake]] BlockDetails
 
 -- | Timestamped `BlockDetails` response.
 data TimestampedBlockDetails = TimestampedBlockDetails
-  { _timestampedBlockDetailsData        :: !BlockDetails
+  { timestampedBlockDetailsData        :: !BlockDetails
   -- ^ See `BlockDetails`.
-  , _timestampedBlockDetailsLastUpdated :: !LastUpdated
+  , timestampedBlockDetailsLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedBlockDetails", CamelToSnake]] TimestampedBlockDetails
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedBlockDetails", CamelToSnake]] TimestampedBlockDetails
 
 instance IsTimestamped TimestampedBlockDetails where
   type TimestampedData TimestampedBlockDetails = BlockDetails
-  getTimestampedData = _timestampedBlockDetailsData
-  getTimestamp = _timestampedBlockDetailsLastUpdated
+  getTimestampedData = timestampedBlockDetailsData
+  getTimestamp = timestampedBlockDetailsLastUpdated

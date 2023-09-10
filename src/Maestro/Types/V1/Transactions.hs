@@ -30,114 +30,114 @@ instance ToJSON OutputReference where
 
 -- | Transaction output.
 data UtxoWithBytes = UtxoWithBytes
-  { _utxoWithBytesAddress         :: !(Bech32StringOf Address),
+  { utxoWithBytesAddress         :: !(Bech32StringOf Address),
   -- ^ UTxO's address.
-    _utxoWithBytesAssets          :: ![Asset],
+    utxoWithBytesAssets          :: ![Asset],
   -- ^ UTxO's assets.
-    _utxoWithBytesDatum           :: !(Maybe DatumOption),
+    utxoWithBytesDatum           :: !(Maybe DatumOption),
   -- ^ UTxO's datum.
-    _utxoWithBytesIndex           :: !TxIndex,
+    utxoWithBytesIndex           :: !TxIndex,
   -- ^ UTxO's transaction index.
-    _utxoWithBytesReferenceScript :: !(Maybe Script),
+    utxoWithBytesReferenceScript :: !(Maybe Script),
   -- ^ UTxO's script.
-    _utxoWithBytesTxHash          :: !TxHash,
+    utxoWithBytesTxHash          :: !TxHash,
   -- ^ UTxO's transaction hash.
-    _utxoWithBytesTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
+    utxoWithBytesTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
   -- ^ Hex encoded transaction output CBOR bytes.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoWithBytes", CamelToSnake]] UtxoWithBytes
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "utxoWithBytes", CamelToSnake]] UtxoWithBytes
 
 instance IsUtxo UtxoWithBytes where
-  getAddress = _utxoWithBytesAddress
-  getAssets = _utxoWithBytesAssets
-  getDatum = _utxoWithBytesDatum
-  getTxHash = _utxoWithBytesTxHash
-  getIndex = _utxoWithBytesIndex
-  getReferenceScript = _utxoWithBytesReferenceScript
+  getAddress = utxoWithBytesAddress
+  getAssets = utxoWithBytesAssets
+  getDatum = utxoWithBytesDatum
+  getTxHash = utxoWithBytesTxHash
+  getIndex = utxoWithBytesIndex
+  getReferenceScript = utxoWithBytesReferenceScript
 
 -- | A paginated response of transaction outputs.
 data PaginatedUtxo = PaginatedUtxo
-  { _paginatedUtxoData        :: ![UtxoWithBytes],
+  { paginatedUtxoData        :: ![UtxoWithBytes],
   -- ^ List of UTxOs.
-    _paginatedUtxoLastUpdated :: !LastUpdated,
+    paginatedUtxoLastUpdated :: !LastUpdated,
   -- ^ See `LastUpdated`.
-    _paginatedUtxoNextCursor  :: !(Maybe NextCursor)
+    paginatedUtxoNextCursor  :: !(Maybe NextCursor)
   -- ^ See `NextCursor`
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedUtxo", CamelToSnake]] PaginatedUtxo
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "paginatedUtxo", CamelToSnake]] PaginatedUtxo
 
 instance IsTimestamped PaginatedUtxo where
   type TimestampedData PaginatedUtxo = [UtxoWithBytes]
-  getTimestampedData = _paginatedUtxoData
-  getTimestamp = _paginatedUtxoLastUpdated
+  getTimestampedData = paginatedUtxoData
+  getTimestamp = paginatedUtxoLastUpdated
 
 instance HasCursor PaginatedUtxo where
-  getNextCursor = _paginatedUtxoNextCursor
+  getNextCursor = paginatedUtxoNextCursor
 
 -- | Complete transaction Details when queried by its hash.
 data TxDetails = TxDetails
-  { _txDetailsTxHash :: !TxHash
+  { txDetailsTxHash :: !TxHash
   -- ^ Transaction hash (identifier)
-  , _txDetailsBlockHash :: !BlockHash
+  , txDetailsBlockHash :: !BlockHash
   -- ^ Hash of the block which includes the transaction.
-  , _txDetailsBlockAbsoluteSlot :: !Word64
+  , txDetailsBlockAbsoluteSlot :: !Word64
   -- ^ Absolute slot of the block which includes the transaction
-  , _txDetailsBlockHeight :: !BlockHeight
+  , txDetailsBlockHeight :: !BlockHeight
   -- ^ Block height (number) of the block which includes the transaction
-  , _txDetailsBlockTimestamp :: !NominalDiffTime
+  , txDetailsBlockTimestamp :: !NominalDiffTime
   -- ^ UNIX timestamp of the block which includes the transaction
-  , _txDetailsBlockTxIndex :: !Natural
+  , txDetailsBlockTxIndex :: !Natural
   -- ^ The transaction's position within the block which includes it
-  , _txDetailsDeposit :: !Word64
+  , txDetailsDeposit :: !Word64
   -- ^ The amount of lovelace used for deposits (negative if being returned)
-  , _txDetailsFee :: !Word64
+  , txDetailsFee :: !Word64
   -- ^ The fee specified in the transaction
-  , _txDetailsSize :: !Word64
+  , txDetailsSize :: !Word64
   -- ^ Size of the transaction in bytes
-  , _txDetailsScriptsSuccessful :: !Bool
+  , txDetailsScriptsSuccessful :: !Bool
   -- ^ False if any executed Plutus scripts failed (aka phase-two validity),
   --   meaning collateral was processed.
-  , _txDetailsInvalidBefore :: !(Maybe SlotNo)
+  , txDetailsInvalidBefore :: !(Maybe SlotNo)
   -- ^ The slot before which the transaction would not be accepted onto the chain
-  , _txDetailsInvalidHereafter :: !(Maybe SlotNo)
+  , txDetailsInvalidHereafter :: !(Maybe SlotNo)
   -- ^ The slot from which the transaction would not be accepted onto the chain
-  , _txDetailsMetadata :: !(Maybe Value)
+  , txDetailsMetadata :: !(Maybe Value)
   -- ^ Transaction metadata JSON
-  , _txDetailsAdditionalSigners :: ![Text]
+  , txDetailsAdditionalSigners :: ![Text]
   -- ^ Additional required signers
-  , _txDetailsOutputs :: ![UtxoWithBytes]
+  , txDetailsOutputs :: ![UtxoWithBytes]
   -- ^ Transaction outputs
-  , _txDetailsInputs :: ![UtxoWithBytes]
+  , txDetailsInputs :: ![UtxoWithBytes]
   -- ^ Transaction inputs
-  , _txDetailsReferenceInputs :: ![UtxoWithBytes]
+  , txDetailsReferenceInputs :: ![UtxoWithBytes]
   -- ^ Reference inputs
-  , _txDetailsCollateralInputs :: ![UtxoWithBytes]
+  , txDetailsCollateralInputs :: ![UtxoWithBytes]
   -- ^ Collateral inputs, to be taken if Plutus scripts are not successful
-  , _txDetailsCollateralReturn :: !(Maybe UtxoWithBytes)
+  , txDetailsCollateralReturn :: !(Maybe UtxoWithBytes)
   -- ^ Transaction output
-  , _txDetailsMint :: ![Asset]
+  , txDetailsMint :: ![Asset]
   -- ^ Native assets minted or burned by the transaction
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_txDetails", CamelToSnake]] TxDetails
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "txDetails", CamelToSnake]] TxDetails
 
 -- | Timestamped `TxDetails` response.
 data TimestampedTxDetails = TimestampedTxDetails
-  { _timestampedTxDetailsData        :: !TxDetails
+  { timestampedTxDetailsData        :: !TxDetails
   -- ^ See `TxDetails`.
-  , _timestampedTxDetailsLastUpdated :: !LastUpdated
+  , timestampedTxDetailsLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedTxDetails", CamelToSnake]] TimestampedTxDetails
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedTxDetails", CamelToSnake]] TimestampedTxDetails
 
 instance IsTimestamped TimestampedTxDetails where
   type TimestampedData TimestampedTxDetails = TxDetails
-  getTimestampedData = _timestampedTxDetailsData
-  getTimestamp = _timestampedTxDetailsLastUpdated
+  getTimestampedData = timestampedTxDetailsData
+  getTimestamp = timestampedTxDetailsLastUpdated

@@ -7,13 +7,13 @@ import           Servant.API.Generic
 
 data AddressesAPI route = AddressesAPI
   {
-    _decodeAddress
+    decodeAddress
       :: route
       :- Capture "address" (TaggedText AddressToDecode)
       :> "decode"
       :> Get '[JSON] AddressInfo
 
-  , _addressesUtxos
+  , addressesUtxos
       :: route
       :- "utxos"
       :> QueryParam "resolve_datums" Bool
@@ -22,14 +22,14 @@ data AddressesAPI route = AddressesAPI
       :> ReqBody '[JSON] [Bech32StringOf Address]
       :> Post '[JSON] PaginatedUtxoWithSlot
 
-  , _addressUtxoRefs
+  , addressUtxoRefs
       :: route
       :- Capture "address" (Bech32StringOf Address)
       :> "utxo_refs"
       :> Pagination
       :> Get '[JSON] PaginatedOutputReferenceObject
 
-  , _paymentCredentialUtxos
+  , paymentCredentialUtxos
       :: route
       :- "cred"
       :> Capture "credential" (Bech32StringOf PaymentCredentialAddress)

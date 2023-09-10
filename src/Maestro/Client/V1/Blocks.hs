@@ -5,7 +5,7 @@ module Maestro.Client.V1.Blocks
     blockDetailsByHeight,
   ) where
 
-import           Maestro.API.V1              (_blocks)
+import           Maestro.API.V1              (blocks)
 import           Maestro.API.V1.Blocks
 import           Maestro.Client.Env
 import           Maestro.Client.V1.Core
@@ -14,7 +14,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 txClient :: MaestroEnv 'V1 -> BlocksAPI (AsClientT IO)
-txClient = fromServant . _blocks . apiV1Client
+txClient = fromServant . blocks . apiV1Client
 
 -- | Returns the complete block information given a block hash.
 blockDetailsByHash ::
@@ -23,7 +23,7 @@ blockDetailsByHash ::
   -- | Block hash in hex.
   BlockHash ->
   IO TimestampedBlockDetails
-blockDetailsByHash = _blockByHash . txClient
+blockDetailsByHash = blockByHash . txClient
 
 -- | Returns the complete block information given a block height.
 blockDetailsByHeight ::
@@ -32,4 +32,4 @@ blockDetailsByHeight ::
   -- | Block height.
   BlockHeight ->
   IO TimestampedBlockDetails
-blockDetailsByHeight = _blockByHeight . txClient
+blockDetailsByHeight = blockByHeight . txClient

@@ -45,6 +45,7 @@ library
     import:           common
     exposed-modules:
       Maestro.API.V1
+      Maestro.API.V1.Accounts
       Maestro.API.V1.Addresses
       Maestro.API.V1.Blocks
       Maestro.API.V1.Datum
@@ -59,6 +60,7 @@ library
       Maestro.Client.V1
       Maestro.Client.V1.Core
       Maestro.Client.V1.Core.Pagination
+      Maestro.Client.V1.Accounts
       Maestro.Client.V1.Addresses
       Maestro.Client.V1.Blocks
       Maestro.Client.V1.Datum
@@ -70,6 +72,7 @@ library
       Maestro.Types.Common
 
       Maestro.Types.V1
+      Maestro.Types.V1.Accounts
       Maestro.Types.V1.Addresses
       Maestro.Types.V1.Blocks
       Maestro.Types.V1.Datum

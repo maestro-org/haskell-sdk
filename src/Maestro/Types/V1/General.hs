@@ -45,18 +45,18 @@ import           Numeric.Natural         (Natural)
 
 -- | Network start time since genesis.
 data TimestampedSystemStart = TimestampedSystemStart
-  { _timestampedSystemStartData        :: !LocalTime
+  { timestampedSystemStartData        :: !LocalTime
   -- ^ Network start time since genesis.
-  , _timestampedSystemStartLastUpdated :: !LastUpdated
+  , timestampedSystemStartLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Ord, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedSystemStart", CamelToSnake]] TimestampedSystemStart
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedSystemStart", CamelToSnake]] TimestampedSystemStart
 
 instance IsTimestamped TimestampedSystemStart where
   type TimestampedData TimestampedSystemStart = LocalTime
-  getTimestampedData = _timestampedSystemStartData
-  getTimestamp = _timestampedSystemStartLastUpdated
+  getTimestampedData = timestampedSystemStartData
+  getTimestamp = timestampedSystemStartLastUpdated
 
 ------------------------------------------------------------------
 --  Types for @/era-history@ endpoint
@@ -64,54 +64,54 @@ instance IsTimestamped TimestampedSystemStart where
 
 -- | Network era summaries.
 data TimestampedEraSummaries = TimestampedEraSummaries
-  { _timestampedEraSummariesData        :: ![EraSummary]
+  { timestampedEraSummariesData        :: ![EraSummary]
   -- ^ Era summaries, see `EraSummary`.
-  , _timestampedEraSummariesLastUpdated :: !LastUpdated
+  , timestampedEraSummariesLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedEraSummaries", CamelToSnake]] TimestampedEraSummaries
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedEraSummaries", CamelToSnake]] TimestampedEraSummaries
 
 instance IsTimestamped TimestampedEraSummaries where
   type TimestampedData TimestampedEraSummaries = [EraSummary]
-  getTimestampedData = _timestampedEraSummariesData
-  getTimestamp = _timestampedEraSummariesLastUpdated
+  getTimestampedData = timestampedEraSummariesData
+  getTimestamp = timestampedEraSummariesLastUpdated
 
 -- | Network era summary.
 data EraSummary = EraSummary
-  { _eraSummaryStart      :: !EraBound
+  { eraSummaryStart      :: !EraBound
   -- ^ Start of this era.
-  , _eraSummaryEnd        :: !(Maybe EraBound)
+  , eraSummaryEnd        :: !(Maybe EraBound)
   -- ^ End of this era.
-  , _eraSummaryParameters :: !EraParameters
+  , eraSummaryParameters :: !EraParameters
   -- ^ Parameters of this era.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraSummary", LowerFirst]] EraSummary
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "eraSummary", LowerFirst]] EraSummary
 
 -- | Parameters for a network era which can vary between hardforks.
 data EraParameters = EraParameters
-  { _eraParametersEpochLength :: !EpochSize
+  { eraParametersEpochLength :: !EpochSize
   -- ^ Number of slots in an epoch.
-  , _eraParametersSlotLength  :: !NominalDiffTime
+  , eraParametersSlotLength  :: !NominalDiffTime
   -- ^ How long a slot lasts.
-  , _eraParametersSafeZone    :: !(Maybe Word64)
+  , eraParametersSafeZone    :: !(Maybe Word64)
   -- ^ Number of slots from the tip of the ledger in which a hardfork will not happen.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraParameters", CamelToSnake]] EraParameters
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "eraParameters", CamelToSnake]] EraParameters
 
 -- | Bounds of an era.
 data EraBound = EraBound
-  { _eraBoundEpoch :: !EpochNo
+  { eraBoundEpoch :: !EpochNo
   -- ^ Epoch number bounding this era.
-  , _eraBoundSlot  :: !SlotNo
+  , eraBoundSlot  :: !SlotNo
   -- ^ Absolute slot number bounding this era.
-  , _eraBoundTime  :: !NominalDiffTime
+  , eraBoundTime  :: !NominalDiffTime
   -- ^ Time relative to the start time of the network.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_eraBound", LowerFirst]] EraBound
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "eraBound", LowerFirst]] EraBound
 
 ------------------------------------------------------------------
 --  Types for @/protocol-params@ endpoint.
@@ -119,21 +119,21 @@ data EraBound = EraBound
 
 -- | Current accepted protocol version. An increase in the major version indicates a hard fork, and the minor version a soft fork (meaning old software can validate but not produce new blocks).
 data ProtocolVersion = ProtocolVersion
-  { _protocolVersionMajor :: !Natural
+  { protocolVersionMajor :: !Natural
   -- ^ Accepted protocol major version.
-  , _protocolVersionMinor :: !Natural
+  , protocolVersionMinor :: !Natural
   -- ^ Accepted protocol minor version.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolVersion", LowerFirst]] ProtocolVersion
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "protocolVersion", LowerFirst]] ProtocolVersion
 
 -- | Pair of memory & steps for the given type.
 data MemoryStepsWith i = MemoryStepsWith
-  { _memoryStepsWithMemory :: !i
-  , _memoryStepsWithSteps  :: !i
+  { memoryStepsWithMemory :: !i
+  , memoryStepsWithSteps  :: !i
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_memoryStepsWith", LowerFirst]] (MemoryStepsWith i)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "memoryStepsWith", LowerFirst]] (MemoryStepsWith i)
 
 -- | A cost model is a vector of coefficients that are used to compute the execution units required to execute a script. Its specifics depend on specific versions of the Plutus interpreter it is used with.
 newtype CostModel = CostModel (Map Text Integer)
@@ -142,11 +142,11 @@ newtype CostModel = CostModel (Map Text Integer)
 
 -- | Cost models (see `CostModel`) for script languages that use them.
 data CostModels = CostModels
-  { _costModelsPlutusV1 :: !CostModel
-  , _costModelsPlutusV2 :: !CostModel
+  { costModelsPlutusV1 :: !CostModel
+  , costModelsPlutusV2 :: !CostModel
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_costModels", Rename "PlutusV1" "plutus:v1", Rename "PlutusV2" "plutus:v2"]] CostModels
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "costModels", Rename "PlutusV1" "plutus:v1", Rename "PlutusV2" "plutus:v2"]] CostModels
 
 -- | Maestro's represents rational numbers as string with numerator and denominator demarcated by \'\/\', example: @"1/3"@.
 newtype MaestroRational = MaestroRational { unMaestroRational :: Rational }
@@ -192,68 +192,68 @@ instance FromJSON MaestroRational where
 
 -- | Timestamped `ProtocolParameters` response.
 data TimestampedProtocolParameters = TimestampedProtocolParameters
-  { _timestampedProtocolParametersData        :: !ProtocolParameters
+  { timestampedProtocolParametersData        :: !ProtocolParameters
   -- ^ See `ProtocolParametersData`.
-  , _timestampedProtocolParametersLastUpdated :: !LastUpdated
+  , timestampedProtocolParametersLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedProtocolParameters", CamelToSnake]] TimestampedProtocolParameters
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedProtocolParameters", CamelToSnake]] TimestampedProtocolParameters
 
 instance IsTimestamped TimestampedProtocolParameters where
   type TimestampedData TimestampedProtocolParameters = ProtocolParameters
-  getTimestampedData = _timestampedProtocolParametersData
-  getTimestamp = _timestampedProtocolParametersLastUpdated
+  getTimestampedData = timestampedProtocolParametersData
+  getTimestamp = timestampedProtocolParametersLastUpdated
 
 -- | Protocol parameters for the latest epoch.
 data ProtocolParameters = ProtocolParameters
-  { _protocolParametersProtocolVersion                 :: !ProtocolVersion
+  { protocolParametersProtocolVersion                 :: !ProtocolVersion
   -- ^ See `ProtocolVersion`.
-  , _protocolParametersMinFeeConstant                  :: !Natural
+  , protocolParametersMinFeeConstant                  :: !Natural
   -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_b@ and @tx_fee_fixed@.
-  , _protocolParametersMinFeeCoefficient               :: !Natural
+  , protocolParametersMinFeeCoefficient               :: !Natural
   -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_a@ and @tx_fee_per_byte@.
-  , _protocolParametersMaxBlockBodySize                :: !Natural
+  , protocolParametersMaxBlockBodySize                :: !Natural
   -- ^ Maximum block body size.
-  , _protocolParametersMaxBlockHeaderSize              :: !Natural
+  , protocolParametersMaxBlockHeaderSize              :: !Natural
   -- ^ Maximum block header size.
-  , _protocolParametersMaxTxSize                       :: !Natural
+  , protocolParametersMaxTxSize                       :: !Natural
   -- ^ Maximum transaction size.
-  , _protocolParametersStakeKeyDeposit                 :: !Natural
+  , protocolParametersStakeKeyDeposit                 :: !Natural
   -- 	The deposit required to register a stake address.
-  , _protocolParametersPoolDeposit                     :: !Natural
+  , protocolParametersPoolDeposit                     :: !Natural
   -- ^ The amount of a pool registration deposit in lovelaces /AKA/ @stake_pool_deposit@.
-  , _protocolParametersPoolRetirementEpochBound        :: !EpochNo
+  , protocolParametersPoolRetirementEpochBound        :: !EpochNo
   -- ^ The maximum number of epochs into the future that stake pools are permitted to schedule a retirement /AKA/ @pool_retire_max_epoch@, @e_max@.
-  , _protocolParametersDesiredNumberOfPools            :: !Natural
+  , protocolParametersDesiredNumberOfPools            :: !Natural
   -- The equilibrium target number of stake pools. This is the \"k\" incentives parameter from the design document, /AKA/ @n_opt@, @stake_pool_target@.
-  , _protocolParametersPoolInfluence                   :: !MaestroRational
+  , protocolParametersPoolInfluence                   :: !MaestroRational
   -- The influence of the pledge in stake pool rewards. This is the \"a_0\" incentives parameter from the design document.
-  , _protocolParametersMonetaryExpansion               :: !MaestroRational
+  , protocolParametersMonetaryExpansion               :: !MaestroRational
   -- ^ The monetary expansion rate. This determines the fraction of the reserves that are added to the fee pot each epoch. This is the \"rho\" incentives parameter from the design document.
-  , _protocolParametersTreasuryExpansion               :: !MaestroRational
+  , protocolParametersTreasuryExpansion               :: !MaestroRational
   -- ^ The fraction of the fee pot each epoch that goes to the treasury. This is the \"tau\" incentives parameter from the design document, /AKA/ @treasury_cut@.
-  , _protocolParametersMinPoolCost                     :: !Natural
+  , protocolParametersMinPoolCost                     :: !Natural
   -- ^ The minimum value that stake pools are permitted to declare for their cost parameter.
-  , _protocolParametersPrices                          :: !(MemoryStepsWith MaestroRational)
+  , protocolParametersPrices                          :: !(MemoryStepsWith MaestroRational)
   -- ^ The price per unit memory & price per reduction step corresponding to abstract notions of the relative memory usage and script execution steps respectively.
-  , _protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryStepsWith Natural)
+  , protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryStepsWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single transaction.
-  , _protocolParametersMaxExecutionUnitsPerBlock       :: !(MemoryStepsWith Natural)
+  , protocolParametersMaxExecutionUnitsPerBlock       :: !(MemoryStepsWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single block.
-  , _protocolParametersMaxValueSize                    :: !Natural
+  , protocolParametersMaxValueSize                    :: !Natural
   -- ^ Maximum size of the /value/ part of an output in a serialized transaction.
-  , _protocolParametersCollateralPercentage            :: !Natural
+  , protocolParametersCollateralPercentage            :: !Natural
   -- ^ The percentage of the transactions fee which must be provided as collateral when including non-native scripts.
-  , _protocolParametersMaxCollateralInputs             :: !Natural
+  , protocolParametersMaxCollateralInputs             :: !Natural
   -- ^ The maximum number of collateral inputs allowed in a transaction.
-  , _protocolParametersCoinsPerUtxoByte                :: !Natural
+  , protocolParametersCoinsPerUtxoByte                :: !Natural
   -- ^ The cost per UTxO size. Cost per UTxO /word/ for Alozno. Cost per UTxO /byte/ for Babbage and later.
-  , _protocolParametersCostModels                      :: !CostModels
+  , protocolParametersCostModels                      :: !CostModels
   -- ^ See `CostModels`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_protocolParameters", CamelToSnake]] ProtocolParameters
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "protocolParameters", CamelToSnake]] ProtocolParameters
 
 ------------------------------------------------------------------
 --  Types for @/chain-tip@ endpoint.
@@ -261,27 +261,27 @@ data ProtocolParameters = ProtocolParameters
 
 -- | Details about the most recently adopted block.
 data ChainTip = ChainTip
-  { _chainTipBlockHash :: !BlockHash
+  { chainTipBlockHash :: !BlockHash
   -- ^ Hash of this most recent block.
-  , _chainTipSlot      :: !SlotNo
+  , chainTipSlot      :: !SlotNo
   -- ^ Slot number for this most recent block.
-  , _chainTipHeight    :: !Word64
+  , chainTipHeight    :: !Word64
   -- ^ Block number (height) of this most recent block.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_chainTip", CamelToSnake]] ChainTip
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "chainTip", CamelToSnake]] ChainTip
 
 -- | Timestamped `ChainTip` response.
 data TimestampedChainTip = TimestampedChainTip
-  { _timestampedChainTipData        :: !ChainTip
+  { timestampedChainTipData        :: !ChainTip
   -- ^ See `ChainTip`.
-  , _timestampedChainTipLastUpdated :: !LastUpdated
+  , timestampedChainTipLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedChainTip", CamelToSnake]] TimestampedChainTip
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedChainTip", CamelToSnake]] TimestampedChainTip
 
 instance IsTimestamped TimestampedChainTip where
   type TimestampedData TimestampedChainTip = ChainTip
-  getTimestampedData = _timestampedChainTipData
-  getTimestamp = _timestampedChainTipLastUpdated
+  getTimestampedData = timestampedChainTipData
+  getTimestamp = timestampedChainTipLastUpdated

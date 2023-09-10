@@ -18,7 +18,7 @@ import           Servant.API.Generic
 import           Servant.Client
 
 addressClient :: MaestroEnv 'V1 -> AddressesAPI (AsClientT IO)
-addressClient = fromServant . _addresses . apiV1Client
+addressClient = fromServant . addresses . apiV1Client
 
 -- | Returns list of utxos for multiple addresses.
 utxosAtMultiAddresses ::
@@ -33,7 +33,7 @@ utxosAtMultiAddresses ::
   -- | List of Address in bech32 format to fetch utxo from.
   [Bech32StringOf Address] ->
   IO PaginatedUtxoWithSlot
-utxosAtMultiAddresses = _addressesUtxos . addressClient
+utxosAtMultiAddresses = addressesUtxos . addressClient
 
 -- | UTxO IDs for all the unspent transaction outputs at an address.
 getRefsAtAddress ::
@@ -43,7 +43,7 @@ getRefsAtAddress ::
   -- | The pagination attributes.
   Cursor ->
   IO PaginatedOutputReferenceObject
-getRefsAtAddress = _addressUtxoRefs . addressClient
+getRefsAtAddress = addressUtxoRefs . addressClient
 
 -- | Query UTxOs by payment credential in bech32 format.
 utxosByPaymentCredential ::
@@ -57,4 +57,4 @@ utxosByPaymentCredential ::
   -- | The pagination attributes.
   Cursor ->
   IO PaginatedUtxoWithSlot
-utxosByPaymentCredential = _paymentCredentialUtxos . addressClient
+utxosByPaymentCredential = paymentCredentialUtxos . addressClient

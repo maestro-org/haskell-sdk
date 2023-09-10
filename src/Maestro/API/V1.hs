@@ -1,6 +1,7 @@
 module Maestro.API.V1 where
 
 import           Data.Text                   (Text)
+import           Maestro.API.V1.Accounts
 import           Maestro.API.V1.Addresses
 import           Maestro.API.V1.Blocks
 import           Maestro.API.V1.Datum
@@ -12,15 +13,16 @@ import           Servant.API
 import           Servant.API.Generic
 
 data MaestroApiV1 route  = MaestroApiV1
-  { _general      :: route :- ToServantApi GeneralAPI
-  , _addresses    :: route :- "addresses" :> ToServantApi AddressesAPI
-  , _blocks       :: route :- ToServantApi BlocksAPI
-  , _datum        :: route :- "datum" :> ToServantApi DatumAPI
-  , _pools        :: route :- "pools" :> ToServantApi PoolsAPI
-  , _txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
-  , _transactions :: route :- ToServantApi TransactionsAPI
+  { general      :: route :- ToServantApi GeneralAPI
+  , accounts     :: route :- "accounts" :> ToServantApi AccountsAPI
+  , addresses    :: route :- "addresses" :> ToServantApi AddressesAPI
+  , blocks       :: route :- "blocks" :> ToServantApi BlocksAPI
+  , datum        :: route :- "datum" :> ToServantApi DatumAPI
+  , pools        :: route :- "pools" :> ToServantApi PoolsAPI
+  , txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
+  , transactions :: route :- "transactions" :> ToServantApi TransactionsAPI
   } deriving Generic
 
 newtype MaestroApiV1Auth route = MaestroApiV1Auth
-  { _apiV1 :: route :- Header' '[Required] "api-key" Text :> ToServantApi MaestroApiV1 }
+  { apiV1 :: route :- Header' '[Required] "api-key" Text :> ToServantApi MaestroApiV1 }
   deriving Generic
