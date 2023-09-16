@@ -10,8 +10,8 @@ import           Maestro.Types.V1.Common (v1UtxoWithSlotToV0)
 
 runAddressAPI :: String -> IO ()
 runAddressAPI apiKey = do
-  mEnvV0 <- mkMaestroEnv @'V0 (T.pack apiKey) Preprod
-  mEnvV1 <- mkMaestroEnv @'V1 (T.pack apiKey) Preprod
+  mEnvV0 <- mkMaestroEnv @'V0 (T.pack apiKey) Preprod 50000
+  mEnvV1 <- mkMaestroEnv @'V1 (T.pack apiKey) Preprod 50000
   let addrs = undefined  -- Mention list of addresses.
   utxos <- V0.allPages $ flip (V0.utxosAtMultiAddresses mEnvV0 Nothing Nothing) addrs
   let utxosSorted = sort utxos

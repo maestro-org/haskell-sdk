@@ -9,7 +9,6 @@ module Maestro.Client.Env
 import           Data.Text               (Text)
 import           Network.HTTP.Client     (newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
-
 import qualified Servant.Client          as Servant
 
 type MaestroToken = Text
@@ -37,6 +36,9 @@ instance SingMaestroApiVersionI 'V1 where singMaestroApiVersion = SingV1
 data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
   { _maeClientEnv :: !Servant.ClientEnv
   , _maeToken     :: !MaestroToken
+  , _maeBaseDelay :: !Int
+  -- ^ Base delay in microseconds to use with jitter backoff
+  -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:fullJitterBackoff
   }
 
 data MaestroNetwork = Mainnet | Preprod | Preview
@@ -46,10 +48,10 @@ maestroBaseUrl Preview v = "https://preview.gomaestro-api.org/" <> show v
 maestroBaseUrl Preprod v = "https://preprod.gomaestro-api.org/" <> show v
 maestroBaseUrl Mainnet v = "https://mainnet.gomaestro-api.org/" <> show v
 
-mkMaestroEnv :: forall (apiVersion :: MaestroApiVersion). SingMaestroApiVersionI apiVersion => MaestroToken -> MaestroNetwork -> IO (MaestroEnv apiVersion)
-mkMaestroEnv token nid = do
+mkMaestroEnv :: forall (apiVersion :: MaestroApiVersion). SingMaestroApiVersionI apiVersion => MaestroToken -> MaestroNetwork -> Int -> IO (MaestroEnv apiVersion)
+mkMaestroEnv token nid delay = do
   clientEnv <- servantClientEnv $ maestroBaseUrl nid (fromSingMaestroApiVersion $ singMaestroApiVersion @apiVersion)
-  pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token }
+  pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token, _maeBaseDelay = delay }
 
 servantClientEnv :: String -> IO Servant.ClientEnv
 servantClientEnv url = do
