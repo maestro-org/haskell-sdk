@@ -36,9 +36,12 @@ instance SingMaestroApiVersionI 'V1 where singMaestroApiVersion = SingV1
 data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
   { _maeClientEnv :: !Servant.ClientEnv
   , _maeToken     :: !MaestroToken
-  , _maeBaseDelay :: !Int
-  -- ^ Base delay in microseconds to use with jitter backoff
+  , _maeBaseDelay :: !(Maybe Int)
+  -- ^ Base delay in microseconds to use with jitter backoff.
   -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:fullJitterBackoff
+  , _maeMaxDelay  :: !(Maybe Int)
+  -- ^ Maximum waiting time in microseconds.
+  -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:limitRetriesByCumulativeDelay
   }
 
 data MaestroNetwork = Mainnet | Preprod | Preview
@@ -48,10 +51,22 @@ maestroBaseUrl Preview v = "https://preview.gomaestro-api.org/" <> show v
 maestroBaseUrl Preprod v = "https://preprod.gomaestro-api.org/" <> show v
 maestroBaseUrl Mainnet v = "https://mainnet.gomaestro-api.org/" <> show v
 
-mkMaestroEnv :: forall (apiVersion :: MaestroApiVersion). SingMaestroApiVersionI apiVersion => MaestroToken -> MaestroNetwork -> Int -> IO (MaestroEnv apiVersion)
-mkMaestroEnv token nid delay = do
+mkMaestroEnv
+  :: forall (apiVersion :: MaestroApiVersion).
+  ( SingMaestroApiVersionI apiVersion
+  ) =>
+  MaestroToken ->
+  MaestroNetwork ->
+  Maybe (Int, Int) ->
+  IO (MaestroEnv apiVersion)
+mkMaestroEnv token nid mbDelays = do
   clientEnv <- servantClientEnv $ maestroBaseUrl nid (fromSingMaestroApiVersion $ singMaestroApiVersion @apiVersion)
-  pure $ MaestroEnv { _maeClientEnv = clientEnv, _maeToken = token, _maeBaseDelay = delay }
+  pure $ MaestroEnv
+    { _maeClientEnv = clientEnv
+    , _maeToken = token
+    , _maeBaseDelay = mbDelays >>= pure . fst
+    , _maeMaxDelay = mbDelays >>= pure . snd
+    }
 
 servantClientEnv :: String -> IO Servant.ClientEnv
 servantClientEnv url = do

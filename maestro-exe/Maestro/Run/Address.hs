@@ -5,13 +5,15 @@ import           Data.List               (sort)
 import qualified Data.Text               as T (pack)
 import           Maestro.Client.Env
 import qualified Maestro.Client.V0       as V0
-import qualified Maestro.Client.V1       as V1
+import qualified Maestro.Client.V1.Addresses as V1
+    ( utxosAtMultiAddresses )
+import qualified Maestro.Client.V1.Core as V1 ( allPages )
 import           Maestro.Types.V1.Common (v1UtxoWithSlotToV0)
 
 runAddressAPI :: String -> IO ()
 runAddressAPI apiKey = do
-  mEnvV0 <- mkMaestroEnv @'V0 (T.pack apiKey) Preprod 50000
-  mEnvV1 <- mkMaestroEnv @'V1 (T.pack apiKey) Preprod 50000
+  mEnvV0 <- mkMaestroEnv @'V0 (T.pack apiKey) Preprod Nothing
+  mEnvV1 <- mkMaestroEnv @'V1 (T.pack apiKey) Preprod Nothing
   let addrs = undefined  -- Mention list of addresses.
   utxos <- V0.allPages $ flip (V0.utxosAtMultiAddresses mEnvV0 Nothing Nothing) addrs
   let utxosSorted = sort utxos

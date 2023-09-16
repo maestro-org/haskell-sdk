@@ -14,7 +14,7 @@ import System.IO.Unsafe (unsafePerformIO)
 main :: IO ()
 main = do
     maestroKey <- T.pack <$> getEnv  "MAESTRO_API_KEY"
-    env <- mkMaestroEnv @'V1 maestroKey Preprod 50000
+    env <- mkMaestroEnv @'V1 maestroKey Preprod $ Just (50000, 10000000)
     void $ mapM forkChild $ replicate 30 $ task env
     waitForChildren
   where
@@ -29,8 +29,8 @@ main = do
               (Just False)
           ) ["addr_test1vqj247zdmh7n9g46ukk59k2yxeslevzhah0uj3t0t450x3ggycpxj"]
       case addressesUTxOs of
-        Left err -> print  err
-        Right utxos -> print $ length utxos
+        Left err -> print err
+        Right utxos -> putStrLn $ "OK, UTxO count: " <> show (length utxos)
 
 children :: MVar [MVar ()]
 children = unsafePerformIO (newMVar [])
@@ -51,3 +51,36 @@ forkChild io = do
     childs <- takeMVar children
     putMVar children (mvar:childs)
     forkFinally io (\_ -> putMVar mvar ())
+
+
+--
+
+-- module Main (main) where
+
+-- import qualified Data.Text           as T
+-- import           Maestro.Client.Env
+-- -- import           Maestro.Run.Address
+-- import           Maestro.Run.Datum
+-- import           Maestro.Run.Epochs
+-- import           Maestro.Run.General
+-- import           Maestro.Run.Pools
+-- import           Maestro.Run.Scripts
+-- import           Maestro.Run.Tx
+-- import           System.Environment  (getEnv)
+
+
+-- main :: IO ()
+
+-- main = do
+--     apiKey <- maestroKey
+--     env <- mkMaestroEnv @'V0 (T.pack apiKey) Preprod
+--     runPoolsAPI env
+--     runTxApi env
+--     runEpochsAPI env
+--     runDatumAPI env
+--     runScriptsAPI env
+--     runGeneralAPI env
+--     -- runAddressAPI apiKey
+
+--     where
+--       maestroKey = getEnv  "MAESTRO_API_KEY"
