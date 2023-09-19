@@ -1,12 +1,14 @@
 module Maestro.Test.Backoff where
 
-import           Test.Hspec
+import Test.Hspec
 
 import Control.Concurrent (MVar, ThreadId, newMVar, takeMVar, putMVar, newEmptyMVar, forkFinally)
 import Control.Exception (try)
 import Control.Monad (void)
+import Data.Text (pack)
 import Maestro.Client.V1
 import Maestro.Types.V1
+import System.Environment (getEnv)
 
 
 spec_backoff :: Spec
@@ -21,9 +23,7 @@ type Ret = Either MaestroError [UtxoWithSlot]
 
 doConcCall :: Maybe (Int, Int) -> IO ()
 doConcCall backoffSettings = do
-    -- TODO:
-    -- maestroKey <- T.pack <$> getEnv  "MAESTRO_API_KEY"
-    let maestroKey = "86NByG4q6NoEeRYJgSa9Cj8hzm0aZMX0"
+    maestroKey <- pack <$> getEnv  "MAESTRO_API_KEY"
     env <- mkMaestroEnv @'V1 maestroKey Preprod backoffSettings
     children <- newMVar []
     void $ mapM (forkChild children) $ replicate 30 $ task env
