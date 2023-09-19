@@ -44,20 +44,10 @@ common common
 library
     import:           common
     exposed-modules:
-      Maestro.API.V0
-      Maestro.API.V0.Accounts
-      Maestro.API.V0.Address
-      Maestro.API.V0.Assets
-      Maestro.API.V0.Datum
-      Maestro.API.V0.Epochs
-      Maestro.API.V0.General
-      Maestro.API.V0.Pool
-      Maestro.API.V0.Scripts
-      Maestro.API.V0.Transaction
-      Maestro.API.V0.TxManager
-
       Maestro.API.V1
+      Maestro.API.V1.Accounts
       Maestro.API.V1.Addresses
+      Maestro.API.V1.Blocks
       Maestro.API.V1.Datum
       Maestro.API.V1.General
       Maestro.API.V1.Pools
@@ -66,24 +56,13 @@ library
 
       Maestro.Client.Env
       Maestro.Client.Error
-      Maestro.Client.V0
-      Maestro.Client.V0.Core
-      Maestro.Client.V0.Core.Pagination
-      Maestro.Client.V0.Datum
-      Maestro.Client.V0.Epochs
-      Maestro.Client.V0.Accounts
-      Maestro.Client.V0.Address
-      Maestro.Client.V0.Assets
-      Maestro.Client.V0.General
-      Maestro.Client.V0.Pools
-      Maestro.Client.V0.Scripts
-      Maestro.Client.V0.Transaction
-      Maestro.Client.V0.TxManager
 
       Maestro.Client.V1
       Maestro.Client.V1.Core
       Maestro.Client.V1.Core.Pagination
+      Maestro.Client.V1.Accounts
       Maestro.Client.V1.Addresses
+      Maestro.Client.V1.Blocks
       Maestro.Client.V1.Datum
       Maestro.Client.V1.General
       Maestro.Client.V1.Pools
@@ -91,19 +70,11 @@ library
       Maestro.Client.V1.TxManager
 
       Maestro.Types.Common
-      Maestro.Types.V0
-      Maestro.Types.V0.Accounts
-      Maestro.Types.V0.Address
-      Maestro.Types.V0.Assets
-      Maestro.Types.V0.Common
-      Maestro.Types.V0.Datum
-      Maestro.Types.V0.Epochs
-      Maestro.Types.V0.General
-      Maestro.Types.V0.Pool
-      Maestro.Types.V0.Transactions
 
       Maestro.Types.V1
+      Maestro.Types.V1.Accounts
       Maestro.Types.V1.Addresses
+      Maestro.Types.V1.Blocks
       Maestro.Types.V1.Datum
       Maestro.Types.V1.Common
       Maestro.Types.V1.Common.Pagination
@@ -112,8 +83,6 @@ library
       Maestro.Types.V1.Pools
       Maestro.Types.V1.Transactions
 
-    -- other-modules:
-    -- other-extensions:
     build-depends:
       , aeson
       , base                >= 4.14.3.0  &&  < 4.19
@@ -143,19 +112,11 @@ test-suite maestro-sdk-tests
     main-is:          Driver.hs
     other-modules:
         Maestro.Test.Backoff
-        Maestro.Test.Datum
-        Maestro.Test.Epochs
-        Maestro.Test.General
-        Maestro.Test.Pool
-        Maestro.Test.Transaction
 
     build-depends:
         base
       , maestro-sdk
-      , aeson
-      , bytestring
       , containers
-      , raw-strings-qq
       , hspec
       , tasty
       , tasty-hspec

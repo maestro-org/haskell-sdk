@@ -4,14 +4,13 @@ module Maestro.Types.V1.Common
   ( PaymentCredentialAddress,
     StakingCredentialAddress,
     RewardAddress,
+    PoolId,
     TaggedText (..),
     NonAdaNativeToken (..),
     AssetUnit (..),
     Asset (..),
-    v1AssetToV0,
     IsUtxo (..),
     UtxoWithSlot (..),
-    v1UtxoWithSlotToV0,
     PaginatedUtxoWithSlot (..),
     module Maestro.Types.Common,
     module Maestro.Types.V1.Common.Pagination,
@@ -28,8 +27,6 @@ import qualified Data.Text                           as T (splitAt)
 import           Deriving.Aeson
 import           GHC.TypeLits                        (Symbol)
 import           Maestro.Types.Common
-import qualified Maestro.Types.V0                    as V0 (Asset (..),
-                                                            Utxo (..))
 import           Maestro.Types.V1.Common.Pagination
 import           Maestro.Types.V1.Common.Timestamped
 import           Servant.API                         (FromHttpApiData (..),
@@ -43,6 +40,9 @@ data StakingCredentialAddress
 
 -- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of stake address (See [CIP-19](https://cips.cardano.org/cips/cip19/) for more details).
 data RewardAddress
+
+-- | Phantom datatype to be used with, say `Bech32StringOf` to represent Bech32 representation of a pool id.
+data PoolId
 
 -- | Wrapper around `Text` type with mentioned description of it.
 newtype TaggedText (description :: Symbol) = TaggedText Text
@@ -80,24 +80,15 @@ instance ToJSON AssetUnit where
 
 -- | Representation of asset in an UTxO.
 data Asset = Asset
-  { _assetAmount :: !Integer
+  { assetAmount :: !Integer
   -- ^ Amount of the asset.
-  , _assetUnit   :: !AssetUnit
+  , assetUnit   :: !AssetUnit
   -- ^ See `AssetUnit`.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_asset", CamelToSnake]] Asset
-
--- | Convert @V1@ API version `Asset` type into corresponding @V0@ type.
-v1AssetToV0 :: Asset -> V0.Asset
-v1AssetToV0 Asset {..} = V0.Asset {
-    V0._assetQuantity = _assetAmount
-  , V0._assetUnit = case _assetUnit of
-      Lovelace -> "lovelace"
-      UserMintedToken (NonAdaNativeToken policyId tokenName) -> coerce policyId <> "#" <> coerce tokenName
-  }
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "asset", CamelToSnake]] Asset
 
 -- | To get basic details from an UTxO.
 class IsUtxo a where
@@ -110,66 +101,54 @@ class IsUtxo a where
 
 -- | Transaction output.
 data UtxoWithSlot = UtxoWithSlot
-  { _utxoWithSlotAddress         :: !(Bech32StringOf Address),
+  { utxoWithSlotAddress         :: !(Bech32StringOf Address),
   -- ^ UTxO's address.
-    _utxoWithSlotAssets          :: ![Asset],
+    utxoWithSlotAssets          :: ![Asset],
   -- ^ UTxO's assets.
-    _utxoWithSlotDatum           :: !(Maybe DatumOption),
+    utxoWithSlotDatum           :: !(Maybe DatumOption),
   -- ^ UTxO's datum.
-    _utxoWithSlotIndex           :: !TxIndex,
+    utxoWithSlotIndex           :: !TxIndex,
   -- ^ UTxO's transaction index.
-    _utxoWithSlotReferenceScript :: !(Maybe Script),
+    utxoWithSlotReferenceScript :: !(Maybe Script),
   -- ^ UTxO's script.
-    _utxoWithSlotTxHash          :: !TxHash,
+    utxoWithSlotTxHash          :: !TxHash,
   -- ^ UTxO's transaction hash.
-    _utxoWithSlotSlot            :: !SlotNo,
+    utxoWithSlotSlot            :: !SlotNo,
   -- ^ Absolute slot of block which produced the UTxO.
-    _utxoWithSlotTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
+    utxoWithSlotTxoutCbor       :: !(Maybe (HexStringOf TxOutCbor))
   -- ^ Hex encoded transaction output CBOR bytes.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_utxoWithSlot", CamelToSnake]] UtxoWithSlot
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "utxoWithSlot", CamelToSnake]] UtxoWithSlot
 
 instance IsUtxo UtxoWithSlot where
-  getAddress = _utxoWithSlotAddress
-  getAssets = _utxoWithSlotAssets
-  getDatum = _utxoWithSlotDatum
-  getTxHash = _utxoWithSlotTxHash
-  getIndex = _utxoWithSlotIndex
-  getReferenceScript = _utxoWithSlotReferenceScript
-
--- | Convert @V1@ API version UTxO (with slot) type into corresponding @V0@ type.
-v1UtxoWithSlotToV0 :: UtxoWithSlot -> V0.Utxo
-v1UtxoWithSlotToV0 UtxoWithSlot {..} = V0.Utxo {
-    V0._utxoAddress = _utxoWithSlotAddress
-  , V0._utxoAssets = map v1AssetToV0 _utxoWithSlotAssets
-  , V0._utxoDatum = _utxoWithSlotDatum
-  , V0._utxoIndex = coerce _utxoWithSlotIndex
-  , V0._utxoReferenceScript = _utxoWithSlotReferenceScript
-  , V0._utxoTxHash = coerce _utxoWithSlotTxHash
-  , V0._utxoTxoutCbor = _utxoWithSlotTxoutCbor
-  }
+  getAddress = utxoWithSlotAddress
+  getAssets = utxoWithSlotAssets
+  getDatum = utxoWithSlotDatum
+  getTxHash = utxoWithSlotTxHash
+  getIndex = utxoWithSlotIndex
+  getReferenceScript = utxoWithSlotReferenceScript
 
 -- | A paginated response of transaction outputs.
 data PaginatedUtxoWithSlot = PaginatedUtxoWithSlot
-  { _paginatedUtxoWithSlotData        :: ![UtxoWithSlot],
+  { paginatedUtxoWithSlotData        :: ![UtxoWithSlot],
   -- ^ List of UTxOs.
-    _paginatedUtxoWithSlotLastUpdated :: !LastUpdated,
+    paginatedUtxoWithSlotLastUpdated :: !LastUpdated,
   -- ^ See `LastUpdated`.
-    _paginatedUtxoWithSlotNextCursor  :: !(Maybe NextCursor)
+    paginatedUtxoWithSlotNextCursor  :: !(Maybe NextCursor)
   -- ^ See `NextCursor`
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_paginatedUtxoWithSlot", CamelToSnake]] PaginatedUtxoWithSlot
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "paginatedUtxoWithSlot", CamelToSnake]] PaginatedUtxoWithSlot
 
 instance IsTimestamped PaginatedUtxoWithSlot where
   type TimestampedData PaginatedUtxoWithSlot = [UtxoWithSlot]
-  getTimestampedData = _paginatedUtxoWithSlotData
-  getTimestamp = _paginatedUtxoWithSlotLastUpdated
+  getTimestampedData = paginatedUtxoWithSlotData
+  getTimestamp = paginatedUtxoWithSlotLastUpdated
 
 instance HasCursor PaginatedUtxoWithSlot where
-  getNextCursor = _paginatedUtxoWithSlotNextCursor
+  getNextCursor = paginatedUtxoWithSlotNextCursor

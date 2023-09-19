@@ -15,12 +15,13 @@ spec_backoff = do
     shouldThrow  (doConcCall Nothing) anyErrorCall
 
   it "works with default backoff settings" $ do
-    doConcCall $ Just (50000, 10000000)
+    doConcCall defaultBackoff
 
 type Ret = Either MaestroError [UtxoWithSlot]
 
 doConcCall :: Maybe (Int, Int) -> IO ()
 doConcCall backoffSettings = do
+    -- TODO:
     -- maestroKey <- T.pack <$> getEnv  "MAESTRO_API_KEY"
     let maestroKey = "86NByG4q6NoEeRYJgSa9Cj8hzm0aZMX0"
     env <- mkMaestroEnv @'V1 maestroKey Preprod backoffSettings

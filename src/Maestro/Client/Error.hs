@@ -11,23 +11,23 @@ import           Control.Exception       (Exception)
 import           Data.Aeson              (decode)
 import           Data.Text               (Text)
 import           Deriving.Aeson
-import           Maestro.Types.V0.Common (LowerFirst)
+import           Maestro.Types.Common (LowerFirst)
 import           Network.HTTP.Types
 import           Servant.Client
 
 -- | In cases of failure, at times, Maestro returns a JSON object with an error message.
 data ApiError = ApiError
   { -- | The error type (corresponding to status code). Optional as it is not always present.
-    _apiErrorError   :: !(Maybe Text)
+    apiErrorError   :: !(Maybe Text)
   , -- | The error message.
-    _apiErrorMessage :: !Text
+    apiErrorMessage :: !Text
   , -- | The HTTP status code. Optional as it is not always present.
-    _apiErrorCode    :: !(Maybe Word)
+    apiErrorCode    :: !(Maybe Word)
   }
   deriving stock (Show, Eq, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_apiError", LowerFirst]] ApiError
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "apiError", LowerFirst]] ApiError
 
 -- | Maestro errors.
 data MaestroError =
@@ -70,7 +70,7 @@ fromServantClientError e = case e of
   where
     withMessage body =
       case decode body of
-        Just (ae :: ApiError) -> _apiErrorMessage ae
+        Just (ae :: ApiError) -> apiErrorMessage ae
         Nothing               ->
           case decode body of
             Just (m :: Text) -> m

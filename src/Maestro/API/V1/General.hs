@@ -7,19 +7,19 @@ import           Servant.API.Generic
 data GeneralAPI route =
   GeneralAPI
     {
-      _systemStart
+      systemStart
         :: route
         :- "system-start"
         :> Get '[JSON] TimestampedSystemStart
-    , _eraHistory
+    , eraHistory
         :: route
         :- "era-history"
         :> Get '[JSON] TimestampedEraSummaries
-    , _protocolParams
+    , protocolParams
         :: route
         :- "protocol-params"
         :> Get '[JSON] TimestampedProtocolParameters
-    , _chainTip
+    , chainTip
         :: route
         :- "chain-tip"
         :> Get '[JSON] TimestampedChainTip

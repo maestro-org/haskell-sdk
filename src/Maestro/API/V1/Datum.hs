@@ -7,7 +7,7 @@ import           Servant.API.Generic
 newtype DatumAPI route =
   DatumAPI
     {
-      _datumByHash
+      datumByHash
         :: route
         :- Capture "datum_hash" (HexStringOf DatumHash)
         :> Get '[JSON] TimestampedDatum

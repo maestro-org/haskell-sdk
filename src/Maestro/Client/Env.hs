@@ -4,6 +4,7 @@ module Maestro.Client.Env
   , MaestroNetwork (..)
   , MaestroApiVersion (..)
   , mkMaestroEnv
+  , defaultBackoff
   ) where
 
 import           Data.Text               (Text)
@@ -38,7 +39,7 @@ data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
   , _maeToken     :: !MaestroToken
   , _maeBaseDelay :: !(Maybe Int)
   -- ^ Base delay in microseconds to use with jitter backoff.
-  -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:fullJitterBackoff
+  -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:exponentialBackoff
   , _maeMaxDelay  :: !(Maybe Int)
   -- ^ Maximum waiting time in microseconds.
   -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:limitRetriesByCumulativeDelay
@@ -73,3 +74,7 @@ servantClientEnv url = do
   baseUrl <- Servant.parseBaseUrl url
   manager <- newManager tlsManagerSettings
   pure $ Servant.mkClientEnv manager baseUrl
+
+-- | Base delay, Maximum waiting in microseconds
+defaultBackoff :: Maybe (Int, Int)
+defaultBackoff = Just (50000, 10000000)

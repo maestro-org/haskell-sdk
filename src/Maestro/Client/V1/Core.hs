@@ -36,4 +36,4 @@ apiV1ClientAuth MaestroEnv{..} =
       handler >=> either (throwIO . fromServantClientError) pure
 
 apiV1Client :: MaestroEnv 'V1 -> MaestroApiV1 (AsClientT IO)
-apiV1Client mEnv@MaestroEnv {..} = fromServant $ _apiV1 (apiV1ClientAuth mEnv) _maeToken
+apiV1Client mEnv@MaestroEnv {..} = fromServant $ apiV1 (apiV1ClientAuth mEnv) _maeToken
