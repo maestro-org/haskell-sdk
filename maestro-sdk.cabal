@@ -84,21 +84,43 @@ library
       Maestro.Types.V1.Transactions
 
     build-depends:
+      , aeson
       , base                >= 4.14.3.0  &&  < 4.19
       , bytestring
-      , aeson
       , containers
+      , data-default-class
       , deriving-aeson
+      , http-api-data
+      , http-client
+      , http-client-tls
+      , http-types
+      , retry
       , servant
       , servant-client
       , servant-client-core
       , text
       , time
-      , http-client
-      , http-client-tls
-      , http-types
-      , http-api-data
-      , data-default-class
 
     hs-source-dirs:   src
     default-language: Haskell2010
+
+test-suite maestro-sdk-tests
+    import:           common
+    default-language: Haskell2010
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Driver.hs
+    other-modules:
+        Maestro.Test.Backoff
+
+    build-depends:
+        base
+      , maestro-sdk
+      , containers
+      , hspec
+      , tasty
+      , tasty-hspec
+      , text
+      , time
+    build-tool-depends:
+        tasty-discover:tasty-discover
