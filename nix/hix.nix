@@ -15,9 +15,4 @@
   shell.tools.haskell-language-server = { version = "1.8.0.0"; index-state = "2022-12-17T00:00:00Z"; };
 
   shell.buildInputs = with pkgs; [zlib zlib.dev zlib.out];
-
-  shell.shellHook = ''
-    export CABAL_DIR=$(pwd)/.cabal
-  '';
-
 }
