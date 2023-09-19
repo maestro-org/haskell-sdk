@@ -5,7 +5,7 @@ module Maestro.Client.V1.Core
   , module Maestro.Client.V1.Core.Pagination
   ) where
 import           Control.Exception                 (throwIO)
-import           Control.Retry                     (retrying, fullJitterBackoff, limitRetriesByCumulativeDelay)
+import           Control.Retry                     (retrying, limitRetriesByCumulativeDelay, exponentialBackoff)
 import           Maestro.API.V1
 import           Maestro.Client.Env
 import           Maestro.Client.Error              (fromServantClientError, MaestroError (..))
@@ -24,7 +24,7 @@ apiV1ClientAuth MaestroEnv{..} =
             (Just bDelay, Just mDelay) ->
               \x ->
                 retrying
-                  (limitRetriesByCumulativeDelay mDelay$ fullJitterBackoff bDelay)
+                  (limitRetriesByCumulativeDelay mDelay$ exponentialBackoff bDelay)
                   (\_retryStatus -> \case
                       Right _ -> pure False
                       Left clientErr -> case fromServantClientError clientErr of
