@@ -1,12 +1,12 @@
 module Maestro.Client.Env
-  (
-    MaestroEnv (..)
+  ( MaestroEnv (..)
   , MaestroNetwork (..)
   , MaestroApiVersion (..)
   , mkMaestroEnv
   , defaultBackoff
   ) where
 
+import           Data.Functor            ((<&>))
 import           Data.Text               (Text)
 import           Network.HTTP.Client     (newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -35,12 +35,12 @@ instance SingMaestroApiVersionI 'V0 where singMaestroApiVersion = SingV0
 instance SingMaestroApiVersionI 'V1 where singMaestroApiVersion = SingV1
 
 data MaestroEnv (v :: MaestroApiVersion) = MaestroEnv
-  { _maeClientEnv :: !Servant.ClientEnv
-  , _maeToken     :: !MaestroToken
-  , _maeBaseDelay :: !(Maybe Int)
+  { maeClientEnv :: !Servant.ClientEnv
+  , maeToken     :: !MaestroToken
+  , maeBaseDelay :: !(Maybe Int)
   -- ^ Base delay in microseconds to use with jitter backoff.
   -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:exponentialBackoff
-  , _maeMaxDelay  :: !(Maybe Int)
+  , maeMaxDelay  :: !(Maybe Int)
   -- ^ Maximum waiting time in microseconds.
   -- https://hackage.haskell.org/package/retry-0.9.3.1/docs/Control-Retry.html#v:limitRetriesByCumulativeDelay
   }
@@ -63,10 +63,10 @@ mkMaestroEnv
 mkMaestroEnv token nid mbDelays = do
   clientEnv <- servantClientEnv $ maestroBaseUrl nid (fromSingMaestroApiVersion $ singMaestroApiVersion @apiVersion)
   pure $ MaestroEnv
-    { _maeClientEnv = clientEnv
-    , _maeToken = token
-    , _maeBaseDelay = mbDelays >>= pure . fst
-    , _maeMaxDelay = mbDelays >>= pure . snd
+    { maeClientEnv = clientEnv
+    , maeToken = token
+    , maeBaseDelay = mbDelays <&> fst
+    , maeMaxDelay = mbDelays <&> snd
     }
 
 servantClientEnv :: String -> IO Servant.ClientEnv
@@ -75,6 +75,6 @@ servantClientEnv url = do
   manager <- newManager tlsManagerSettings
   pure $ Servant.mkClientEnv manager baseUrl
 
--- | Base delay, Maximum waiting in microseconds
+-- | Base delay & maximum waiting in microseconds corresponding to `maeBaseDelay`, `maeMaxDelay` respectively. See description of `maeBaseDelay` & `maeMaxDelay` for more information.
 defaultBackoff :: Maybe (Int, Int)
 defaultBackoff = Just (50000, 10000000)
