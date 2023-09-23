@@ -95,12 +95,12 @@ newtype SlotNo = SlotNo {unSlotNo :: Word64}
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
   deriving stock (Show, Eq, Ord, Generic)
-  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON)
+  deriving newtype (Num, Enum, Real, Integral, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData)
 
 -- | Hash of the block.
 newtype BlockHash = BlockHash {unBlockHash :: Text}
   deriving stock (Show, Eq, Ord, Generic)
-  deriving (FromJSON, ToJSON)
+  deriving newtype (FromHttpApiData, ToHttpApiData, FromJSON, ToJSON)
 
 -- | Hash of the Transaction.
 newtype TxHash = TxHash Text
@@ -127,21 +127,21 @@ data DatumOptionType = Inline | Hash
   deriving stock (Show, Eq, Ord, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[LowerFirst]] DatumOptionType
 
--- | Description of datum in an output. If datum is successfully resolved for (when mentioning to resolve for it by giving @resolve_datums@ flag in query parameters) then fields like @_datumOptionBytes@ would have non `Nothing` value even if UTxO just had hash of datum.
+-- | Description of datum in an output. If datum is successfully resolved for (when mentioning to resolve for it by giving @resolve_datums@ flag in query parameters) then fields like @datumOptionBytes@ would have non `Nothing` value even if UTxO just had hash of datum.
 data DatumOption = DatumOption
-  { _datumOptionBytes :: !(Maybe Text),
+  { datumOptionBytes :: !(Maybe Text),
   -- ^ Hex encoded datum CBOR bytes.
-    _datumOptionHash  :: !Text,
+    datumOptionHash  :: !Text,
   -- ^ Hash of the datum.
-    _datumOptionJson  :: !(Maybe Aeson.Value),
+    datumOptionJson  :: !(Maybe Aeson.Value),
   -- ^ JSON representation of the datum.
-    _datumOptionType  :: !DatumOptionType
+    datumOptionType  :: !DatumOptionType
   -- ^ See `DatumOptionType`.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_datumOption", LowerFirst]] DatumOption
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "datumOption", LowerFirst]] DatumOption
 
 -- | Type of script.
 data ScriptType = Native | PlutusV1 | PlutusV2
@@ -152,19 +152,19 @@ data ScriptType = Native | PlutusV1 | PlutusV2
 
 -- | Type to represent script in an UTxO.
 data Script = Script
-  { _scriptBytes :: !(Maybe Text),
+  { scriptBytes :: !(Maybe Text),
   -- ^ Script bytes (`Nothing` if `Native` script).
-    _scriptHash  :: !Text,
+    scriptHash  :: !Text,
   -- ^ Hash of script.
-    _scriptJson  :: !(Maybe Aeson.Value),
+    scriptJson  :: !(Maybe Aeson.Value),
   -- ^ JSON representation of script (`Nothing` if not `Native` script).
-    _scriptType  :: !ScriptType
+    scriptType  :: !ScriptType
   -- ^ See `ScriptType`.
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
-    via CustomJSON '[FieldLabelModifier '[StripPrefix "_script", LowerFirst]] Script
+    via CustomJSON '[FieldLabelModifier '[StripPrefix "script", LowerFirst]] Script
 
 -- Datatype to represent for /"order"/ query parameter in some of the API requests.
 data Order = Ascending | Descending

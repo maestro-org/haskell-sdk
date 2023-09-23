@@ -13,25 +13,25 @@ import           Maestro.Types.V1.Common (IsTimestamped (..), LastUpdated,
 
 -- | Details of datum when queried by it's hash.
 data Datum = Datum
-  { _datumBytes :: !Text
+  { datumBytes :: !Text
   -- ^ Hex encoded datum CBOR bytes.
-  , _datumJson  :: !Value
+  , datumJson  :: !Value
   -- ^ JSON representation of the datum.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_datum", LowerFirst]] Datum
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "datum", LowerFirst]] Datum
 
 -- | Timestamped `Datum` response.
 data TimestampedDatum = TimestampedDatum
-  { _timestampedDatumData        :: !Datum
+  { timestampedDatumData        :: !Datum
   -- ^ See `Datum`.
-  , _timestampedDatumLastUpdated :: !LastUpdated
+  , timestampedDatumLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
   }
   deriving stock (Eq, Show, Generic)
-  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "_timestampedDatum", CamelToSnake]] TimestampedDatum
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedDatum", CamelToSnake]] TimestampedDatum
 
 instance IsTimestamped TimestampedDatum where
   type TimestampedData TimestampedDatum = Datum
-  getTimestampedData = _timestampedDatumData
-  getTimestamp = _timestampedDatumLastUpdated
+  getTimestampedData = timestampedDatumData
+  getTimestamp = timestampedDatumLastUpdated

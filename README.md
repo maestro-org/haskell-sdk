@@ -42,7 +42,7 @@
 
   main :: IO ()
   main = do
-    env <- mkMaestroEnv @'V1 "<Your-API-Key>" Preprod  -- This is how we create an environment against which we'll query endpoints.
+    env <- mkMaestroEnv @'V1 "<Your-API-Key>" Preprod defaultBackoff -- This is how we create an environment against which we'll query endpoints.
     chainTip :: ChainTip <- getTimestampedData <$> getChainTip env  -- Maestro endpoint to get for chain-tip has data & timestamp against which data was calculated. All endpoints which are timestamped, has functions `getTimestampedData` to get for underlying data & `getTimestamp` to get the timestamp.
     addressesUTxOs :: Either MaestroError [UtxoWithSlot] <-
       try  -- To catch for any errors, given in type `MaestroError`.

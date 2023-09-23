@@ -6,16 +6,16 @@ module Maestro.Client.V1.Pools
 where
 
 import           Maestro.API.V1
-import           Maestro.API.V1.Pools
+import qualified Maestro.API.V1.Pools   as Mapi
 import           Maestro.Client.Env
 import           Maestro.Client.V1.Core
 import           Maestro.Types.V1
 import           Servant.API.Generic
 import           Servant.Client
 
-poolsClient :: MaestroEnv 'V1 -> PoolsAPI (AsClientT IO)
-poolsClient = fromServant . _pools . apiV1Client
+poolsClient :: MaestroEnv 'V1 -> Mapi.PoolsAPI (AsClientT IO)
+poolsClient = fromServant . pools . apiV1Client
 
 -- | Returns a list of currently registered stake pools.
 listPools :: MaestroEnv 'V1 -> Cursor -> IO PaginatedPoolListInfo
-listPools = _listPools . poolsClient
+listPools = Mapi.listPools . poolsClient

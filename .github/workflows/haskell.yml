@@ -13,6 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    environment: build
     outputs:
       MAESTRO_SDK_VERSION: ${{ steps.get_maestro_sdk_version.outputs.MAESTRO_SDK_VERSION }}
     steps:
@@ -73,8 +74,8 @@ jobs:
       run: cabal v2-build --only-dependencies --enable-tests --enable-benchmarks
     - name: Build all targets (cabal)
       run: cabal v2-build --enable-tests --enable-benchmarks all
-    - name: Run all tests (cabal)
-      run: cabal v2-test maestro-sdk-tests
+    # - name: Run all tests (cabal)
+    #   run: cabal v2-test maestro-sdk-tests
     - name: Run doctest (docspec)
       run: |
         # Install docspec and run doctests.

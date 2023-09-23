@@ -3,6 +3,7 @@ module Maestro.Client.V1.Core.Pagination where
 import           Data.Default.Class
 import           Data.Maybe                         (isNothing)
 import           Data.Proxy                         (Proxy (..))
+import           GHC.Natural                        (Natural)
 import           Maestro.Types.V1.Common            (IsTimestamped (getTimestampedData),
                                                      TimestampedData)
 import           Maestro.Types.V1.Common.Pagination
@@ -13,12 +14,12 @@ import           Servant.Client.Core                (Client, HasClient,
 
 --  | Pagination parameters.
 data Cursor = Cursor
-  { resultPerPage :: !Int                -- ^ Total result to have per page.
+  { resultPerPage :: !Natural            -- ^ Total result to have per page.
   , cursor        :: !(Maybe NextCursor) -- ^ Cursor.
   }
 
 -- | Maximum number of result per page.
-maxResultsPerPage :: Int
+maxResultsPerPage :: Natural
 maxResultsPerPage = 100
 
 instance Default Cursor where
@@ -41,7 +42,7 @@ allPages act = fetch Nothing
 data Pagination
 
 type PaginationApi api =
-     QueryParam "count" Int
+     QueryParam "count" Natural
   :> QueryParam "cursor" NextCursor
   :> api
 
