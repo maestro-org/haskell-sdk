@@ -19,9 +19,10 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
     - name: Any Name Bash Test Step
-      shell: bash
+      env:
+        MAESTRO_API_KEY: ${{ secrets.MAESTRO_API_KEY }}
       run: |
-        echo "MAESTRO_API_KEY: $MAESTRO_API_KEY"
+        echo ${#MAESTRO_API_KEY}
     - name: Install dependencies (apt-get)
       run: |
         sudo apt-get update
