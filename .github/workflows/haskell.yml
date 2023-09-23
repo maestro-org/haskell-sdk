@@ -19,9 +19,6 @@ jobs:
     steps:
     - name: Checkout source code
       uses: actions/checkout@v3
-    - name: Any Name Bash Test Step
-      run: |
-        echo $MAESTRO_API_KEY
     - name: Install dependencies (apt-get)
       run: |
         sudo apt-get update
@@ -78,8 +75,6 @@ jobs:
     - name: Build all targets (cabal)
       run: cabal v2-build --enable-tests --enable-benchmarks all
     - name: Run all tests (cabal)
-      env: 
-        MAESTRO_API_KEY: ${{ secrets.MAESTRO_API_KEY }}
       run: cabal v2-test maestro-sdk-tests
     - name: Run doctest (docspec)
       run: |
