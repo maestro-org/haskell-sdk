@@ -47,7 +47,7 @@ forkChild :: MVar [MVar Ret] -> IO Ret -> IO ThreadId
 forkChild children action = do
     mvar :: MVar Ret <- newEmptyMVar
     childs <- takeMVar children
-    putMVar children (mvar:childs)
+    putMVar children (mvar : childs)
     forkFinally action $ \case
       Left _     -> putMVar mvar $ Left $ MaestroError "client finished abruptly"
       Right ret' -> putMVar mvar ret'

@@ -77,4 +77,4 @@ servantClientEnv url = do
 
 -- | Base delay & maximum waiting in microseconds corresponding to `maeBaseDelay`, `maeMaxDelay` respectively. See description of `maeBaseDelay` & `maeMaxDelay` for more information.
 defaultBackoff :: Maybe (Int, Int)
-defaultBackoff = Just (50000, 10000000)
+defaultBackoff = Just (1_000_000, 10_000_000)
