@@ -10,10 +10,10 @@ data TxManagerAPI route = TxManagerAPI
   { monitoredTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> PostAccepted '[JSON] T.Text
+        :> PostAccepted '[PlainText] T.Text
   , monitoredTurboTxSubmit ::
       route
         :- ReqBody' '[Required] '[CBORStream] BS.ByteString
-        :> PostAccepted '[JSON] T.Text
+        :> PostAccepted '[PlainText] T.Text
   }
   deriving (Generic)
