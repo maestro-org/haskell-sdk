@@ -13,6 +13,16 @@ data AddressesAPI route = AddressesAPI
       :> "decode"
       :> Get '[JSON] AddressInfo
 
+  , addressUtxos
+      :: route
+      :- Capture "address" (Bech32StringOf Address)
+      :> "utxos"
+      :> QueryParam "resolve_datums" Bool
+      :> QueryParam "with_cbor" Bool
+      :> QueryParam "asset" NonAdaNativeToken
+      :> Pagination
+      :> Get '[JSON] PaginatedUtxoWithSlot
+
   , addressesUtxos
       :: route
       :- "utxos"
