@@ -5,12 +5,12 @@ import           Servant.API
 import           Servant.API.Generic
 
 data BlocksAPI route = BlocksAPI
-  { -- | Get details of the specified block by hash
+  { -- | Get details of the specified block by hash.
     blockByHash
       :: route
       :- Capture "hash_or_height" BlockHash
       :> Get '[JSON] TimestampedBlockDetails
-  -- | Get details of the specified block by height
+    -- | Get details of the specified block by height.
   , blockByHeight
       :: route
       :- Capture "hash_or_height" BlockHeight
