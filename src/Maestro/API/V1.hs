@@ -17,7 +17,7 @@ data MaestroApiV1 route  = MaestroApiV1
   , accounts     :: route :- "accounts" :> ToServantApi AccountsAPI
   , addresses    :: route :- "addresses" :> ToServantApi AddressesAPI
   , blocks       :: route :- "blocks" :> ToServantApi BlocksAPI
-  , datum        :: route :- "datum" :> ToServantApi DatumAPI
+  , datums       :: route :- "datums" :> ToServantApi DatumAPI
   , pools        :: route :- "pools" :> ToServantApi PoolsAPI
   , txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
   , transactions :: route :- "transactions" :> ToServantApi TransactionsAPI
