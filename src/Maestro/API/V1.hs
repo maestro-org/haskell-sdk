@@ -5,6 +5,7 @@ import           Maestro.API.V1.Accounts
 import           Maestro.API.V1.Addresses
 import           Maestro.API.V1.Blocks
 import           Maestro.API.V1.Datum
+import           Maestro.API.V1.DefiMarkets
 import           Maestro.API.V1.General
 import           Maestro.API.V1.Pools
 import           Maestro.API.V1.Transactions
@@ -18,6 +19,7 @@ data MaestroApiV1 route  = MaestroApiV1
   , addresses    :: route :- "addresses" :> ToServantApi AddressesAPI
   , blocks       :: route :- "blocks" :> ToServantApi BlocksAPI
   , datums       :: route :- "datums" :> ToServantApi DatumAPI
+  , defiMarkets  :: route :- "markets" :> "dexs" :> ToServantApi DefiMarketsAPI
   , pools        :: route :- "pools" :> ToServantApi PoolsAPI
   , txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
   , transactions :: route :- "transactions" :> ToServantApi TransactionsAPI
