@@ -6,6 +6,7 @@ module Maestro.Types.V1
   , module Maestro.Types.V1.Blocks
   , module Maestro.Types.V1.Common
   , module Maestro.Types.V1.Datum
+  , module Maestro.Types.V1.DefiMarkets
   , module Maestro.Types.V1.General
   , module Maestro.Types.V1.Pools
   , module Maestro.Types.V1.Transactions
@@ -16,6 +17,7 @@ import           Maestro.Types.V1.Addresses
 import           Maestro.Types.V1.Blocks
 import           Maestro.Types.V1.Common
 import           Maestro.Types.V1.Datum
+import           Maestro.Types.V1.DefiMarkets
 import           Maestro.Types.V1.General
 import           Maestro.Types.V1.Pools
 import           Maestro.Types.V1.Transactions
