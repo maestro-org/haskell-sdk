@@ -1,5 +1,13 @@
 # Revision history for `maestro-sdk`
 
+## [1.5.0](https://github.com/maestro-org/haskell-sdk/compare/v1.4.0..v1.5.0) -- 2024-01-02
+
+* Added support GeniusYield DEX to market defi endpoints in [#45](https://github.com/maestro-org/haskell-sdk/pull/45).
+
+## [1.4.0](https://github.com/maestro-org/haskell-sdk/compare/v1.3.0..v1.4.0) -- 2023-12-12
+
+* Added support of OHCL and pair endpoints in [#44](https://github.com/maestro-org/haskell-sdk/pull/44).
+
 ## [1.3.0](https://github.com/maestro-org/haskell-sdk/compare/v1.2.0..v1.3.0) -- 2023-11-27
 
 * Removed deprecated `/datum` endpoint in favour of `/datums`, [#42](https://github.com/maestro-org/haskell-sdk/pull/42).
