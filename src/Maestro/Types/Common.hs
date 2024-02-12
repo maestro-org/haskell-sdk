@@ -90,7 +90,7 @@ newtype AbsoluteSlot = AbsoluteSlot {unAbsoluteSlot :: Natural}
 -- | The 0-based index for the Ourboros time slot.
 newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON)
+  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData)
 
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
