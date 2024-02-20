@@ -7,9 +7,11 @@ module Maestro.Client.Error
   , fromServantClientError
   ) where
 
-import           Control.Exception       (Exception)
-import           Data.Aeson              (decode)
-import           Data.Text               (Text)
+import           Control.Exception    (Exception)
+import           Data.Aeson           (decode)
+import           Data.ByteString      (toStrict)
+import           Data.Text            (Text)
+import           Data.Text.Encoding   (decodeLatin1)
 import           Deriving.Aeson
 import           Maestro.Types.Common (LowerFirst)
 import           Network.HTTP.Types
@@ -74,4 +76,4 @@ fromServantClientError e = case e of
         Nothing               ->
           case decode body of
             Just (m :: Text) -> m
-            Nothing          -> mempty
+            Nothing          -> decodeLatin1 $ toStrict body
