@@ -49,6 +49,7 @@ library
     Maestro.API.V1
     Maestro.API.V1.Accounts
     Maestro.API.V1.Addresses
+    Maestro.API.V1.Assets
     Maestro.API.V1.Blocks
     Maestro.API.V1.Datum
     Maestro.API.V1.DefiMarkets
@@ -61,6 +62,7 @@ library
     Maestro.Client.V1
     Maestro.Client.V1.Accounts
     Maestro.Client.V1.Addresses
+    Maestro.Client.V1.Assets
     Maestro.Client.V1.Blocks
     Maestro.Client.V1.Core
     Maestro.Client.V1.Core.Pagination
@@ -74,6 +76,7 @@ library
     Maestro.Types.V1
     Maestro.Types.V1.Accounts
     Maestro.Types.V1.Addresses
+    Maestro.Types.V1.Assets
     Maestro.Types.V1.Blocks
     Maestro.Types.V1.Common
     Maestro.Types.V1.Common.Pagination
