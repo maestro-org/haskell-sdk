@@ -9,6 +9,7 @@ module Maestro.Types.V1.DefiMarkets (
 ) where
 
 import qualified Data.Text as T
+import Data.Time (UTCTime)
 import Deriving.Aeson
 import Maestro.Types.V1.Common
 import Servant.API
@@ -81,6 +82,7 @@ data OHLCCandleInfo = OHLCCandleInfo
   , ohlcCandleInfoCoinBOpen :: !Double
   , ohlcCandleInfoCoinBVolume :: !Double
   , ohlcCandleInfoCount :: !Integer
+  , ohlcCandleInfoTimestamp :: !UTCTime
   }
   deriving stock (Show, Eq, Ord, Generic)
   deriving
