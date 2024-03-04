@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveDataTypeable #-}
+
 -- | Module to define types for /"DeFi Markets"/ category of endpoints defined at [docs.gomaestro.org](https://docs.gomaestro.org/category/defi-market-api).
 module Maestro.Types.V1.DefiMarkets (
   Dex (..),
@@ -8,11 +10,14 @@ module Maestro.Types.V1.DefiMarkets (
   OHLCCandleInfo (..),
 ) where
 
+import Control.Arrow ((>>>))
+import Data.Data (Data (toConstr))
 import qualified Data.Text as T
 import Data.Time (UTCTime)
 import Deriving.Aeson
 import Maestro.Types.V1.Common
 import Servant.API
+import Type.Reflection (Typeable)
 
 -- | Denotes which dex to use
 data Dex = Minswap | GeniusYield
@@ -31,19 +36,13 @@ type PairOfDexTokens = "Token pair to look for. Format: XXX-YYY"
 
 -- | Time resolution for OHLC Candles
 data Resolution = Res1m | Res5m | Res15m | Res30m | Res1h | Res4h | Res1d | Res1w | Res1mo
-  deriving stock (Eq, Ord, Generic)
+  deriving stock (Eq, Ord, Generic, Data, Typeable, Enum, Bounded)
   deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[StripPrefix "Res"]] Resolution
 
+-- >>> show Res1mo
+-- "1mo"
 instance Show Resolution where
-  show Res1m = "1m"
-  show Res5m = "5m"
-  show Res15m = "15m"
-  show Res30m = "30m"
-  show Res1h = "1h"
-  show Res4h = "4h"
-  show Res1d = "1d"
-  show Res1w = "1w"
-  show Res1mo = "1mo"
+  show = toConstr >>> show >>> drop 3
 
 instance ToHttpApiData Resolution where
   toQueryParam = T.pack . show
