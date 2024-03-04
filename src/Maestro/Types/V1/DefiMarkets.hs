@@ -15,6 +15,7 @@ import Data.Data (Data (toConstr))
 import qualified Data.Text as T
 import Data.Time (UTCTime)
 import Deriving.Aeson
+import GHC.Natural (Natural)
 import Maestro.Types.V1.Common
 import Servant.API
 import Type.Reflection (Typeable)
@@ -80,7 +81,7 @@ data OHLCCandleInfo = OHLCCandleInfo
   , ohlcCandleInfoCoinBLow :: !Double
   , ohlcCandleInfoCoinBOpen :: !Double
   , ohlcCandleInfoCoinBVolume :: !Double
-  , ohlcCandleInfoCount :: !Integer
+  , ohlcCandleInfoCount :: !Natural
   , ohlcCandleInfoTimestamp :: !UTCTime
   }
   deriving stock (Show, Eq, Ord, Generic)
