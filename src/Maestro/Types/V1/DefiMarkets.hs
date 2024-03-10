@@ -55,6 +55,20 @@ instance Show Resolution where
 instance ToHttpApiData Resolution where
   toQueryParam = T.pack . show
 
+instance FromHttpApiData Resolution where
+  -- Could have used `find` in combination with `[minBound..maxBound]` to make it more versatile.
+  parseQueryParam = \case
+    "1m" -> Right Res1m
+    "5m" -> Right Res5m
+    "15m" -> Right Res15m
+    "30m" -> Right Res30m
+    "1h" -> Right Res1h
+    "4h" -> Right Res4h
+    "1d" -> Right Res1d
+    "1w" -> Right Res1w
+    "1mo" -> Right Res1mo
+    _ -> Left "Invalid Resolution"
+
 data DexPairInfo = DexPairInfo
   { dexPairInfoCoinAAssetName :: !TokenName
   , dexPairInfoCoinAPolicy :: !PolicyId
