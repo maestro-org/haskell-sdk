@@ -10,8 +10,10 @@ module Maestro.Client.Error
 import           Control.Exception    (Exception (..), SomeException (..))
 import           Data.Aeson           (decode)
 import           Data.ByteString      (toStrict)
+import           Data.Either          (fromRight)
+import           Data.Function        ((&))
 import           Data.Text            (Text)
-import           Data.Text.Encoding   (decodeLatin1)
+import           Data.Text.Encoding   (decodeUtf8')
 import           Deriving.Aeson
 import           Maestro.Types.Common (LowerFirst)
 import qualified Network.HTTP.Client as Client
@@ -82,4 +84,4 @@ fromServantClientError e = let sce = ServantClientError e in case e of
         Nothing               ->
           case decode body of
             Just (m :: Text) -> m
-            Nothing          -> decodeLatin1 $ toStrict body
+            Nothing          -> toStrict body & decodeUtf8' & fromRight mempty
