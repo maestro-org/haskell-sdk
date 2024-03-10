@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE LambdaCase #-}
 
 -- | Module to define types for /"DeFi Markets"/ category of endpoints defined at [docs.gomaestro.org](https://docs.gomaestro.org/category/defi-market-api).
 module Maestro.Types.V1.DefiMarkets (
@@ -31,6 +32,12 @@ instance Show Dex where
 
 instance ToHttpApiData Dex where
   toQueryParam = T.pack . show
+
+instance FromHttpApiData Dex where
+  parseQueryParam = \case
+    "minswap" -> Right Minswap
+    "genius-yield" -> Right GeniusYield
+    _ -> Left "Invalid Dex"
 
 -- | Token Pair that is queried
 type PairOfDexTokens = "Token pair to look for. Format: XXX-YYY"
