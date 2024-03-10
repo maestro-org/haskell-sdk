@@ -39,6 +39,16 @@ data AddressesAPI route = AddressesAPI
       :> Pagination
       :> Get '[JSON] PaginatedOutputReferenceObject
 
+  , addressTxs
+      :: route
+      :- Capture "address" (Bech32StringOf Address)
+      :> "transactions"
+      :> QueryParam "order" Order
+      :> QueryParam "from" SlotNo
+      :> QueryParam "to" SlotNo
+      :> Pagination
+      :> Get '[JSON] PaginatedAddressTransaction
+
   , paymentCredentialUtxos
       :: route
       :- "cred"
@@ -49,5 +59,16 @@ data AddressesAPI route = AddressesAPI
       -- TODO: Support for more query parameters.
       :> Pagination
       :> Get '[JSON] PaginatedUtxoWithSlot
+
+  , paymentCredentialTxs
+      :: route
+      :- "cred"
+      :> Capture "credential" (Bech32StringOf PaymentCredentialAddress)
+      :> "transactions"
+      :> QueryParam "order" Order
+      :> QueryParam "from" SlotNo
+      :> QueryParam "to" SlotNo
+      :> Pagination
+      :> Get '[JSON] PaginatedPaymentCredentialTransaction
 
   } deriving (Generic)

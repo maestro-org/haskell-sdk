@@ -3,6 +3,7 @@ module Maestro.API.V1 where
 import           Data.Text                   (Text)
 import           Maestro.API.V1.Accounts
 import           Maestro.API.V1.Addresses
+import           Maestro.API.V1.Assets
 import           Maestro.API.V1.Blocks
 import           Maestro.API.V1.Datum
 import           Maestro.API.V1.DefiMarkets
@@ -23,6 +24,7 @@ data MaestroApiV1 route  = MaestroApiV1
   , pools        :: route :- "pools" :> ToServantApi PoolsAPI
   , txManager    :: route :- "txmanager" :> ToServantApi TxManagerAPI
   , transactions :: route :- "transactions" :> ToServantApi TransactionsAPI
+  , assets       :: route :- "assets" :> ToServantApi AssetsAPI
   } deriving Generic
 
 newtype MaestroApiV1Auth route = MaestroApiV1Auth

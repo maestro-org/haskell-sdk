@@ -12,6 +12,10 @@ module Maestro.Types.V1.Addresses (
     AddressInfo (..),
     OutputReferenceObject (..),
     PaginatedOutputReferenceObject (..),
+    AddressTransaction (..),
+    PaginatedAddressTransaction (..),
+    PaymentCredentialTransaction (..),
+    PaginatedPaymentCredentialTransaction (..),
   ) where
 
 import           Deriving.Aeson
@@ -131,3 +135,77 @@ instance IsTimestamped PaginatedOutputReferenceObject where
 
 instance HasCursor PaginatedOutputReferenceObject where
   getNextCursor = paginatedOutputReferenceObjectNextCursor
+
+-- | Transaction which involved a specific address.
+data AddressTransaction = AddressTransaction
+  { addressTransactionTxHash :: !TxHash
+  -- ^ Transaction hash.
+  , addressTransactionSlot   :: !SlotNo
+  -- ^ Absolute slot of the block which contains the transaction.
+  , addressTransactionInput  :: !Bool
+  -- ^ Address controlled at least one of the consumed UTxOs.
+  , addressTransactionOutput :: !Bool
+  -- ^ Address controlled at least one of the produced UTxOs.
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "addressTransaction", CamelToSnake]] AddressTransaction
+
+-- | A paginated response over `AddressTransaction`.
+data PaginatedAddressTransaction = PaginatedAddressTransaction
+  { paginatedAddressTransactionData        :: ![AddressTransaction]
+  -- ^ See `AddressTransaction`.
+  , paginatedAddressTransactionLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
+  , paginatedAddressTransactionNextCursor  :: !(Maybe NextCursor)
+  -- ^ See `NextCursor`.
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "paginatedAddressTransaction", CamelToSnake]] PaginatedAddressTransaction
+
+instance IsTimestamped PaginatedAddressTransaction where
+  type TimestampedData PaginatedAddressTransaction = [AddressTransaction]
+  getTimestampedData = paginatedAddressTransactionData
+  getTimestamp = paginatedAddressTransactionLastUpdated
+
+instance HasCursor PaginatedAddressTransaction where
+  getNextCursor = paginatedAddressTransactionNextCursor
+
+-- | Transaction which involved a specific payment credential.
+data PaymentCredentialTransaction = PaymentCredentialTransaction
+  { paymentCredentialTransactionTxHash         :: !TxHash
+  -- ^ Transaction hash.
+  , paymentCredentialTransactionSlot           :: !SlotNo
+  -- ^ Absolute slot of the block which contains the transaction.
+  , paymentCredentialTransactionInput          :: !Bool
+  -- ^ Payment credential controlled at least one of the consumed UTxOs.
+  , paymentCredentialTransactionOutput         :: !Bool
+  -- ^ Payment credential controlled at least one of the produced UTxOs.
+  , paymentCredentialTransactionRequiredSigner :: !Bool
+  -- ^ Payment credential was an additional required signer.
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "paymentCredentialTransaction", CamelToSnake]] PaymentCredentialTransaction
+
+-- | A paginated response over `PaymentCredentialTransaction`.
+data PaginatedPaymentCredentialTransaction = PaginatedPaymentCredentialTransaction
+  { paginatedPaymentCredentialTransactionData        :: ![PaymentCredentialTransaction]
+  -- ^ See `PaymentCredentialTransaction`.
+  , paginatedPaymentCredentialTransactionLastUpdated :: !LastUpdated
+  -- ^ See `LastUpdated`.
+  , paginatedPaymentCredentialTransactionNextCursor  :: !(Maybe NextCursor)
+  -- ^ See `NextCursor`.
+  }
+  deriving stock (Show, Eq, Generic)
+  deriving (FromJSON, ToJSON)
+  via CustomJSON '[FieldLabelModifier '[StripPrefix "paginatedPaymentCredentialTransaction", CamelToSnake]] PaginatedPaymentCredentialTransaction
+
+instance IsTimestamped PaginatedPaymentCredentialTransaction where
+  type TimestampedData PaginatedPaymentCredentialTransaction = [PaymentCredentialTransaction]
+  getTimestampedData = paginatedPaymentCredentialTransactionData
+  getTimestamp = paginatedPaymentCredentialTransactionLastUpdated
+
+instance HasCursor PaginatedPaymentCredentialTransaction where
+  getNextCursor = paginatedPaymentCredentialTransactionNextCursor

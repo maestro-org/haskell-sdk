@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 -- | Common (shared) types between different versions of Maestro-API.
 
 module Maestro.Types.Common
@@ -90,7 +91,7 @@ newtype AbsoluteSlot = AbsoluteSlot {unAbsoluteSlot :: Natural}
 -- | The 0-based index for the Ourboros time slot.
 newtype SlotNo = SlotNo {unSlotNo :: Word64}
   deriving stock (Eq, Ord, Show, Generic)
-  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON)
+  deriving newtype (Num, Bounded, Enum, Real, Integral, FromJSON, ToJSON, FromHttpApiData, ToHttpApiData)
 
 -- | Block Height
 newtype BlockHeight = BlockHeight {unBlockHeight :: Natural}
@@ -176,6 +177,12 @@ instance Show Order where
 
 instance ToHttpApiData Order where
   toQueryParam order = T.pack $ show order
+
+instance FromHttpApiData Order where
+  parseQueryParam = \case
+    "asc"  -> Right Ascending
+    "desc" -> Right Descending
+    _      -> Left "Invalid Order"
 
 instance Default Order where
   def = Ascending
