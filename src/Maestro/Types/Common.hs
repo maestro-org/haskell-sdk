@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 -- | Common (shared) types between different versions of Maestro-API.
 
 module Maestro.Types.Common
@@ -176,6 +177,12 @@ instance Show Order where
 
 instance ToHttpApiData Order where
   toQueryParam order = T.pack $ show order
+
+instance FromHttpApiData Order where
+  parseQueryParam = \case
+    "asc"  -> Right Ascending
+    "desc" -> Right Descending
+    _      -> Left "Invalid Order"
 
 instance Default Order where
   def = Ascending
