@@ -23,7 +23,7 @@ import Type.Reflection (Typeable)
 
 -- | Denotes which dex to use
 data Dex = Minswap | GeniusYield
-  deriving stock (Eq, Ord, Generic)
+  deriving stock (Eq, Ord, Generic, Enum, Bounded)
   deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[CamelToKebab]] Dex
 
 instance Show Dex where
