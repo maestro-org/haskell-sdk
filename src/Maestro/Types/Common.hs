@@ -169,11 +169,15 @@ data Script = Script
 
 -- Datatype to represent for /"order"/ query parameter in some of the API requests.
 data Order = Ascending | Descending
+  deriving stock (Eq, Ord, Enum, Bounded)
 
 -- Don't change @Show@ instance blindly, as `ToHttpApiData` instance is making use of it.
 instance Show Order where
   show Ascending  = "asc"
   show Descending = "desc"
+
+instance ToJSON Order where
+  toJSON = Aeson.String . T.pack . show
 
 instance ToHttpApiData Order where
   toQueryParam order = T.pack $ show order
