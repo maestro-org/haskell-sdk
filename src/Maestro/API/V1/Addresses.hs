@@ -60,6 +60,16 @@ data AddressesAPI route = AddressesAPI
       :> Pagination
       :> Get '[JSON] PaginatedUtxoWithSlot
 
+  , paymentCredentialsUtxos
+      :: route
+      :- "cred"
+      :> "utxos"
+      :> QueryParam "resolve_datums" Bool
+      :> QueryParam "with_cbor" Bool
+      :> Pagination
+      :> ReqBody '[JSON] [Bech32StringOf PaymentCredentialAddress]
+      :> Get '[JSON] PaginatedUtxoWithSlot
+
   , paymentCredentialTxs
       :: route
       :- "cred"

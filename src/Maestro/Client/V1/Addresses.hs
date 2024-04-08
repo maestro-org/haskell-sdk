@@ -5,6 +5,7 @@ module Maestro.Client.V1.Addresses (
     utxosAtMultiAddresses,
     getRefsAtAddress,
     utxosByPaymentCredential,
+    utxosByMultiPaymentCredentials,
     txsByAddress,
     txsByPaymentCredential,
   ) where
@@ -82,6 +83,21 @@ utxosByPaymentCredential ::
   Cursor ->
   IO PaginatedUtxoWithSlot
 utxosByPaymentCredential = paymentCredentialUtxos . addressClient
+
+-- | Returns list of utxos for multiple payment credentials.
+utxosByMultiPaymentCredentials ::
+  -- | The Maestro Environment.
+  MaestroEnv 'V1 ->
+  -- | Query param to include the corresponding datums for datum hashes.
+  Maybe Bool ->
+  -- | Query Param to include the CBOR encodings of the transaction outputs in the response.
+  Maybe Bool ->
+  -- | The pagination attributes.
+  Cursor ->
+  -- | List of payment credential in bech32 format to fetch utxo from.
+  [Bech32StringOf PaymentCredentialAddress] ->
+  IO PaginatedUtxoWithSlot
+utxosByMultiPaymentCredentials = paymentCredentialsUtxos . addressClient
 
 -- | Returns transactions in which the specified address spent or received funds.
 --
