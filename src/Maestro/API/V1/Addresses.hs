@@ -56,6 +56,7 @@ data AddressesAPI route = AddressesAPI
       :> "utxos"
       :> QueryParam "resolve_datums" Bool
       :> QueryParam "with_cbor" Bool
+      :> QueryParam "asset" NonAdaNativeToken
       -- TODO: Support for more query parameters.
       :> Pagination
       :> Get '[JSON] PaginatedUtxoWithSlot

@@ -79,6 +79,8 @@ utxosByPaymentCredential ::
   Maybe Bool ->
   -- | Query Param to include the CBOR encodings of the transaction outputs in the response.
   Maybe Bool ->
+  -- | Query Param to return for only those UTxOs which contain this given asset.
+  Maybe NonAdaNativeToken ->
   -- | The pagination attributes.
   Cursor ->
   IO PaginatedUtxoWithSlot
