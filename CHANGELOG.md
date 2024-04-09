@@ -1,5 +1,22 @@
 # Revision history for `maestro-sdk`
 
+## [1.6.0](https://github.com/maestro-org/haskell-sdk/compare/v1.5.0..v1.6.0) -- 2024-04-09
+
+Added:
+
+* GET `/addresses/:address/transactions`
+* `asset` query parameter to GET `/addresses/cred/:credential/utxos`
+* POST `/addresses/cred/utxos`
+* GET `/addresses/cred/:credential/transactions`
+* GET `/assets/:asset`
+* `from`, `to`, `limit` query parameters to GET `/markets/dexs/ohlc/:dex/:pair`
+* provision to prevent api-key from being leaked in error messages
+* provision to handle Maestro error bodies which are not enclosed in double quotes. Earlier behaviour was to expect message such as `"Failed to deserialise"` and not `Failed to deserialise`.
+* `FromHttpApiData`, `ToHttpApiData` instance for `SlotNo`
+* `Eq`, `Ord`, `Enum`, `Bounded`, `ToJSON`, `FromHttpApiData` instance for `Order`
+* `Enum`, `Bounded`, `FromHttpApiData` instance for `Dex`
+* `Data`, `Typeable`, `Enum`, `Bounded`, `FromHttpApiData` instance for `Resolution` and also refactored it's `Show` instance.
+
 ## [1.5.0](https://github.com/maestro-org/haskell-sdk/compare/v1.4.0..v1.5.0) -- 2024-01-02
 
 * Added support GeniusYield DEX to market defi endpoints in [#45](https://github.com/maestro-org/haskell-sdk/pull/45).

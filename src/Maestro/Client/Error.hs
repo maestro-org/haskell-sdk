@@ -7,11 +7,16 @@ module Maestro.Client.Error
   , fromServantClientError
   ) where
 
-import           Control.Exception       (Exception)
-import           Data.Aeson              (decode)
-import           Data.Text               (Text)
+import           Control.Exception    (Exception (..), SomeException (..))
+import           Data.Aeson           (decode)
+import           Data.ByteString.Lazy (toStrict)
+import           Data.Either          (fromRight)
+import           Data.Function        ((&))
+import           Data.Text            (Text)
+import           Data.Text.Encoding   (decodeUtf8')
 import           Deriving.Aeson
 import           Maestro.Types.Common (LowerFirst)
+import qualified Network.HTTP.Client  as Client
 import           Network.HTTP.Types
 import           Servant.Client
 
@@ -50,7 +55,7 @@ data MaestroError =
   deriving (Eq, Show, Exception)
 
 fromServantClientError :: ClientError -> MaestroError
-fromServantClientError e = case e of
+fromServantClientError e = let sce = ServantClientError e in case e of
   FailureResponse _bUrl (Response s _ _ body)
     | s == status400 ->
         MaestroBadRequest (withMessage body)
@@ -66,7 +71,12 @@ fromServantClientError e = case e of
         MaestroInternalError (withMessage body)
     | otherwise ->
         MaestroError (withMessage body)
-  _anyOtherFailure -> ServantClientError e
+  ConnectionError se -> case fromException @Client.HttpException se of
+    Just he -> case he of
+      Client.HttpExceptionRequest req content -> ServantClientError $ ConnectionError $ SomeException $ Client.HttpExceptionRequest req { Client.requestHeaders = (\(h, v) -> if h == "api-key" then (h, "hidden") else (h, v)) <$> Client.requestHeaders req } content
+      _anyOther -> sce
+    Nothing -> sce
+  _anyOtherFailure -> sce
   where
     withMessage body =
       case decode body of
@@ -74,4 +84,4 @@ fromServantClientError e = case e of
         Nothing               ->
           case decode body of
             Just (m :: Text) -> m
-            Nothing          -> mempty
+            Nothing          -> toStrict body & decodeUtf8' & fromRight mempty
