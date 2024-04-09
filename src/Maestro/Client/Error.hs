@@ -9,14 +9,14 @@ module Maestro.Client.Error
 
 import           Control.Exception    (Exception (..), SomeException (..))
 import           Data.Aeson           (decode)
-import           Data.ByteString      (toStrict)
+import           Data.ByteString.Lazy (toStrict)
 import           Data.Either          (fromRight)
 import           Data.Function        ((&))
 import           Data.Text            (Text)
 import           Data.Text.Encoding   (decodeUtf8')
 import           Deriving.Aeson
 import           Maestro.Types.Common (LowerFirst)
-import qualified Network.HTTP.Client as Client
+import qualified Network.HTTP.Client  as Client
 import           Network.HTTP.Types
 import           Servant.Client
 
