@@ -69,7 +69,7 @@ data AddressesAPI route = AddressesAPI
       :> QueryParam "with_cbor" Bool
       :> Pagination
       :> ReqBody '[JSON] [Bech32StringOf PaymentCredentialAddress]
-      :> Get '[JSON] PaginatedUtxoWithSlot
+      :> Post '[JSON] PaginatedUtxoWithSlot
 
   , paymentCredentialTxs
       :: route
