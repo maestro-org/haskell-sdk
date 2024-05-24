@@ -5,6 +5,7 @@ module Maestro.Types.V1.Assets (
   TimestampedAssetInfo (..),
 ) where
 
+import Data.Aeson (Value)
 import Data.Text (Text)
 import Data.Word (Word64)
 import Deriving.Aeson
@@ -28,9 +29,41 @@ data TokenRegistryMetadata = TokenRegistryMetadata
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "tokenRegistryMetadata", CamelToSnake]] TokenRegistryMetadata
 
+data Cip68AssetType = CIP68ATReferenceNft | CIP68ATUserNft | CIP68ATUserFt
+  deriving stock (Eq, Show, Generic, Enum, Bounded)
+  deriving (FromJSON, ToJSON) via CustomJSON '[ConstructorTagModifier '[StripPrefix "CIP68AT", CamelToSnake]] Cip68AssetType
+
+data Cip68Metadata = Cip68Metadata
+  { cip68MetadataExtra :: !(Maybe Text)
+  -- ^ Custom user defined Plutus data CBOR bytes.
+  , cip68MetadataMetadata :: !Value
+  -- ^ Asset CIP-68 metadata.
+  , cip68MetadataPurpose :: !Cip68AssetType
+  -- ^ Purpose.
+  , cip68MetadataVersion :: !Word64
+  -- ^ CIP-68 version.
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "cip68Metadata", CamelToSnake]] Cip68Metadata
+
+-- | Asset information corresponding to popular standards.
+data AssetStandards = AssetStandards
+  { assetStandardsCip25Metadata :: !(Maybe Value)
+  -- ^ CIP-25 metadata for a specific asset.
+  , assetStandardsCip68Metadata :: !(Maybe Cip68Metadata)
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "assetStandards", CamelToSnake]] AssetStandards
+
 -- | Information about a specific Cardano native-asset.
 data AssetInfo = AssetInfo
-  { assetInfoTokenRegistryMetadata :: !(Maybe TokenRegistryMetadata)
+  { assetInfoAssetName :: !TokenName
+  -- ^ Hex encoding of the asset name.
+  , assetInfoAssetStandards :: !AssetStandards
+  -- ^ Asset information corresponding to popular standards.
+  , assetInfoLatestMintTxMetadata :: !(Maybe Value)
+  -- ^ Metadata of the most recent transaction which minted or burned the asset.
+  , assetInfoTokenRegistryMetadata :: !(Maybe TokenRegistryMetadata)
   -- ^ See `TokenRegistryMetadata`.
   }
   deriving stock (Eq, Show, Generic)
