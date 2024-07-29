@@ -1,27 +1,27 @@
-cabal-version:      3.0
-name:               maestro-sdk
-version:            1.6.0
-synopsis:           Maestro Blockchain Indexer SDK
+cabal-version: 3.0
+name: maestro-sdk
+version: 1.6.0
+synopsis: Maestro Blockchain Indexer SDK
 description:
   Maestro provides blockchain indexers, APIs and event management systems for the Cardano blockchain.
 
-license:            Apache-2.0
-license-file:       LICENSE
-author:             support@gomaestro.org
-maintainer:         support@gomaestro.org
-copyright:          (c) 2023 Maestro Blockchain Inc
-build-type:         Simple
-category:           Blockchain, Cardano, SDK, API, REST
-extra-doc-files:    CHANGELOG.md
+license: Apache-2.0
+license-file: LICENSE
+author: support@gomaestro.org
+maintainer: support@gomaestro.org
+copyright: (c) 2023 Maestro Blockchain Inc
+build-type: Simple
+category: Blockchain, Cardano, SDK, API, REST
+extra-doc-files: CHANGELOG.md
 extra-source-files: README.md
-tested-with:        GHC ==8.10.7 || ==9.2.8 || ==9.6.2
+tested-with: ghc ==8.10.7 || ==9.2.8 || ==9.6.2
 
 source-repository head
-  type:     git
+  type: git
   location: https://github.com/maestro-org/haskell-sdk
 
 common common
-  ghc-options:        -Wall
+  ghc-options: -Wall
   default-extensions:
     DataKinds
     DeriveGeneric
@@ -44,7 +44,7 @@ common common
     TypeOperators
 
 library
-  import:           common
+  import: common
   exposed-modules:
     Maestro.API.V1
     Maestro.API.V1.Accounts
@@ -88,41 +88,41 @@ library
     Maestro.Types.V1.Transactions
 
   build-depends:
-    , aeson                ^>=2.1
-    , base                 ^>=4.14.3.0 || ^>=4.16.4.0 || ^>=4.18.0.0
-    , bytestring           >=0.10      && <0.11       || ^>=0.11
-    , containers           ^>=0.6
-    , data-default-class   ^>=0.1
-    , deriving-aeson       ^>=0.2
-    , http-api-data        >=0.5       && <0.6        || ^>=0.6
-    , http-client          ^>=0.7
-    , http-client-tls      ^>=0.3
-    , http-types           ^>=0.12
-    , retry                ^>=0.9
-    , servant              >=0.19      && <0.20       || ^>=0.20
-    , servant-client       >=0.19      && <0.20       || ^>=0.20
-    , servant-client-core  >=0.19      && <0.20       || ^>=0.20
-    , text                 ^>=1.2      || ^>=2.0
-    , time                 ^>=1.9      || >=1.11      && <1.12       || ^>=1.12
+    aeson >=2.1 && <2.3,
+    base >=4.9 && <5,
+    bytestring >=0.10 && <0.12,
+    containers ^>=0.6,
+    data-default-class ^>=0.1,
+    deriving-aeson ^>=0.2,
+    http-api-data >=0.5 && <0.7,
+    http-client ^>=0.7,
+    http-client-tls ^>=0.3,
+    http-types ^>=0.12,
+    retry ^>=0.9,
+    servant >=0.19 && <0.21,
+    servant-client >=0.19 && <0.21,
+    servant-client-core >=0.19 && <0.21,
+    text >=1.2 && <3.0,
+    time >=1.9 && <1.13,
 
-  hs-source-dirs:   src
+  hs-source-dirs: src
   default-language: Haskell2010
 
 test-suite maestro-sdk-tests
-  import:             common
-  default-language:   Haskell2010
-  type:               exitcode-stdio-1.0
-  hs-source-dirs:     test
-  main-is:            Driver.hs
-  other-modules:      Maestro.Test.Backoff
+  import: common
+  default-language: Haskell2010
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Driver.hs
+  other-modules: Maestro.Test.Backoff
   build-depends:
-    , base         ^>=4.14.3.0 || ^>=4.16.4.0 || ^>=4.18.0.0
-    , containers   ^>=0.6.5.1
-    , hspec        ^>=2.11.4
-    , maestro-sdk
-    , tasty        ^>=1.4.3
-    , tasty-hspec  ^>=1.2.0.4
-    , text         ^>=1.2.4.1  || ^>=2.0.2
-    , time         ^>=1.9.3    || ^>=1.11.1.1 || ^>=1.12.2
+    base,
+    containers,
+    hspec >=2.11 && <2.12,
+    maestro-sdk,
+    tasty >=1.4 && <1.6,
+    tasty-hspec ^>=1.2.0.4,
+    text,
+    time,
 
   build-tool-depends: tasty-discover:tasty-discover
