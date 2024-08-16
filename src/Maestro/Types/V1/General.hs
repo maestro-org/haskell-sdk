@@ -285,7 +285,7 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The maximum number of epochs into the future that stake pools are permitted to schedule a retirement /AKA/ @pool_retire_max_epoch@, @e_max@.
   , protocolParametersTreasuryExpansion               :: !MaestroRational
   -- ^ The fraction of the fee pot each epoch that goes to the treasury. This is the \"tau\" incentives parameter from the design document, /AKA/ @treasury_cut@.
-  , protocolParametersProtocolVersion                 :: !ProtocolVersion
+  , protocolParametersVersion                         :: !ProtocolVersion
   -- ^ See `ProtocolVersion`.
   }
   deriving stock (Eq, Show, Generic)
