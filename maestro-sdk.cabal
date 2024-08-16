@@ -121,7 +121,7 @@ test-suite maestro-sdk-tests
     hspec >=2.11 && <2.12,
     maestro-sdk,
     tasty >=1.4 && <1.6,
-    tasty-hspec ^>=1.2.0.4,
+    tasty-hspec >=1.2 && <1.3,
     text,
     time,
 
