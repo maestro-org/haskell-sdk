@@ -3,7 +3,7 @@
 module Maestro.Types.V1.General
   ( -- * Types for @/system-start@ endpoint
     TimestampedSystemStart (..)
-    -- * Types for @/era-history@ endpoint
+    -- * Types for @/era-summaries@ endpoint
   , TimestampedEraSummaries (..)
   , EraSummary (..)
   , EraParameters (..)
@@ -58,7 +58,7 @@ instance IsTimestamped TimestampedSystemStart where
   getTimestamp = timestampedSystemStartLastUpdated
 
 ------------------------------------------------------------------
---  Types for @/era-history@ endpoint
+--  Types for @/era-summaries@ endpoint
 ------------------------------------------------------------------
 
 -- | Network era summaries.
@@ -97,7 +97,7 @@ newtype EpochSlotLength = EpochSlotLength
 data EraParameters = EraParameters
   { eraParametersEpochLength :: !EpochSize
   -- ^ Number of slots in an epoch.
-  , eraParametersSlotLength  :: !NominalDiffTime  -- !EpochSlotLength
+  , eraParametersSlotLength  :: !EpochSlotLength
   -- ^ How long a slot lasts.
   , eraParametersSafeZone    :: !(Maybe Word64)
   -- ^ Number of slots from the tip of the ledger in which a hardfork will not happen.
@@ -118,7 +118,7 @@ data EraBound = EraBound
   -- ^ Epoch number bounding this era.
   , eraBoundSlot  :: !SlotNo
   -- ^ Absolute slot number bounding this era.
-  , eraBoundTime  :: !NominalDiffTime -- !EraBoundTime
+  , eraBoundTime  :: !EraBoundTime
   -- ^ Time relative to the start time of the network.
   }
   deriving stock (Eq, Show, Generic)

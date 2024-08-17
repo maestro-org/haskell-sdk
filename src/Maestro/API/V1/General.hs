@@ -13,7 +13,7 @@ data GeneralAPI route =
         :> Get '[JSON] TimestampedSystemStart
     , eraHistory
         :: route
-        :- "era-history"
+        :- "era-summaries"
         :> Get '[JSON] TimestampedEraSummaries
     , protocolParams
         :: route
