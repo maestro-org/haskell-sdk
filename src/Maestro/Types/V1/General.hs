@@ -8,7 +8,12 @@ module Maestro.Types.V1.General
   , EraSummary (..)
   , EraParameters (..)
   , EraBound (..)
+  , EraBoundTime (..)
+  , EpochSlotLength (..)
     -- * Types for @/protocol-parameters@ endpoint
+  , AsAda (..)
+  , AsLovelace (..)
+  , AsBytes (..)
   , ProtocolVersion (..)
   , MemoryCpuWith (..)
   , CostModel (..)
@@ -26,6 +31,7 @@ module Maestro.Types.V1.General
 import           Control.Monad           (unless, when)
 import           Data.Aeson              (FromJSON (parseJSON), toEncoding,
                                           toJSON, withText)
+import           Data.Int                (Int64)
 import           Data.Ratio              (denominator, numerator, (%))
 import           Data.Text               (Text)
 import qualified Data.Text               as Txt
@@ -147,7 +153,7 @@ newtype AsBytes = AsBytes
 -- | Represents lovelaces.
 newtype AsAda = AsAda
   { asAdaAda :: AsLovelace
-    -- ^ See `Ada`.
+    -- ^ See `AsLovelace`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "asAda", LowerFirst]] AsAda
@@ -171,7 +177,7 @@ data MemoryCpuWith i = MemoryCpuWith
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "memoryCpuWith", LowerFirst]] (MemoryCpuWith i)
 
 -- | A cost model is a vector of coefficients that are used to compute the execution units required to execute a script. Its specifics depend on specific versions of the Plutus interpreter it is used with.
-newtype CostModel = CostModel [Natural]
+newtype CostModel = CostModel [Int64]
   deriving (Eq, Show)
   deriving newtype (ToJSON, FromJSON)
 
