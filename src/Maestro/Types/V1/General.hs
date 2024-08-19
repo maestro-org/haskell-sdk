@@ -11,6 +11,9 @@ module Maestro.Types.V1.General
   , EraBoundTime (..)
   , EpochSlotLength (..)
     -- * Types for @/protocol-parameters@ endpoint
+  , AsAda (..)
+  , AsLovelace (..)
+  , AsBytes (..)
   , ProtocolVersion (..)
   , MemoryCpuWith (..)
   , CostModel (..)
@@ -150,7 +153,7 @@ newtype AsBytes = AsBytes
 -- | Represents lovelaces.
 newtype AsAda = AsAda
   { asAdaAda :: AsLovelace
-    -- ^ See `Ada`.
+    -- ^ See `AsLovelace`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "asAda", LowerFirst]] AsAda
