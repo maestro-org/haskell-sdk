@@ -63,5 +63,5 @@ jobs:
       - uses: haskell-actions/hackage-publish@v1
         with:
           hackageToken: ${{ secrets.HACKAGE_AUTH_TOKEN }}
-          packagesPath: ./dist-newstyle/sdist
+          packagesPath: ${{ runner.temp }}/
           publish: false
