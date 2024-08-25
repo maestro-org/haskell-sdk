@@ -145,7 +145,7 @@ data DatumOption = DatumOption
     via CustomJSON '[FieldLabelModifier '[StripPrefix "datumOption", LowerFirst]] DatumOption
 
 -- | Type of script.
-data ScriptType = Native | PlutusV1 | PlutusV2
+data ScriptType = Native | PlutusV1 | PlutusV2 | PlutusV3
   deriving stock (Show, Eq, Ord, Generic)
   deriving
     (FromJSON, ToJSON)
