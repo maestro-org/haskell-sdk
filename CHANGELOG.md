@@ -1,6 +1,10 @@
 # Revision history for `maestro-sdk`
 
-## [1.7.0](https://github.com/maestro-org/haskell-sdk/compare/v1.5.0..v1.6.0) -- 2024-08-17
+## [1.7.2](https://github.com/maestro-org/haskell-sdk/compare/v1.7.1..v1.7.2) -- 2024-08-28
+
+* Add `PlutusV3` to `ScriptType`.
+
+## [1.7.0](https://github.com/maestro-org/haskell-sdk/compare/v1.6.0..v1.7.0) -- 2024-08-17
 
 * Updated to newer `era-summaries` and `protocol-parameters` endpoint from earlier `era-history` and `protocol-params` respectively.
 * `AssetInfo` type which corresponds to `/assets/:asset` is updated with more response fields.
