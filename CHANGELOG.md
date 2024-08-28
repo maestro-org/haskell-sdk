@@ -1,6 +1,6 @@
 # Revision history for `maestro-sdk`
 
-## [1.7.2](https://github.com/maestro-org/haskell-sdk/compare/v1.7.1..v1.7.2) -- FIXME:
+## [1.7.2](https://github.com/maestro-org/haskell-sdk/compare/v1.7.1..v1.7.2) -- 2024-08-28
 
 * Add `PlutusV3` to `ScriptType`.
 
