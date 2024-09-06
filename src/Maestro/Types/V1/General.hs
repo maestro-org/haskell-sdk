@@ -185,6 +185,7 @@ newtype CostModel = CostModel [Int64]
 data CostModels = CostModels
   { costModelsPlutusV1 :: !CostModel
   , costModelsPlutusV2 :: !CostModel
+  , costModelsPlutusV3 :: !CostModel
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "costModels", CamelToSnake]] CostModels
@@ -231,6 +232,58 @@ instance ToJSON MaestroRational where
 instance FromJSON MaestroRational where
   parseJSON = withText "MaestroRational" $ \ratTxt -> either fail pure $ textToMaestroRational ratTxt
 
+data ConstitutionalCommittee = ConstitutionalCommittee
+  { constitutionalCommitteeDefault             :: !MaestroRational
+  , constitutionalCommitteeStateOfNoConfidence :: !MaestroRational
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "constitutionalCommittee", CamelToSnake]] ConstitutionalCommittee
+
+data ProtocolParametersUpdateDRep = ProtocolParametersUpdateDRep
+  { ppUpdateDrepEconomic   :: !MaestroRational
+  , ppUpdateDrepGovernance :: !MaestroRational
+  , ppUpdateDrepNetwork    :: !MaestroRational
+  , ppUpdateDrepTechnical  :: !MaestroRational
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "ppUpdateDrep", CamelToSnake]] ProtocolParametersUpdateDRep
+
+-- | DRep voting thresholds.
+data DRepVotingThresholds = DRepVotingThresholds
+  { drepVotingThresholdsConstitution :: !MaestroRational
+  , drepVotingThresholdsConstitutionalCommittee :: !ConstitutionalCommittee
+  , drepVotingThresholdsHardForkInitiation :: !MaestroRational
+  , drepVotingThresholdsNoConfidence :: !MaestroRational
+  , drepVotingThresholdsProtocolParametersUpdate :: !ProtocolParametersUpdateDRep
+  , drepVotingThresholdsTreasuryWithdrawals :: !MaestroRational
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "drepVotingThresholds", CamelToSnake]] DRepVotingThresholds
+
+newtype ProtocolParametersUpdateStakePool = ProtocolParametersUpdateStakePool
+  { ppUpdateStakePoolSecurity   :: MaestroRational
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "ppUpdateStakePool", CamelToSnake]] ProtocolParametersUpdateStakePool
+
+-- | Stake pool voting thresholds.
+data StakePoolVotingThresholds = StakePoolVotingThresholds
+  { stakePoolVotingThresholdsConstitutionalCommittee :: !ConstitutionalCommittee
+  , stakePoolVotingThresholdsHardForkInitiation :: !MaestroRational
+  , stakePoolVotingThresholdsNoConfidence :: !MaestroRational
+  , stakePoolVotingThresholdsProtocolParametersUpdate :: !ProtocolParametersUpdateStakePool
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "stakePoolVotingThresholds", CamelToSnake]] StakePoolVotingThresholds
+
+data MinFeeReferenceScripts = MinFeeReferenceScripts
+  { minFeeReferenceScriptsBase       :: !Natural
+  , minFeeReferenceScriptsMultiplier :: !Rational
+  , minFeeReferenceScriptsRange      :: !Natural
+  }
+  deriving stock (Eq, Show, Generic)
+  deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "minFeeReferenceScripts", CamelToSnake]] MinFeeReferenceScripts
+
 -- | Timestamped `ProtocolParameters` response.
 data TimestampedProtocolParameters = TimestampedProtocolParameters
   { timestampedProtocolParametersData        :: !ProtocolParameters
@@ -251,8 +304,15 @@ data ProtocolParameters = ProtocolParameters
   {
     protocolParametersCollateralPercentage            :: !Natural
   -- ^ The percentage of the transactions fee which must be provided as collateral when including non-native scripts.
+  , protocolParametersConstitutionalCommitteeMaxTermLength :: !(Maybe Natural)
+  , protocolParametersConstitutionalCommitteeMinSize :: !(Maybe Natural)
+  , protocolParametersDelegateRepresentativeDeposit :: !(Maybe AsAda)
+  , protocolParametersDelegateRepresentativeMaxIdleTime :: !(Maybe Natural)
+  , protocolParametersDelegateRepresentativeVotingThresholds :: !(Maybe DRepVotingThresholds)
   , protocolParametersDesiredNumberOfStakePools       :: !Natural
   -- The equilibrium target number of stake pools. This is the \"k\" incentives parameter from the design document, /AKA/ @n_opt@, @stake_pool_target@.
+  , protocolParametersGovernanceActionDeposit :: !(Maybe AsAda)
+  , protocolParametersGovernanceActionLifetime :: !(Maybe Natural)
   , protocolParametersMaxBlockBodySize                :: !AsBytes
   -- ^ Maximum block body size.
   , protocolParametersMaxBlockHeaderSize              :: !AsBytes
@@ -263,6 +323,7 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The maximum number of execution memory & steps allowed to be used in a single block.
   , protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryCpuWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single transaction.
+  , protocolParametersMaxReferenceScriptsSize :: !(Maybe AsBytes)
   , protocolParametersMaxTransactionSize              :: !AsBytes
   -- ^ Maximum transaction size.
   , protocolParametersMaxValueSize                    :: !AsBytes
@@ -271,6 +332,7 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_a@ and @tx_fee_per_byte@.
   , protocolParametersMinFeeConstant                  :: !AsAda
   -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_b@ and @tx_fee_fixed@.
+  , protocolParametersMinFeeReferenceScripts :: !(Maybe MinFeeReferenceScripts)
   , protocolParametersMinStakePoolCost                :: !AsAda
   -- ^ The minimum value that stake pools are permitted to declare for their cost parameter.
   , protocolParametersMinUtxoDepositCoefficient       :: !Natural
@@ -289,6 +351,7 @@ data ProtocolParameters = ProtocolParameters
   -- The influence of the pledge in stake pool rewards. This is the \"a_0\" incentives parameter from the design document.
   , protocolParametersStakePoolRetirementEpochBound   :: !EpochNo
   -- ^ The maximum number of epochs into the future that stake pools are permitted to schedule a retirement /AKA/ @pool_retire_max_epoch@, @e_max@.
+  , protocolParametersStakePoolVotingThresholds :: !(Maybe StakePoolVotingThresholds)
   , protocolParametersTreasuryExpansion               :: !MaestroRational
   -- ^ The fraction of the fee pot each epoch that goes to the treasury. This is the \"tau\" incentives parameter from the design document, /AKA/ @treasury_cut@.
   , protocolParametersVersion                         :: !ProtocolVersion
