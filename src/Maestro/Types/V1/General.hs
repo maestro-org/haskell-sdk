@@ -283,7 +283,7 @@ data StakePoolVotingThresholds = StakePoolVotingThresholds
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "stakePoolVotingThresholds", CamelToSnake]] StakePoolVotingThresholds
 
 data MinFeeReferenceScripts = MinFeeReferenceScripts
-  { minFeeReferenceScriptsBase       :: !Natural
+  { minFeeReferenceScriptsBase       :: !Rational
   , minFeeReferenceScriptsMultiplier :: !Rational
   , minFeeReferenceScriptsRange      :: !Natural
   }
