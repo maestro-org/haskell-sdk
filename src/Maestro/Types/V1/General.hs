@@ -310,15 +310,15 @@ data ProtocolParameters = ProtocolParameters
   {
     protocolParametersCollateralPercentage            :: !Natural
   -- ^ The percentage of the transactions fee which must be provided as collateral when including non-native scripts.
-  , protocolParametersConstitutionalCommitteeMaxTermLength :: Natural
-  , protocolParametersConstitutionalCommitteeMinSize :: Natural
-  , protocolParametersDelegateRepresentativeDeposit :: AsAda
-  , protocolParametersDelegateRepresentativeMaxIdleTime :: Natural
-  , protocolParametersDelegateRepresentativeVotingThresholds :: DRepVotingThresholds
+  , protocolParametersConstitutionalCommitteeMaxTermLength :: !Natural
+  , protocolParametersConstitutionalCommitteeMinSize :: !Natural
+  , protocolParametersDelegateRepresentativeDeposit :: !AsAda
+  , protocolParametersDelegateRepresentativeMaxIdleTime :: !Natural
+  , protocolParametersDelegateRepresentativeVotingThresholds :: !DRepVotingThresholds
   , protocolParametersDesiredNumberOfStakePools       :: !Natural
   -- The equilibrium target number of stake pools. This is the \"k\" incentives parameter from the design document, /AKA/ @n_opt@, @stake_pool_target@.
-  , protocolParametersGovernanceActionDeposit :: AsAda
-  , protocolParametersGovernanceActionLifetime :: Natural
+  , protocolParametersGovernanceActionDeposit :: !AsAda
+  , protocolParametersGovernanceActionLifetime :: !Natural
   , protocolParametersMaxBlockBodySize                :: !AsBytes
   -- ^ Maximum block body size.
   , protocolParametersMaxBlockHeaderSize              :: !AsBytes
@@ -329,7 +329,7 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The maximum number of execution memory & steps allowed to be used in a single block.
   , protocolParametersMaxExecutionUnitsPerTransaction :: !(MemoryCpuWith Natural)
   -- ^ The maximum number of execution memory & steps allowed to be used in a single transaction.
-  , protocolParametersMaxReferenceScriptsSize :: AsBytes
+  , protocolParametersMaxReferenceScriptsSize :: !AsBytes
   , protocolParametersMaxTransactionSize              :: !AsBytes
   -- ^ Maximum transaction size.
   , protocolParametersMaxValueSize                    :: !AsBytes
@@ -338,7 +338,7 @@ data ProtocolParameters = ProtocolParameters
   -- ^ The constant factor for the minimum fee calculation /AKA/ @min_fee_a@ and @tx_fee_per_byte@.
   , protocolParametersMinFeeConstant                  :: !AsAda
   -- ^ The linear factor for the minimum fee calculation for given epoch /AKA/ @min_fee_b@ and @tx_fee_fixed@.
-  , protocolParametersMinFeeReferenceScripts :: MinFeeReferenceScripts
+  , protocolParametersMinFeeReferenceScripts :: !MinFeeReferenceScripts
   , protocolParametersMinStakePoolCost                :: !AsAda
   -- ^ The minimum value that stake pools are permitted to declare for their cost parameter.
   , protocolParametersMinUtxoDepositCoefficient       :: !Natural
