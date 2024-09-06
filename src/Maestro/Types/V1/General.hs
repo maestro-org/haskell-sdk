@@ -21,6 +21,12 @@ module Maestro.Types.V1.General
   , MaestroRational (..)
   , textToMaestroRational
   , textFromMaestroRational
+  , ConstitutionalCommittee (..)
+  , ProtocolParametersUpdateDRep (..)
+  , DRepVotingThresholds (..)
+  , ProtocolParametersUpdateStakePool (..)
+  , StakePoolVotingThresholds (..)
+  , MinFeeReferenceScripts (..)
   , TimestampedProtocolParameters (..)
   , ProtocolParameters (..)
     -- * Types for @/chain-tip@ endpoint
