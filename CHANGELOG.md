@@ -1,5 +1,9 @@
 # Revision history for `maestro-sdk`
 
+## [1.7.3](https://github.com/maestro-org/haskell-sdk/compare/v1.7.2..v1.7.3) -- 2024-09-06
+
+* Add Conway related fields to protocol parameters endpoint.
+
 ## [1.7.2](https://github.com/maestro-org/haskell-sdk/compare/v1.7.1..v1.7.2) -- 2024-08-28
 
 * Add `PlutusV3` to `ScriptType`.
