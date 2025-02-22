@@ -103,7 +103,7 @@ jobs:
             - name: Generate documentation (cabal haddock)
               run: cabal haddock --html --hyperlink-source --haddock-options="--use-unicode"
             - name: Upload haddock documentation
-              uses: actions/upload-pages-artifact@v1.0.8
+              uses: actions/upload-pages-artifact@v3
               with:
                   path: ./dist-newstyle/build/x86_64-linux/ghc-8.10.7/${{env.MAESTRO_SDK_VERSION}}/doc/html/maestro-sdk/
             - name: Upload artifacts
