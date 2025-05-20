@@ -107,6 +107,16 @@ data TimestampedAssetUTxOs = TimestampedAssetUTxOs
   -- ^ See `AssetUTxOs`.
   , timestampedAssetUTxOsLastUpdated :: !LastUpdated
   -- ^ See `LastUpdated`.
+  , timestampedAssetUTxOsNextCursor  :: !(Maybe NextCursor)
+  -- ^ See `NextCursor`.
   }
   deriving stock (Eq, Show, Generic)
   deriving (FromJSON, ToJSON) via CustomJSON '[FieldLabelModifier '[StripPrefix "timestampedAssetUTxOs", CamelToSnake]] TimestampedAssetUTxOs
+
+instance IsTimestamped TimestampedAssetUTxOs where
+  type TimestampedData TimestampedAssetUTxOs = [AssetUTxOs]
+  getTimestampedData = timestampedAssetUTxOsData
+  getTimestamp = timestampedAssetUTxOsLastUpdated
+
+instance HasCursor TimestampedAssetUTxOs where
+  getNextCursor = timestampedAssetUTxOsNextCursor
